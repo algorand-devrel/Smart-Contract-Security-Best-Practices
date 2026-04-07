@@ -1,0 +1,149 @@
+{
+  "version": 3,
+  "sources": [
+    "../../state_management/contract.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;AA6B6C;;AAAjB;;AAxBZ;;;;;AAwBY;AAAA;AACI;;AAxBb;AAwBa;AAAA;AAAA;AAxBb;AAwBf;AAAA;AACO;;AAAP",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "smart_contracts/state_management/contract.algo.ts::SafeClearContract.clearStateProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "bytecblock \"forfeited\""
+    },
+    "13": {
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "15": {
+      "op": "pushint 0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0"
+      ]
+    },
+    "17": {
+      "op": "pushbytes \"bal\"",
+      "defined_out": [
+        "\"bal\"",
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "0",
+        "\"bal\""
+      ]
+    },
+    "22": {
+      "op": "app_local_get_ex",
+      "defined_out": [
+        "balance#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "balance#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "23": {
+      "error": "check LocalState exists",
+      "op": "assert // check LocalState exists",
+      "stack_out": [
+        "balance#0"
+      ]
+    },
+    "24": {
+      "op": "pushint 0 // 0",
+      "stack_out": [
+        "balance#0",
+        "0"
+      ]
+    },
+    "26": {
+      "op": "bytec_0 // \"forfeited\"",
+      "defined_out": [
+        "\"forfeited\"",
+        "0",
+        "balance#0"
+      ],
+      "stack_out": [
+        "balance#0",
+        "0",
+        "\"forfeited\""
+      ]
+    },
+    "27": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "balance#0",
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "balance#0",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "28": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "balance#0",
+        "maybe_value%1#0"
+      ]
+    },
+    "29": {
+      "op": "+",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "30": {
+      "op": "bytec_0 // \"forfeited\"",
+      "stack_out": [
+        "tmp%1#0",
+        "\"forfeited\""
+      ]
+    },
+    "31": {
+      "op": "swap",
+      "stack_out": [
+        "\"forfeited\"",
+        "tmp%1#0"
+      ]
+    },
+    "32": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "33": {
+      "op": "pushint 1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "35": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

@@ -1,0 +1,1011 @@
+{
+  "version": 3,
+  "sources": [
+    "../../upgradeable_contract/contract.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAKA;;;;;;AAAA;;;AAAA;;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;AAAA;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AAqBE;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAlBe;AAIa;AAA1B;AALiB;AAMa;AAA9B;AAJQ;AAKa;AAArB;AAHF;AAAA;AAOA;;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AACS;;AAAe;;AAAf;AAAP;AAbY;;;;;;;AAcZ;AAAA;AAbiB;AAca;;AAA9B;AAba;AAca;AAA1B;AAJF;AAAA;AASS;;AAAe;;AAAf;AAAP;AACO;AApBM;AAoBN;AAAA;AAAmC;AAAnC;AAAP;AAGwB;;AAAyB;AAxBhC;AAwBgC;AAAA;AAAzB;AACN;;;;AAAX;AAAP;AAxBa;AA2Ba;AAA1B;AATF;AAAA;AAcS;;AAAe;;AAAf;AAAP;AAhCa;AAiCa;AAA1B;AAFF;AAAA;AAMS;AApCC;AAoCD;AAAA;AADT;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAKS;AAzCM;AAyCN;AAAA;AADT;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 0 1"
+    },
+    "5": {
+      "op": "bytecblock \"uready\" \"utime\" \"ver\" 0x151f7c75"
+    },
+    "29": {
+      "op": "pushbytes 0x46f76533 // method \"updateApplication()void\"",
+      "defined_out": [
+        "Method(updateApplication()void)"
+      ],
+      "stack_out": [
+        "Method(updateApplication()void)"
+      ]
+    },
+    "35": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(updateApplication()void)",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "Method(updateApplication()void)",
+        "tmp%0#1"
+      ]
+    },
+    "38": {
+      "op": "match main_updateApplication_route@2",
+      "stack_out": []
+    },
+    "42": {
+      "block": "main_switch_case_next@3",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%6#0"
+      ]
+    },
+    "44": {
+      "op": "!",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "45": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "46": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "48": {
+      "op": "bz main_create_NoOp@10",
+      "stack_out": []
+    },
+    "51": {
+      "op": "pushbytess 0xced93276 0x36602577 0xbbe928b7 0x5488e773 // method \"scheduleUpgrade(byte[])void\", method \"cancelUpgrade()void\", method \"getVersion()uint64\", method \"isUpgradeScheduled()uint64\"",
+      "defined_out": [
+        "Method(cancelUpgrade()void)",
+        "Method(getVersion()uint64)",
+        "Method(isUpgradeScheduled()uint64)",
+        "Method(scheduleUpgrade(byte[])void)"
+      ],
+      "stack_out": [
+        "Method(scheduleUpgrade(byte[])void)",
+        "Method(cancelUpgrade()void)",
+        "Method(getVersion()uint64)",
+        "Method(isUpgradeScheduled()uint64)"
+      ]
+    },
+    "73": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(cancelUpgrade()void)",
+        "Method(getVersion()uint64)",
+        "Method(isUpgradeScheduled()uint64)",
+        "Method(scheduleUpgrade(byte[])void)",
+        "tmp%10#0"
+      ],
+      "stack_out": [
+        "Method(scheduleUpgrade(byte[])void)",
+        "Method(cancelUpgrade()void)",
+        "Method(getVersion()uint64)",
+        "Method(isUpgradeScheduled()uint64)",
+        "tmp%10#0"
+      ]
+    },
+    "76": {
+      "op": "match scheduleUpgrade cancelUpgrade getVersion isUpgradeScheduled",
+      "stack_out": []
+    },
+    "86": {
+      "op": "err"
+    },
+    "87": {
+      "block": "main_create_NoOp@10",
+      "stack_in": [],
+      "op": "pushbytes 0xb8447b36 // method \"createApplication()void\"",
+      "defined_out": [
+        "Method(createApplication()void)"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)"
+      ]
+    },
+    "93": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(createApplication()void)",
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)",
+        "tmp%11#0"
+      ]
+    },
+    "96": {
+      "op": "match createApplication",
+      "stack_out": []
+    },
+    "100": {
+      "op": "err"
+    },
+    "101": {
+      "block": "main_updateApplication_route@2",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "103": {
+      "op": "pushint 4 // UpdateApplication",
+      "defined_out": [
+        "UpdateApplication",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0",
+        "UpdateApplication"
+      ]
+    },
+    "105": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "106": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%2#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%3#0"
+      ]
+    },
+    "108": {
+      "op": "&&",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "109": {
+      "error": "OnCompletion must be UpdateApplication && can only call when not creating",
+      "op": "assert // OnCompletion must be UpdateApplication && can only call when not creating",
+      "stack_out": []
+    },
+    "110": {
+      "op": "b updateApplication"
+    },
+    "113": {
+      "subroutine": "smart_contracts/upgradeable_contract/contract.algo.ts::UpgradeableContract.createApplication[routing]",
+      "params": {},
+      "block": "createApplication",
+      "stack_in": [],
+      "op": "bytec_0 // \"uready\"",
+      "defined_out": [
+        "\"uready\""
+      ],
+      "stack_out": [
+        "\"uready\""
+      ]
+    },
+    "114": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "\"uready\"",
+        "0"
+      ],
+      "stack_out": [
+        "\"uready\"",
+        "0"
+      ]
+    },
+    "115": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "116": {
+      "op": "bytec_1 // \"utime\"",
+      "defined_out": [
+        "\"utime\""
+      ],
+      "stack_out": [
+        "\"utime\""
+      ]
+    },
+    "117": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"utime\"",
+        "0"
+      ]
+    },
+    "118": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "119": {
+      "op": "bytec_2 // \"ver\"",
+      "defined_out": [
+        "\"ver\""
+      ],
+      "stack_out": [
+        "\"ver\""
+      ]
+    },
+    "120": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "\"ver\"",
+        "1"
+      ],
+      "stack_out": [
+        "\"ver\"",
+        "1"
+      ]
+    },
+    "121": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "122": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "123": {
+      "op": "return",
+      "stack_out": []
+    },
+    "124": {
+      "subroutine": "smart_contracts/upgradeable_contract/contract.algo.ts::UpgradeableContract.scheduleUpgrade[routing]",
+      "params": {},
+      "block": "scheduleUpgrade",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "127": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "128": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)",
+        "0"
+      ]
+    },
+    "129": {
+      "error": "invalid array length header",
+      "op": "extract_uint16 // on error: invalid array length header",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "130": {
+      "op": "pushint 2 // 2",
+      "defined_out": [
+        "2",
+        "aggregate%array_length%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "aggregate%array_length%0#0",
+        "2"
+      ]
+    },
+    "132": {
+      "op": "+",
+      "defined_out": [
+        "add%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0"
+      ]
+    },
+    "133": {
+      "op": "dig 1",
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "135": {
+      "op": "len",
+      "defined_out": [
+        "add%0#0",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0",
+        "len%0#0"
+      ]
+    },
+    "136": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "137": {
+      "error": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "op": "assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "138": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "programHash#0"
+      ],
+      "stack_out": [
+        "programHash#0"
+      ]
+    },
+    "141": {
+      "op": "txn Sender",
+      "defined_out": [
+        "programHash#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "programHash#0",
+        "tmp%0#1"
+      ]
+    },
+    "143": {
+      "op": "global CreatorAddress",
+      "defined_out": [
+        "programHash#0",
+        "tmp%0#1",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "programHash#0",
+        "tmp%0#1",
+        "tmp%1#1"
+      ]
+    },
+    "145": {
+      "op": "==",
+      "defined_out": [
+        "programHash#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "programHash#0",
+        "tmp%2#0"
+      ]
+    },
+    "146": {
+      "error": "Admin only",
+      "op": "assert // Admin only",
+      "stack_out": [
+        "programHash#0"
+      ]
+    },
+    "147": {
+      "op": "pushbytes \"uhash\"",
+      "defined_out": [
+        "\"uhash\"",
+        "programHash#0"
+      ],
+      "stack_out": [
+        "programHash#0",
+        "\"uhash\""
+      ]
+    },
+    "154": {
+      "op": "swap",
+      "stack_out": [
+        "\"uhash\"",
+        "programHash#0"
+      ]
+    },
+    "155": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "156": {
+      "op": "bytec_1 // \"utime\"",
+      "defined_out": [
+        "\"utime\""
+      ],
+      "stack_out": [
+        "\"utime\""
+      ]
+    },
+    "157": {
+      "op": "global LatestTimestamp",
+      "defined_out": [
+        "\"utime\"",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "\"utime\"",
+        "tmp%3#0"
+      ]
+    },
+    "159": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "160": {
+      "op": "bytec_0 // \"uready\"",
+      "defined_out": [
+        "\"uready\""
+      ],
+      "stack_out": [
+        "\"uready\""
+      ]
+    },
+    "161": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "\"uready\"",
+        "1"
+      ],
+      "stack_out": [
+        "\"uready\"",
+        "1"
+      ]
+    },
+    "162": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "163": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "164": {
+      "op": "return",
+      "stack_out": []
+    },
+    "165": {
+      "subroutine": "smart_contracts/upgradeable_contract/contract.algo.ts::UpgradeableContract.updateApplication[routing]",
+      "params": {},
+      "block": "updateApplication",
+      "stack_in": [],
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "167": {
+      "op": "global CreatorAddress",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%1#0"
+      ]
+    },
+    "169": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "170": {
+      "error": "Admin only",
+      "op": "assert // Admin only",
+      "stack_out": []
+    },
+    "171": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "172": {
+      "op": "bytec_0 // \"uready\"",
+      "defined_out": [
+        "\"uready\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"uready\""
+      ]
+    },
+    "173": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "174": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "175": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "1"
+      ]
+    },
+    "176": {
+      "op": "==",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "177": {
+      "error": "No upgrade scheduled",
+      "op": "assert // No upgrade scheduled",
+      "stack_out": []
+    },
+    "178": {
+      "op": "global LatestTimestamp",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "180": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "tmp%4#0",
+        "0"
+      ]
+    },
+    "181": {
+      "op": "bytec_1 // \"utime\"",
+      "defined_out": [
+        "\"utime\"",
+        "0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0",
+        "0",
+        "\"utime\""
+      ]
+    },
+    "182": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%1#0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "183": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "tmp%4#0",
+        "maybe_value%1#0"
+      ]
+    },
+    "184": {
+      "op": "-",
+      "defined_out": [
+        "elapsed#0"
+      ],
+      "stack_out": [
+        "elapsed#0"
+      ]
+    },
+    "185": {
+      "op": "pushint 86400 // 86400",
+      "defined_out": [
+        "86400",
+        "elapsed#0"
+      ],
+      "stack_out": [
+        "elapsed#0",
+        "86400"
+      ]
+    },
+    "189": {
+      "op": ">=",
+      "defined_out": [
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%6#0"
+      ]
+    },
+    "190": {
+      "error": "Timelock not expired",
+      "op": "assert // Timelock not expired",
+      "stack_out": []
+    },
+    "191": {
+      "op": "bytec_0 // \"uready\"",
+      "stack_out": [
+        "\"uready\""
+      ]
+    },
+    "192": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"uready\"",
+        "0"
+      ]
+    },
+    "193": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "194": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "195": {
+      "op": "return",
+      "stack_out": []
+    },
+    "196": {
+      "subroutine": "smart_contracts/upgradeable_contract/contract.algo.ts::UpgradeableContract.cancelUpgrade[routing]",
+      "params": {},
+      "block": "cancelUpgrade",
+      "stack_in": [],
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "198": {
+      "op": "global CreatorAddress",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%1#0"
+      ]
+    },
+    "200": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "201": {
+      "error": "Admin only",
+      "op": "assert // Admin only",
+      "stack_out": []
+    },
+    "202": {
+      "op": "bytec_0 // \"uready\"",
+      "defined_out": [
+        "\"uready\""
+      ],
+      "stack_out": [
+        "\"uready\""
+      ]
+    },
+    "203": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "\"uready\"",
+        "0"
+      ],
+      "stack_out": [
+        "\"uready\"",
+        "0"
+      ]
+    },
+    "204": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "205": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "206": {
+      "op": "return",
+      "stack_out": []
+    },
+    "207": {
+      "subroutine": "smart_contracts/upgradeable_contract/contract.algo.ts::UpgradeableContract.getVersion[routing]",
+      "params": {},
+      "block": "getVersion",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "208": {
+      "op": "bytec_2 // \"ver\"",
+      "defined_out": [
+        "\"ver\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"ver\""
+      ]
+    },
+    "209": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "210": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "211": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "212": {
+      "op": "bytec_3 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "213": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "214": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "215": {
+      "op": "log",
+      "stack_out": []
+    },
+    "216": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "217": {
+      "op": "return",
+      "stack_out": []
+    },
+    "218": {
+      "subroutine": "smart_contracts/upgradeable_contract/contract.algo.ts::UpgradeableContract.isUpgradeScheduled[routing]",
+      "params": {},
+      "block": "isUpgradeScheduled",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "219": {
+      "op": "bytec_0 // \"uready\"",
+      "defined_out": [
+        "\"uready\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"uready\""
+      ]
+    },
+    "220": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "221": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "222": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "223": {
+      "op": "bytec_3 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "224": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "225": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "226": {
+      "op": "log",
+      "stack_out": []
+    },
+    "227": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "228": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

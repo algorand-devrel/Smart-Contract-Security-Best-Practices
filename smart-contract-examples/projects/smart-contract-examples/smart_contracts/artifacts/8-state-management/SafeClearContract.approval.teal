@@ -1,0 +1,62 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 1 0
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:10
+    // export class SafeClearContract extends Contract {
+    pushbytess 0x01a3a3ff 0xb8447b36 // method "optInToApplication()void", method "createApplication()void"
+    txna ApplicationArgs 0
+    match main_optInToApplication_route@2 main_createApplication_route@3
+    err
+
+main_createApplication_route@3:
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:14
+    // public createApplication(): void {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    assert // OnCompletion must be NoOp && can only call when creating
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:12
+    // public unclaimedFunds = GlobalState<uint64>({ key: "unclaimed" });
+    pushbytes "unclaimed"
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:15
+    // this.unclaimedFunds.value = Uint64(0);
+    intc_1 // 0
+    app_global_put
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:14
+    // public createApplication(): void {
+    intc_0 // 1
+    return
+
+main_optInToApplication_route@2:
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:18
+    // public optInToApplication(): void {
+    txn OnCompletion
+    intc_0 // OptIn
+    ==
+    txn ApplicationID
+    &&
+    assert // OnCompletion must be OptIn && can only call when not creating
+    b optInToApplication
+
+
+// smart_contracts/8-state-management/safe-clear-state.algo.ts::SafeClearContract.optInToApplication[routing]() -> void:
+optInToApplication:
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:19
+    // this.userBalance(Txn.sender).value = Uint64(0);
+    txn Sender
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:11
+    // public userBalance = LocalState<uint64>({ key: "bal" });
+    pushbytes "bal"
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:19
+    // this.userBalance(Txn.sender).value = Uint64(0);
+    intc_1 // 0
+    app_local_put
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:18
+    // public optInToApplication(): void {
+    intc_0 // 1
+    return

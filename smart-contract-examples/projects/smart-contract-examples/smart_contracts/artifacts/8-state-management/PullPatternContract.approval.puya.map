@@ -1,0 +1,641 @@
+{
+  "version": 3,
+  "sources": [
+    "../../8-state-management/pull-pattern.algo.ts"
+  ],
+  "mappings": ";;;;;;;;AAYA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAKE;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AAJ0B;AAAA;;AAAA;AAK1B;AAAA;AAAA;AAFF;AAAA;AAH4B;AAUK;;AAVL;AAUnB;AAAA;;AAAP;AAV0B;AAWa;;AAXb;AAWX;AAAA;AAAA;AAEf;AAEc;;;;;;AAFd;;;AAIgB;;;;AAJhB;AAb0B;AAqBF;;AArBE;AAqB1B;;AAZF;AAAA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 1"
+    },
+    "4": {
+      "op": "bytecblock \"w\""
+    },
+    "8": {
+      "op": "txn NumAppArgs",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "10": {
+      "op": "bz main___algots__.defaultCreate@9",
+      "stack_out": []
+    },
+    "13": {
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "15": {
+      "op": "!",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "16": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "17": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "19": {
+      "op": "assert",
+      "stack_out": []
+    },
+    "20": {
+      "op": "pushbytess 0x9ade7842 0xb7355fd1 // method \"queueWithdrawal(address,uint64)void\", method \"withdraw()void\"",
+      "defined_out": [
+        "Method(queueWithdrawal(address,uint64)void)",
+        "Method(withdraw()void)"
+      ],
+      "stack_out": [
+        "Method(queueWithdrawal(address,uint64)void)",
+        "Method(withdraw()void)"
+      ]
+    },
+    "32": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(queueWithdrawal(address,uint64)void)",
+        "Method(withdraw()void)",
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "Method(queueWithdrawal(address,uint64)void)",
+        "Method(withdraw()void)",
+        "tmp%6#0"
+      ]
+    },
+    "35": {
+      "op": "match queueWithdrawal withdraw",
+      "stack_out": []
+    },
+    "41": {
+      "op": "err"
+    },
+    "42": {
+      "block": "main___algots__.defaultCreate@9",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "44": {
+      "op": "!",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "45": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%8#0",
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%8#0",
+        "tmp%9#0"
+      ]
+    },
+    "47": {
+      "op": "!",
+      "defined_out": [
+        "tmp%10#0",
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0",
+        "tmp%10#0"
+      ]
+    },
+    "48": {
+      "op": "&&",
+      "defined_out": [
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "tmp%11#0"
+      ]
+    },
+    "49": {
+      "error": "OnCompletion must be NoOp && can only call when creating",
+      "op": "assert // OnCompletion must be NoOp && can only call when creating",
+      "stack_out": []
+    },
+    "50": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "51": {
+      "op": "return",
+      "stack_out": []
+    },
+    "52": {
+      "subroutine": "smart_contracts/8-state-management/pull-pattern.algo.ts::PullPatternContract.queueWithdrawal[routing]",
+      "params": {},
+      "block": "queueWithdrawal",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "recipient#0"
+      ],
+      "stack_out": [
+        "recipient#0"
+      ]
+    },
+    "55": {
+      "op": "dup",
+      "defined_out": [
+        "recipient#0",
+        "recipient#0 (copy)"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "recipient#0 (copy)"
+      ]
+    },
+    "56": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "recipient#0"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "len%0#0"
+      ]
+    },
+    "57": {
+      "op": "pushint 32 // 32",
+      "defined_out": [
+        "32",
+        "len%0#0",
+        "recipient#0"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "59": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "recipient#0"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "eq%0#0"
+      ]
+    },
+    "60": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "recipient#0"
+      ]
+    },
+    "61": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "recipient#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "tmp%2#0"
+      ]
+    },
+    "64": {
+      "op": "dup",
+      "defined_out": [
+        "recipient#0",
+        "tmp%2#0",
+        "tmp%2#0 (copy)"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "tmp%2#0",
+        "tmp%2#0 (copy)"
+      ]
+    },
+    "65": {
+      "op": "len",
+      "defined_out": [
+        "len%1#0",
+        "recipient#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "tmp%2#0",
+        "len%1#0"
+      ]
+    },
+    "66": {
+      "op": "pushint 8 // 8",
+      "defined_out": [
+        "8",
+        "len%1#0",
+        "recipient#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "tmp%2#0",
+        "len%1#0",
+        "8"
+      ]
+    },
+    "68": {
+      "op": "==",
+      "defined_out": [
+        "eq%1#0",
+        "recipient#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "tmp%2#0",
+        "eq%1#0"
+      ]
+    },
+    "69": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "recipient#0",
+        "tmp%2#0"
+      ]
+    },
+    "70": {
+      "op": "btoi",
+      "defined_out": [
+        "amount#0",
+        "recipient#0"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "amount#0"
+      ]
+    },
+    "71": {
+      "op": "txn Sender",
+      "defined_out": [
+        "amount#0",
+        "recipient#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "amount#0",
+        "tmp%0#1"
+      ]
+    },
+    "73": {
+      "op": "global CreatorAddress",
+      "defined_out": [
+        "amount#0",
+        "recipient#0",
+        "tmp%0#1",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "amount#0",
+        "tmp%0#1",
+        "tmp%1#1"
+      ]
+    },
+    "75": {
+      "op": "==",
+      "defined_out": [
+        "amount#0",
+        "recipient#0",
+        "tmp%2#1"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "amount#0",
+        "tmp%2#1"
+      ]
+    },
+    "76": {
+      "op": "assert",
+      "stack_out": [
+        "recipient#0",
+        "amount#0"
+      ]
+    },
+    "77": {
+      "op": "bytec_0 // \"w\"",
+      "defined_out": [
+        "\"w\"",
+        "amount#0",
+        "recipient#0"
+      ],
+      "stack_out": [
+        "recipient#0",
+        "amount#0",
+        "\"w\""
+      ]
+    },
+    "78": {
+      "op": "uncover 2",
+      "stack_out": [
+        "amount#0",
+        "\"w\"",
+        "recipient#0"
+      ]
+    },
+    "80": {
+      "op": "concat",
+      "defined_out": [
+        "amount#0",
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "81": {
+      "op": "swap",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "amount#0"
+      ]
+    },
+    "82": {
+      "op": "itob",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "encoded_value%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "encoded_value%0#0"
+      ]
+    },
+    "83": {
+      "op": "box_put",
+      "stack_out": []
+    },
+    "84": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "85": {
+      "op": "return",
+      "stack_out": []
+    },
+    "86": {
+      "subroutine": "smart_contracts/8-state-management/pull-pattern.algo.ts::PullPatternContract.withdraw[routing]",
+      "params": {},
+      "block": "withdraw",
+      "stack_in": [],
+      "op": "bytec_0 // \"w\"",
+      "defined_out": [
+        "\"w\""
+      ],
+      "stack_out": [
+        "\"w\""
+      ]
+    },
+    "87": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"w\"",
+        "materialized_values%0#0"
+      ],
+      "stack_out": [
+        "\"w\"",
+        "materialized_values%0#0"
+      ]
+    },
+    "89": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "90": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "91": {
+      "op": "bury 1",
+      "stack_out": [
+        "maybe_exists%0#0"
+      ]
+    },
+    "93": {
+      "error": "No pending withdrawal",
+      "op": "assert // No pending withdrawal",
+      "stack_out": []
+    },
+    "94": {
+      "op": "bytec_0 // \"w\"",
+      "stack_out": [
+        "\"w\""
+      ]
+    },
+    "95": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"w\"",
+        "materialized_values%1#0"
+      ],
+      "stack_out": [
+        "\"w\"",
+        "materialized_values%1#0"
+      ]
+    },
+    "97": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%1#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%1#0"
+      ]
+    },
+    "98": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0"
+      ],
+      "stack_out": [
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "99": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "aggregate%box_get%0#0"
+      ]
+    },
+    "100": {
+      "op": "btoi",
+      "defined_out": [
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0"
+      ]
+    },
+    "101": {
+      "op": "itxn_begin"
+    },
+    "102": {
+      "op": "txn Sender",
+      "defined_out": [
+        "amount#0",
+        "inner_txn_params%0%%param_Receiver_idx_0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "inner_txn_params%0%%param_Receiver_idx_0#0"
+      ]
+    },
+    "104": {
+      "op": "itxn_field Receiver"
+    },
+    "106": {
+      "op": "itxn_field Amount",
+      "stack_out": []
+    },
+    "108": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "109": {
+      "op": "itxn_field TypeEnum",
+      "stack_out": []
+    },
+    "111": {
+      "op": "pushint 0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "113": {
+      "op": "itxn_field Fee",
+      "stack_out": []
+    },
+    "115": {
+      "op": "itxn_submit"
+    },
+    "116": {
+      "op": "bytec_0 // \"w\"",
+      "stack_out": [
+        "\"w\""
+      ]
+    },
+    "117": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"w\"",
+        "materialized_values%2#0"
+      ],
+      "stack_out": [
+        "\"w\"",
+        "materialized_values%2#0"
+      ]
+    },
+    "119": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%2#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%2#0"
+      ]
+    },
+    "120": {
+      "op": "box_del",
+      "defined_out": [
+        "{box_del}"
+      ],
+      "stack_out": [
+        "{box_del}"
+      ]
+    },
+    "121": {
+      "op": "pop",
+      "stack_out": []
+    },
+    "122": {
+      "op": "intc_0 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "123": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

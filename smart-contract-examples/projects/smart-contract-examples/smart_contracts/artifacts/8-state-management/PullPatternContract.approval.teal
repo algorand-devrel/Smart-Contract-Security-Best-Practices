@@ -1,0 +1,156 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 1
+    bytecblock "w"
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:13
+    // export class PullPatternContract extends Contract {
+    txn NumAppArgs
+    bz main___algots__.defaultCreate@9
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    assert
+    pushbytess 0x9ade7842 0xb7355fd1 // method "queueWithdrawal(address,uint64)void", method "withdraw()void"
+    txna ApplicationArgs 0
+    match queueWithdrawal withdraw
+    err
+
+main___algots__.defaultCreate@9:
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:13
+    // export class PullPatternContract extends Contract {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    assert // OnCompletion must be NoOp && can only call when creating
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/pull-pattern.algo.ts::PullPatternContract.queueWithdrawal[routing]() -> void:
+queueWithdrawal:
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:18
+    // public queueWithdrawal(recipient: Account, amount: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 32 // 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    txna ApplicationArgs 2
+    dup
+    len
+    pushint 8 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:19
+    // assert(Txn.sender === Global.creatorAddress);
+    txn Sender
+    global CreatorAddress
+    ==
+    assert
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:15
+    // public pendingWithdrawals = BoxMap<Account, uint64>({ keyPrefix: "w" });
+    bytec_0 // "w"
+    uncover 2
+    concat
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:20
+    // this.pendingWithdrawals(recipient).value = amount;
+    swap
+    itob
+    box_put
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:18
+    // public queueWithdrawal(recipient: Account, amount: uint64): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/pull-pattern.algo.ts::PullPatternContract.withdraw[routing]() -> void:
+withdraw:
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:15
+    // public pendingWithdrawals = BoxMap<Account, uint64>({ keyPrefix: "w" });
+    bytec_0 // "w"
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:25
+    // assert(this.pendingWithdrawals(Txn.sender).exists, "No pending withdrawal");
+    txn Sender
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:15
+    // public pendingWithdrawals = BoxMap<Account, uint64>({ keyPrefix: "w" });
+    concat
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:25
+    // assert(this.pendingWithdrawals(Txn.sender).exists, "No pending withdrawal");
+    box_len
+    bury 1
+    assert // No pending withdrawal
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:15
+    // public pendingWithdrawals = BoxMap<Account, uint64>({ keyPrefix: "w" });
+    bytec_0 // "w"
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:26
+    // const amount = this.pendingWithdrawals(Txn.sender).value;
+    txn Sender
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:15
+    // public pendingWithdrawals = BoxMap<Account, uint64>({ keyPrefix: "w" });
+    concat
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:26
+    // const amount = this.pendingWithdrawals(Txn.sender).value;
+    box_get
+    assert // Box must have value
+    btoi
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:28-34
+    // itxn
+    //   .payment({
+    //     receiver: Txn.sender,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //   })
+    //   .submit();
+    itxn_begin
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:30
+    // receiver: Txn.sender,
+    txn Sender
+    itxn_field Receiver
+    itxn_field Amount
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:28-33
+    // itxn
+    //   .payment({
+    //     receiver: Txn.sender,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //   })
+    intc_0 // 1
+    itxn_field TypeEnum
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:32
+    // fee: Uint64(0),
+    pushint 0 // 0
+    itxn_field Fee
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:28-34
+    // itxn
+    //   .payment({
+    //     receiver: Txn.sender,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //   })
+    //   .submit();
+    itxn_submit
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:15
+    // public pendingWithdrawals = BoxMap<Account, uint64>({ keyPrefix: "w" });
+    bytec_0 // "w"
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:36
+    // this.pendingWithdrawals(Txn.sender).delete();
+    txn Sender
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:15
+    // public pendingWithdrawals = BoxMap<Account, uint64>({ keyPrefix: "w" });
+    concat
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:36
+    // this.pendingWithdrawals(Txn.sender).delete();
+    box_del
+    pop
+    // smart_contracts/8-state-management/pull-pattern.algo.ts:24
+    // public withdraw(): void {
+    intc_0 // 1
+    return

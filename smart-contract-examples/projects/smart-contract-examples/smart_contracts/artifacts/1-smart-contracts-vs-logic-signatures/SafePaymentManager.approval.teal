@@ -1,0 +1,103 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:4
+    // export class SafePaymentManager extends Contract {
+    txn NumAppArgs
+    bz main___algots__.defaultCreate@5
+    pushbytes 0x1b3ae076 // method "authorizePayment(address,uint64)void"
+    txna ApplicationArgs 0
+    match main_authorizePayment_route@3
+    err
+
+main_authorizePayment_route@3:
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:5
+    // public authorizePayment(receiver: Account, amount: uint64): void {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    &&
+    assert // OnCompletion must be NoOp && can only call when not creating
+    b authorizePayment
+
+main___algots__.defaultCreate@5:
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:4
+    // export class SafePaymentManager extends Contract {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    assert // OnCompletion must be NoOp && can only call when creating
+    pushint 1 // 1
+    return
+
+
+// smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts::SafePaymentManager.authorizePayment[routing]() -> void:
+authorizePayment:
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:5
+    // public authorizePayment(receiver: Account, amount: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 32 // 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    txna ApplicationArgs 2
+    dup
+    len
+    pushint 8 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:6
+    // assert(Txn.sender === Global.creatorAddress, "Only creator can authorize");
+    txn Sender
+    global CreatorAddress
+    ==
+    assert // Only creator can authorize
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:7
+    // assert(amount <= Uint64(1_000_000), "Amount exceeds limit");
+    dup
+    pushint 1000000 // 1000000
+    <=
+    assert // Amount exceeds limit
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:9-15
+    // itxn
+    //   .payment({
+    //     receiver: receiver,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //   })
+    //   .submit();
+    itxn_begin
+    itxn_field Amount
+    itxn_field Receiver
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:9-14
+    // itxn
+    //   .payment({
+    //     receiver: receiver,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //   })
+    pushint 1 // 1
+    itxn_field TypeEnum
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:13
+    // fee: Uint64(0),
+    pushint 0 // 0
+    itxn_field Fee
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:9-15
+    // itxn
+    //   .payment({
+    //     receiver: receiver,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //   })
+    //   .submit();
+    itxn_submit
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:5
+    // public authorizePayment(receiver: Account, amount: uint64): void {
+    pushint 1 // 1
+    return

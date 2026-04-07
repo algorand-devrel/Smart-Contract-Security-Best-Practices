@@ -1,0 +1,402 @@
+{
+  "version": 3,
+  "sources": [
+    "../../7-group-transaction-security/group-validation.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;AAiCA;;AAAA;AAAA;AAAA;;AAAA;;;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AACwB;AAGM;AAA1B;AADF;AAAA;AAIA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAEI;AAAA;;AAAqB;;AAArB;AADF;AAIO;;AAAyB;;;;AAAzB;AAAP;AAE0B;AAbN;AAaM;AAAA;AAAiC;AAAjC;AAbN;AAapB;AAAA;AAPF;AAAA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 1 0"
+    },
+    "5": {
+      "op": "bytecblock \"credits\""
+    },
+    "15": {
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "17": {
+      "op": "!",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "18": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "19": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "21": {
+      "op": "bz main_create_NoOp@5",
+      "stack_out": []
+    },
+    "24": {
+      "op": "pushbytes 0xee7551d7 // method \"buyCredit(pay)void\"",
+      "defined_out": [
+        "Method(buyCredit(pay)void)"
+      ],
+      "stack_out": [
+        "Method(buyCredit(pay)void)"
+      ]
+    },
+    "30": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(buyCredit(pay)void)",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "Method(buyCredit(pay)void)",
+        "tmp%4#0"
+      ]
+    },
+    "33": {
+      "op": "match buyCredit",
+      "stack_out": []
+    },
+    "37": {
+      "op": "err"
+    },
+    "38": {
+      "block": "main_create_NoOp@5",
+      "stack_in": [],
+      "op": "pushbytes 0xb8447b36 // method \"createApplication()void\"",
+      "defined_out": [
+        "Method(createApplication()void)"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)"
+      ]
+    },
+    "44": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ]
+    },
+    "47": {
+      "op": "match main_createApplication_route@6",
+      "stack_out": []
+    },
+    "51": {
+      "op": "err"
+    },
+    "52": {
+      "block": "main_createApplication_route@6",
+      "stack_in": [],
+      "op": "bytec_0 // \"credits\"",
+      "defined_out": [
+        "\"credits\""
+      ],
+      "stack_out": [
+        "\"credits\""
+      ]
+    },
+    "53": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "\"credits\"",
+        "0"
+      ],
+      "stack_out": [
+        "\"credits\"",
+        "0"
+      ]
+    },
+    "54": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "55": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "56": {
+      "op": "return",
+      "stack_out": []
+    },
+    "57": {
+      "subroutine": "smart_contracts/7-group-transaction-security/group-validation.algo.ts::SecureGroupContract.buyCredit[routing]",
+      "params": {},
+      "block": "buyCredit",
+      "stack_in": [],
+      "op": "txn GroupIndex",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "59": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "1"
+      ]
+    },
+    "60": {
+      "op": "-",
+      "defined_out": [
+        "payment#0"
+      ],
+      "stack_out": [
+        "payment#0"
+      ]
+    },
+    "61": {
+      "op": "dup",
+      "defined_out": [
+        "payment#0",
+        "payment#0 (copy)"
+      ],
+      "stack_out": [
+        "payment#0",
+        "payment#0 (copy)"
+      ]
+    },
+    "62": {
+      "op": "gtxns TypeEnum",
+      "defined_out": [
+        "gtxn_type%0#0",
+        "payment#0"
+      ],
+      "stack_out": [
+        "payment#0",
+        "gtxn_type%0#0"
+      ]
+    },
+    "64": {
+      "op": "intc_0 // pay",
+      "defined_out": [
+        "gtxn_type%0#0",
+        "pay",
+        "payment#0"
+      ],
+      "stack_out": [
+        "payment#0",
+        "gtxn_type%0#0",
+        "pay"
+      ]
+    },
+    "65": {
+      "op": "==",
+      "defined_out": [
+        "gtxn_type_matches%0#0",
+        "payment#0"
+      ],
+      "stack_out": [
+        "payment#0",
+        "gtxn_type_matches%0#0"
+      ]
+    },
+    "66": {
+      "error": "transaction type is pay",
+      "op": "assert // transaction type is pay",
+      "stack_out": [
+        "payment#0"
+      ]
+    },
+    "67": {
+      "op": "dup",
+      "stack_out": [
+        "payment#0",
+        "payment#0 (copy)"
+      ]
+    },
+    "68": {
+      "op": "gtxns Receiver",
+      "defined_out": [
+        "payment#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "payment#0",
+        "tmp%0#1"
+      ]
+    },
+    "70": {
+      "op": "global CurrentApplicationAddress",
+      "defined_out": [
+        "payment#0",
+        "tmp%0#1",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "payment#0",
+        "tmp%0#1",
+        "tmp%1#0"
+      ]
+    },
+    "72": {
+      "op": "==",
+      "defined_out": [
+        "payment#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "payment#0",
+        "tmp%2#0"
+      ]
+    },
+    "73": {
+      "error": "Must pay app",
+      "op": "assert // Must pay app",
+      "stack_out": [
+        "payment#0"
+      ]
+    },
+    "74": {
+      "op": "gtxns Amount",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "76": {
+      "op": "pushint 1000000 // 1000000",
+      "defined_out": [
+        "1000000",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0",
+        "1000000"
+      ]
+    },
+    "80": {
+      "op": ">=",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "81": {
+      "error": "Insufficient payment",
+      "op": "assert // Insufficient payment",
+      "stack_out": []
+    },
+    "82": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "83": {
+      "op": "bytec_0 // \"credits\"",
+      "defined_out": [
+        "\"credits\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"credits\""
+      ]
+    },
+    "84": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "85": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "86": {
+      "op": "intc_0 // 1",
+      "stack_out": [
+        "maybe_value%0#0",
+        "1"
+      ]
+    },
+    "87": {
+      "op": "+",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "88": {
+      "op": "bytec_0 // \"credits\"",
+      "stack_out": [
+        "tmp%5#0",
+        "\"credits\""
+      ]
+    },
+    "89": {
+      "op": "swap",
+      "stack_out": [
+        "\"credits\"",
+        "tmp%5#0"
+      ]
+    },
+    "90": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "91": {
+      "op": "intc_0 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "92": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

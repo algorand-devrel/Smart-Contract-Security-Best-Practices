@@ -1,0 +1,153 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 1
+    bytecblock "debt" "col"
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:12
+    // export class SecureLoanContract extends Contract {
+    txn NumAppArgs
+    bz main___algots__.defaultCreate@10
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    assert
+    pushbytess 0x597fc7c0 0xdbd7b9dd 0xf4b15b57 // method "register()void", method "borrow(uint64)void", method "liquidate(address)void"
+    txna ApplicationArgs 0
+    match register borrow liquidate
+    err
+
+main___algots__.defaultCreate@10:
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:12
+    // export class SecureLoanContract extends Contract {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    assert // OnCompletion must be NoOp && can only call when creating
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/boxmap-loan.algo.ts::SecureLoanContract.register[routing]() -> void:
+register:
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:13
+    // public debt = BoxMap<Account, uint64>({ keyPrefix: "debt" });
+    bytec_0 // "debt"
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:17
+    // this.debt(Txn.sender).value = Uint64(0);
+    txn Sender
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:13
+    // public debt = BoxMap<Account, uint64>({ keyPrefix: "debt" });
+    concat
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:17
+    // this.debt(Txn.sender).value = Uint64(0);
+    pushint 0 // 0
+    itob
+    swap
+    dig 1
+    box_put
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:14
+    // public collateral = BoxMap<Account, uint64>({ keyPrefix: "col" });
+    bytec_1 // "col"
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:18
+    // this.collateral(Txn.sender).value = Uint64(0);
+    txn Sender
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:14
+    // public collateral = BoxMap<Account, uint64>({ keyPrefix: "col" });
+    concat
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:18
+    // this.collateral(Txn.sender).value = Uint64(0);
+    swap
+    box_put
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:16
+    // public register(): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/boxmap-loan.algo.ts::SecureLoanContract.borrow[routing]() -> void:
+borrow:
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:21
+    // public borrow(amount: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 8 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:13
+    // public debt = BoxMap<Account, uint64>({ keyPrefix: "debt" });
+    bytec_0 // "debt"
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:23
+    // this.debt(Txn.sender).value = this.debt(Txn.sender).value + amount;
+    txn Sender
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:13
+    // public debt = BoxMap<Account, uint64>({ keyPrefix: "debt" });
+    concat
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:23
+    // this.debt(Txn.sender).value = this.debt(Txn.sender).value + amount;
+    box_get
+    assert // Box must have value
+    btoi
+    +
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:13
+    // public debt = BoxMap<Account, uint64>({ keyPrefix: "debt" });
+    bytec_0 // "debt"
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:23
+    // this.debt(Txn.sender).value = this.debt(Txn.sender).value + amount;
+    txn Sender
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:13
+    // public debt = BoxMap<Account, uint64>({ keyPrefix: "debt" });
+    concat
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:23
+    // this.debt(Txn.sender).value = this.debt(Txn.sender).value + amount;
+    swap
+    itob
+    box_put
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:21
+    // public borrow(amount: uint64): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/boxmap-loan.algo.ts::SecureLoanContract.liquidate[routing]() -> void:
+liquidate:
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:26
+    // public liquidate(user: Account): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 32 // 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:13
+    // public debt = BoxMap<Account, uint64>({ keyPrefix: "debt" });
+    bytec_0 // "debt"
+    dig 1
+    concat
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:28
+    // assert(this.debt(user).value > this.collateral(user).value, "Not undercollateralized");
+    box_get
+    assert // Box must have value
+    btoi
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:14
+    // public collateral = BoxMap<Account, uint64>({ keyPrefix: "col" });
+    bytec_1 // "col"
+    uncover 2
+    concat
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:28
+    // assert(this.debt(user).value > this.collateral(user).value, "Not undercollateralized");
+    box_get
+    assert // Box must have value
+    btoi
+    >
+    assert // Not undercollateralized
+    // smart_contracts/8-state-management/boxmap-loan.algo.ts:26
+    // public liquidate(user: Account): void {
+    intc_0 // 1
+    return

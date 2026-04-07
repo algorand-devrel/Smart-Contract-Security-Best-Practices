@@ -1,0 +1,749 @@
+{
+  "version": 3,
+  "sources": [
+    "../../8-state-management/boxmap-loan.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;AAWA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AACgB;AAIF;;AAJE;AAIyB;;AAArC;AAAA;AAAA;;AAAA;AAHkB;AAIF;;AAJE;AAIlB;AAAA;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AARc;AAU4B;;AAV5B;AAUkB;AAAA;AAAA;AAAA;AAVlB;AAUF;;AAVE;AAUZ;AAAA;AAAA;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAbc;AAAA;;AAAA;AAeL;AAAA;AAAA;AAdW;AAAA;;AAAA;AAca;AAAA;AAAA;AAAxB;AAAP;AAFF;AAAA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 1"
+    },
+    "4": {
+      "op": "bytecblock \"debt\" \"col\""
+    },
+    "15": {
+      "op": "txn NumAppArgs",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "17": {
+      "op": "bz main___algots__.defaultCreate@10",
+      "stack_out": []
+    },
+    "20": {
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "22": {
+      "op": "!",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "23": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "24": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "26": {
+      "op": "assert",
+      "stack_out": []
+    },
+    "27": {
+      "op": "pushbytess 0x597fc7c0 0xdbd7b9dd 0xf4b15b57 // method \"register()void\", method \"borrow(uint64)void\", method \"liquidate(address)void\"",
+      "defined_out": [
+        "Method(borrow(uint64)void)",
+        "Method(liquidate(address)void)",
+        "Method(register()void)"
+      ],
+      "stack_out": [
+        "Method(register()void)",
+        "Method(borrow(uint64)void)",
+        "Method(liquidate(address)void)"
+      ]
+    },
+    "44": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(borrow(uint64)void)",
+        "Method(liquidate(address)void)",
+        "Method(register()void)",
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "Method(register()void)",
+        "Method(borrow(uint64)void)",
+        "Method(liquidate(address)void)",
+        "tmp%6#0"
+      ]
+    },
+    "47": {
+      "op": "match register borrow liquidate",
+      "stack_out": []
+    },
+    "55": {
+      "op": "err"
+    },
+    "56": {
+      "block": "main___algots__.defaultCreate@10",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "58": {
+      "op": "!",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "59": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%8#0",
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%8#0",
+        "tmp%9#0"
+      ]
+    },
+    "61": {
+      "op": "!",
+      "defined_out": [
+        "tmp%10#0",
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0",
+        "tmp%10#0"
+      ]
+    },
+    "62": {
+      "op": "&&",
+      "defined_out": [
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "tmp%11#0"
+      ]
+    },
+    "63": {
+      "error": "OnCompletion must be NoOp && can only call when creating",
+      "op": "assert // OnCompletion must be NoOp && can only call when creating",
+      "stack_out": []
+    },
+    "64": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "65": {
+      "op": "return",
+      "stack_out": []
+    },
+    "66": {
+      "subroutine": "smart_contracts/8-state-management/boxmap-loan.algo.ts::SecureLoanContract.register[routing]",
+      "params": {},
+      "block": "register",
+      "stack_in": [],
+      "op": "bytec_0 // \"debt\"",
+      "defined_out": [
+        "\"debt\""
+      ],
+      "stack_out": [
+        "\"debt\""
+      ]
+    },
+    "67": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"debt\"",
+        "materialized_values%0#0"
+      ],
+      "stack_out": [
+        "\"debt\"",
+        "materialized_values%0#0"
+      ]
+    },
+    "69": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "70": {
+      "op": "pushint 0 // 0",
+      "defined_out": [
+        "0",
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "0"
+      ]
+    },
+    "72": {
+      "op": "itob",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "encoded_value%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "encoded_value%0#0"
+      ]
+    },
+    "73": {
+      "op": "swap",
+      "stack_out": [
+        "encoded_value%0#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "74": {
+      "op": "dig 1",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "encoded_value%0#0",
+        "encoded_value%0#0 (copy)"
+      ],
+      "stack_out": [
+        "encoded_value%0#0",
+        "box_prefixed_key%0#0",
+        "encoded_value%0#0 (copy)"
+      ]
+    },
+    "76": {
+      "op": "box_put",
+      "stack_out": [
+        "encoded_value%0#0"
+      ]
+    },
+    "77": {
+      "op": "bytec_1 // \"col\"",
+      "defined_out": [
+        "\"col\"",
+        "encoded_value%0#0"
+      ],
+      "stack_out": [
+        "encoded_value%0#0",
+        "\"col\""
+      ]
+    },
+    "78": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"col\"",
+        "encoded_value%0#0",
+        "materialized_values%1#0"
+      ],
+      "stack_out": [
+        "encoded_value%0#0",
+        "\"col\"",
+        "materialized_values%1#0"
+      ]
+    },
+    "80": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%1#0",
+        "encoded_value%0#0"
+      ],
+      "stack_out": [
+        "encoded_value%0#0",
+        "box_prefixed_key%1#0"
+      ]
+    },
+    "81": {
+      "op": "swap",
+      "stack_out": [
+        "box_prefixed_key%1#0",
+        "encoded_value%0#0"
+      ]
+    },
+    "82": {
+      "op": "box_put",
+      "stack_out": []
+    },
+    "83": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "84": {
+      "op": "return",
+      "stack_out": []
+    },
+    "85": {
+      "subroutine": "smart_contracts/8-state-management/boxmap-loan.algo.ts::SecureLoanContract.borrow[routing]",
+      "params": {},
+      "block": "borrow",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "88": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "89": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0"
+      ]
+    },
+    "90": {
+      "op": "pushint 8 // 8",
+      "defined_out": [
+        "8",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "92": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "93": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "94": {
+      "op": "btoi",
+      "defined_out": [
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0"
+      ]
+    },
+    "95": {
+      "op": "bytec_0 // \"debt\"",
+      "defined_out": [
+        "\"debt\"",
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "\"debt\""
+      ]
+    },
+    "96": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"debt\"",
+        "amount#0",
+        "materialized_values%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "\"debt\"",
+        "materialized_values%0#0"
+      ]
+    },
+    "98": {
+      "op": "concat",
+      "defined_out": [
+        "amount#0",
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "99": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0",
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "100": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "amount#0",
+        "aggregate%box_get%0#0"
+      ]
+    },
+    "101": {
+      "op": "btoi",
+      "defined_out": [
+        "amount#0",
+        "maybe_value_converted%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_value_converted%0#0"
+      ]
+    },
+    "102": {
+      "op": "+",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "103": {
+      "op": "bytec_0 // \"debt\"",
+      "stack_out": [
+        "tmp%0#1",
+        "\"debt\""
+      ]
+    },
+    "104": {
+      "op": "txn Sender",
+      "defined_out": [
+        "\"debt\"",
+        "materialized_values%1#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "\"debt\"",
+        "materialized_values%1#0"
+      ]
+    },
+    "106": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%1#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "box_prefixed_key%1#0"
+      ]
+    },
+    "107": {
+      "op": "swap",
+      "stack_out": [
+        "box_prefixed_key%1#0",
+        "tmp%0#1"
+      ]
+    },
+    "108": {
+      "op": "itob",
+      "defined_out": [
+        "box_prefixed_key%1#0",
+        "encoded_value%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%1#0",
+        "encoded_value%0#0"
+      ]
+    },
+    "109": {
+      "op": "box_put",
+      "stack_out": []
+    },
+    "110": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "111": {
+      "op": "return",
+      "stack_out": []
+    },
+    "112": {
+      "subroutine": "smart_contracts/8-state-management/boxmap-loan.algo.ts::SecureLoanContract.liquidate[routing]",
+      "params": {},
+      "block": "liquidate",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "user#0"
+      ],
+      "stack_out": [
+        "user#0"
+      ]
+    },
+    "115": {
+      "op": "dup",
+      "defined_out": [
+        "user#0",
+        "user#0 (copy)"
+      ],
+      "stack_out": [
+        "user#0",
+        "user#0 (copy)"
+      ]
+    },
+    "116": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "user#0"
+      ],
+      "stack_out": [
+        "user#0",
+        "len%0#0"
+      ]
+    },
+    "117": {
+      "op": "pushint 32 // 32",
+      "defined_out": [
+        "32",
+        "len%0#0",
+        "user#0"
+      ],
+      "stack_out": [
+        "user#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "119": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "user#0"
+      ],
+      "stack_out": [
+        "user#0",
+        "eq%0#0"
+      ]
+    },
+    "120": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "user#0"
+      ]
+    },
+    "121": {
+      "op": "bytec_0 // \"debt\"",
+      "defined_out": [
+        "\"debt\"",
+        "user#0"
+      ],
+      "stack_out": [
+        "user#0",
+        "\"debt\""
+      ]
+    },
+    "122": {
+      "op": "dig 1",
+      "stack_out": [
+        "user#0",
+        "\"debt\"",
+        "user#0 (copy)"
+      ]
+    },
+    "124": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "user#0"
+      ],
+      "stack_out": [
+        "user#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "125": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0",
+        "user#0"
+      ],
+      "stack_out": [
+        "user#0",
+        "aggregate%box_get%0#0",
+        "aggregate%box_get%1#0"
+      ]
+    },
+    "126": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "user#0",
+        "aggregate%box_get%0#0"
+      ]
+    },
+    "127": {
+      "op": "btoi",
+      "defined_out": [
+        "maybe_value_converted%0#0",
+        "user#0"
+      ],
+      "stack_out": [
+        "user#0",
+        "maybe_value_converted%0#0"
+      ]
+    },
+    "128": {
+      "op": "bytec_1 // \"col\"",
+      "defined_out": [
+        "\"col\"",
+        "maybe_value_converted%0#0",
+        "user#0"
+      ],
+      "stack_out": [
+        "user#0",
+        "maybe_value_converted%0#0",
+        "\"col\""
+      ]
+    },
+    "129": {
+      "op": "uncover 2",
+      "stack_out": [
+        "maybe_value_converted%0#0",
+        "\"col\"",
+        "user#0"
+      ]
+    },
+    "131": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%1#0",
+        "maybe_value_converted%0#0"
+      ],
+      "stack_out": [
+        "maybe_value_converted%0#0",
+        "box_prefixed_key%1#0"
+      ]
+    },
+    "132": {
+      "op": "box_get",
+      "defined_out": [
+        "aggregate%box_get%2#0",
+        "aggregate%box_get%3#0",
+        "maybe_value_converted%0#0"
+      ],
+      "stack_out": [
+        "maybe_value_converted%0#0",
+        "aggregate%box_get%2#0",
+        "aggregate%box_get%3#0"
+      ]
+    },
+    "133": {
+      "error": "Box must have value",
+      "op": "assert // Box must have value",
+      "stack_out": [
+        "maybe_value_converted%0#0",
+        "aggregate%box_get%2#0"
+      ]
+    },
+    "134": {
+      "op": "btoi",
+      "defined_out": [
+        "maybe_value_converted%0#0",
+        "maybe_value_converted%1#0"
+      ],
+      "stack_out": [
+        "maybe_value_converted%0#0",
+        "maybe_value_converted%1#0"
+      ]
+    },
+    "135": {
+      "op": ">",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "136": {
+      "error": "Not undercollateralized",
+      "op": "assert // Not undercollateralized",
+      "stack_out": []
+    },
+    "137": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "138": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

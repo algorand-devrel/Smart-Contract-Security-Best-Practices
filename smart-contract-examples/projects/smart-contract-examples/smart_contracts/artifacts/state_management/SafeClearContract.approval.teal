@@ -1,0 +1,149 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 1 0
+    bytecblock "bal" "forfeited" 0x151f7c75
+    // smart_contracts/state_management/contract.algo.ts:5
+    // export class SafeClearContract extends Contract {
+    pushbytes 0x01a3a3ff // method "optInToApplication()void"
+    txna ApplicationArgs 0
+    match main_optInToApplication_route@2
+
+main_switch_case_next@3:
+    // smart_contracts/state_management/contract.algo.ts:5
+    // export class SafeClearContract extends Contract {
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    bz main_create_NoOp@9
+    pushbytess 0xb1cd78a8 0x2b69a417 0x96ac564c // method "setBalance(uint64)void", method "getBalance()uint64", method "getForfeited()uint64"
+    txna ApplicationArgs 0
+    match setBalance getBalance getForfeited
+    err
+
+main_create_NoOp@9:
+    // smart_contracts/state_management/contract.algo.ts:5
+    // export class SafeClearContract extends Contract {
+    pushbytes 0xb8447b36 // method "createApplication()void"
+    txna ApplicationArgs 0
+    match main_createApplication_route@10
+    err
+
+main_createApplication_route@10:
+    // smart_contracts/state_management/contract.algo.ts:7
+    // forfeitedFunds = GlobalState<uint64>({ key: 'forfeited' })
+    bytec_1 // "forfeited"
+    // smart_contracts/state_management/contract.algo.ts:10
+    // this.forfeitedFunds.value = 0
+    intc_1 // 0
+    app_global_put
+    // smart_contracts/state_management/contract.algo.ts:9
+    // public createApplication(): void {
+    intc_0 // 1
+    return
+
+main_optInToApplication_route@2:
+    // smart_contracts/state_management/contract.algo.ts:13
+    // public optInToApplication(): void {
+    txn OnCompletion
+    intc_0 // OptIn
+    ==
+    txn ApplicationID
+    &&
+    assert // OnCompletion must be OptIn && can only call when not creating
+    b optInToApplication
+
+
+// smart_contracts/state_management/contract.algo.ts::SafeClearContract.optInToApplication[routing]() -> void:
+optInToApplication:
+    // smart_contracts/state_management/contract.algo.ts:14
+    // this.userBalance(Txn.sender).value = 0
+    txn Sender
+    // smart_contracts/state_management/contract.algo.ts:6
+    // userBalance = LocalState<uint64>({ key: 'bal' })
+    bytec_0 // "bal"
+    // smart_contracts/state_management/contract.algo.ts:14
+    // this.userBalance(Txn.sender).value = 0
+    intc_1 // 0
+    app_local_put
+    // smart_contracts/state_management/contract.algo.ts:13
+    // public optInToApplication(): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/state_management/contract.algo.ts::SafeClearContract.setBalance[routing]() -> void:
+setBalance:
+    // smart_contracts/state_management/contract.algo.ts:17
+    // public setBalance(amount: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 8 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/state_management/contract.algo.ts:18
+    // this.userBalance(Txn.sender).value = amount
+    txn Sender
+    // smart_contracts/state_management/contract.algo.ts:6
+    // userBalance = LocalState<uint64>({ key: 'bal' })
+    bytec_0 // "bal"
+    // smart_contracts/state_management/contract.algo.ts:18
+    // this.userBalance(Txn.sender).value = amount
+    uncover 2
+    app_local_put
+    // smart_contracts/state_management/contract.algo.ts:17
+    // public setBalance(amount: uint64): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/state_management/contract.algo.ts::SafeClearContract.getBalance[routing]() -> void:
+getBalance:
+    // smart_contracts/state_management/contract.algo.ts:22
+    // return this.userBalance(Txn.sender).value
+    txn Sender
+    intc_1 // 0
+    // smart_contracts/state_management/contract.algo.ts:6
+    // userBalance = LocalState<uint64>({ key: 'bal' })
+    bytec_0 // "bal"
+    // smart_contracts/state_management/contract.algo.ts:22
+    // return this.userBalance(Txn.sender).value
+    app_local_get_ex
+    assert // check LocalState exists
+    // smart_contracts/state_management/contract.algo.ts:21
+    // public getBalance(): uint64 {
+    itob
+    bytec_2 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_0 // 1
+    return
+
+
+// smart_contracts/state_management/contract.algo.ts::SafeClearContract.getForfeited[routing]() -> void:
+getForfeited:
+    // smart_contracts/state_management/contract.algo.ts:26
+    // return this.forfeitedFunds.value
+    intc_1 // 0
+    // smart_contracts/state_management/contract.algo.ts:7
+    // forfeitedFunds = GlobalState<uint64>({ key: 'forfeited' })
+    bytec_1 // "forfeited"
+    // smart_contracts/state_management/contract.algo.ts:26
+    // return this.forfeitedFunds.value
+    app_global_get_ex
+    assert // check GlobalState exists
+    // smart_contracts/state_management/contract.algo.ts:25
+    // public getForfeited(): uint64 {
+    itob
+    bytec_2 // 0x151f7c75
+    swap
+    concat
+    log
+    intc_0 // 1
+    return

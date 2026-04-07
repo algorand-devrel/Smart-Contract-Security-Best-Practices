@@ -1,0 +1,1199 @@
+{
+  "version": 3,
+  "sources": [
+    "../../2-access-control/role-based-access.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;AAMA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AAIE;AAAA;AAwCA;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAJA;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAjBA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACmB;AAAjB;;;AACW;AAvBE;AAAA;AAAA;AAuByC;AAAtD;AAAA;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACmB;AAAjB;;;AACY;AA5BC;AAAA;AAAA;AAAA;AA6BT;AAAA;;AAAJ;;;AACE;AAAA;;AAJJ;AAAA;AASmB;;;;;;;;;;AAAjB;;;AADF;AAAA;AAKmB;AAAjB;;;AADF;AAAA;AAKmB;AAAjB;;;AADF;AAAA;AAzBA;;;AAC4B;;AARtB;;AAAS;AAAT;AAAA;;;AAAuB;;AAAY;;AAAZ;AAAvB;;;AACK;AAOT;;AALY;;AAAA;;AAAA;AAbC;AAAA;AAAA;AAcN;AAAA;;AAIA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 1 0 2 32"
+    },
+    "7": {
+      "op": "bytecblock \"admin\" \"role\""
+    },
+    "20": {
+      "op": "pushbytess 0x46f76533 0x2487c32c // method \"updateApplication()void\", method \"deleteApplication()void\"",
+      "defined_out": [
+        "Method(deleteApplication()void)",
+        "Method(updateApplication()void)"
+      ],
+      "stack_out": [
+        "Method(updateApplication()void)",
+        "Method(deleteApplication()void)"
+      ]
+    },
+    "32": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(deleteApplication()void)",
+        "Method(updateApplication()void)",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "Method(updateApplication()void)",
+        "Method(deleteApplication()void)",
+        "tmp%0#1"
+      ]
+    },
+    "35": {
+      "op": "match main_updateApplication_route@2 main_deleteApplication_route@3",
+      "stack_out": []
+    },
+    "41": {
+      "block": "main_switch_case_next@4",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "tmp%11#0"
+      ]
+    },
+    "43": {
+      "op": "!",
+      "defined_out": [
+        "tmp%12#0"
+      ],
+      "stack_out": [
+        "tmp%12#0"
+      ]
+    },
+    "44": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "45": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0"
+      ]
+    },
+    "47": {
+      "op": "bz main_create_NoOp@10",
+      "stack_out": []
+    },
+    "50": {
+      "op": "pushbytess 0xda7f0ce4 0xc22c6174 0xa94becf1 // method \"grantRole(byte[],address)void\", method \"revokeRole(byte[],address)void\", method \"performOperation()void\"",
+      "defined_out": [
+        "Method(grantRole(byte[],address)void)",
+        "Method(performOperation()void)",
+        "Method(revokeRole(byte[],address)void)"
+      ],
+      "stack_out": [
+        "Method(grantRole(byte[],address)void)",
+        "Method(revokeRole(byte[],address)void)",
+        "Method(performOperation()void)"
+      ]
+    },
+    "67": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(grantRole(byte[],address)void)",
+        "Method(performOperation()void)",
+        "Method(revokeRole(byte[],address)void)",
+        "tmp%15#0"
+      ],
+      "stack_out": [
+        "Method(grantRole(byte[],address)void)",
+        "Method(revokeRole(byte[],address)void)",
+        "Method(performOperation()void)",
+        "tmp%15#0"
+      ]
+    },
+    "70": {
+      "op": "match grantRole revokeRole performOperation",
+      "stack_out": []
+    },
+    "78": {
+      "op": "err"
+    },
+    "79": {
+      "block": "main_create_NoOp@10",
+      "stack_in": [],
+      "op": "pushbytes 0xb8447b36 // method \"createApplication()void\"",
+      "defined_out": [
+        "Method(createApplication()void)"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)"
+      ]
+    },
+    "85": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(createApplication()void)",
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)",
+        "tmp%16#0"
+      ]
+    },
+    "88": {
+      "op": "match main_createApplication_route@11",
+      "stack_out": []
+    },
+    "92": {
+      "op": "err"
+    },
+    "93": {
+      "block": "main_createApplication_route@11",
+      "stack_in": [],
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "94": {
+      "op": "return",
+      "stack_out": []
+    },
+    "95": {
+      "block": "main_deleteApplication_route@3",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%6#0"
+      ]
+    },
+    "97": {
+      "op": "pushint 5 // DeleteApplication",
+      "defined_out": [
+        "DeleteApplication",
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%6#0",
+        "DeleteApplication"
+      ]
+    },
+    "99": {
+      "op": "==",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "100": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%7#0",
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%7#0",
+        "tmp%8#0"
+      ]
+    },
+    "102": {
+      "op": "&&",
+      "defined_out": [
+        "tmp%10#0"
+      ],
+      "stack_out": [
+        "tmp%10#0"
+      ]
+    },
+    "103": {
+      "error": "OnCompletion must be DeleteApplication && can only call when not creating",
+      "op": "assert // OnCompletion must be DeleteApplication && can only call when not creating",
+      "stack_out": []
+    },
+    "104": {
+      "op": "b deleteApplication"
+    },
+    "107": {
+      "block": "main_updateApplication_route@2",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "109": {
+      "op": "pushint 4 // UpdateApplication",
+      "defined_out": [
+        "UpdateApplication",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0",
+        "UpdateApplication"
+      ]
+    },
+    "111": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "112": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%2#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%3#0"
+      ]
+    },
+    "114": {
+      "op": "&&",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "115": {
+      "error": "OnCompletion must be UpdateApplication && can only call when not creating",
+      "op": "assert // OnCompletion must be UpdateApplication && can only call when not creating",
+      "stack_out": []
+    },
+    "116": {
+      "op": "b updateApplication"
+    },
+    "119": {
+      "subroutine": "smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.grantRole[routing]",
+      "params": {},
+      "block": "grantRole",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "122": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "123": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)",
+        "0"
+      ]
+    },
+    "124": {
+      "error": "invalid array length header",
+      "op": "extract_uint16 // on error: invalid array length header",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "125": {
+      "op": "intc_2 // 2",
+      "defined_out": [
+        "2",
+        "aggregate%array_length%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "aggregate%array_length%0#0",
+        "2"
+      ]
+    },
+    "126": {
+      "op": "+",
+      "defined_out": [
+        "add%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0"
+      ]
+    },
+    "127": {
+      "op": "dig 1",
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "129": {
+      "op": "len",
+      "defined_out": [
+        "add%0#0",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0",
+        "len%0#0"
+      ]
+    },
+    "130": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "131": {
+      "error": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "op": "assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "132": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0"
+      ]
+    },
+    "135": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "account#0",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0"
+      ]
+    },
+    "138": {
+      "op": "dup",
+      "defined_out": [
+        "account#0",
+        "account#0 (copy)",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0",
+        "account#0 (copy)"
+      ]
+    },
+    "139": {
+      "op": "len",
+      "defined_out": [
+        "account#0",
+        "len%1#0",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0",
+        "len%1#0"
+      ]
+    },
+    "140": {
+      "op": "intc_3 // 32",
+      "defined_out": [
+        "32",
+        "account#0",
+        "len%1#0",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0",
+        "len%1#0",
+        "32"
+      ]
+    },
+    "141": {
+      "op": "==",
+      "defined_out": [
+        "account#0",
+        "eq%1#0",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0",
+        "eq%1#0"
+      ]
+    },
+    "142": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "role#0",
+        "account#0"
+      ]
+    },
+    "143": {
+      "op": "bytec_0 // \"admin\"",
+      "defined_out": [
+        "\"admin\"",
+        "account#0",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0",
+        "\"admin\""
+      ]
+    },
+    "144": {
+      "callsub": "smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.requireRole",
+      "op": "callsub requireRole",
+      "stack_out": [
+        "role#0",
+        "account#0"
+      ]
+    },
+    "147": {
+      "op": "concat",
+      "defined_out": [
+        "materialized_values%0#0"
+      ],
+      "stack_out": [
+        "materialized_values%0#0"
+      ]
+    },
+    "148": {
+      "op": "bytec_1 // \"role\"",
+      "defined_out": [
+        "\"role\"",
+        "materialized_values%0#0"
+      ],
+      "stack_out": [
+        "materialized_values%0#0",
+        "\"role\""
+      ]
+    },
+    "149": {
+      "op": "swap",
+      "stack_out": [
+        "\"role\"",
+        "materialized_values%0#0"
+      ]
+    },
+    "150": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "151": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1",
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "1"
+      ]
+    },
+    "152": {
+      "op": "itob",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "encoded_value%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "encoded_value%0#0"
+      ]
+    },
+    "153": {
+      "op": "box_put",
+      "stack_out": []
+    },
+    "154": {
+      "op": "intc_0 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "155": {
+      "op": "return",
+      "stack_out": []
+    },
+    "156": {
+      "subroutine": "smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.revokeRole[routing]",
+      "params": {},
+      "block": "revokeRole",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "159": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "160": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)",
+        "0"
+      ]
+    },
+    "161": {
+      "error": "invalid array length header",
+      "op": "extract_uint16 // on error: invalid array length header",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "162": {
+      "op": "intc_2 // 2",
+      "defined_out": [
+        "2",
+        "aggregate%array_length%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "aggregate%array_length%0#0",
+        "2"
+      ]
+    },
+    "163": {
+      "op": "+",
+      "defined_out": [
+        "add%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0"
+      ]
+    },
+    "164": {
+      "op": "dig 1",
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "166": {
+      "op": "len",
+      "defined_out": [
+        "add%0#0",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0",
+        "len%0#0"
+      ]
+    },
+    "167": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "168": {
+      "error": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "op": "assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "169": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0"
+      ]
+    },
+    "172": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "account#0",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0"
+      ]
+    },
+    "175": {
+      "op": "dup",
+      "defined_out": [
+        "account#0",
+        "account#0 (copy)",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0",
+        "account#0 (copy)"
+      ]
+    },
+    "176": {
+      "op": "len",
+      "defined_out": [
+        "account#0",
+        "len%1#0",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0",
+        "len%1#0"
+      ]
+    },
+    "177": {
+      "op": "intc_3 // 32",
+      "defined_out": [
+        "32",
+        "account#0",
+        "len%1#0",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0",
+        "len%1#0",
+        "32"
+      ]
+    },
+    "178": {
+      "op": "==",
+      "defined_out": [
+        "account#0",
+        "eq%1#0",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0",
+        "eq%1#0"
+      ]
+    },
+    "179": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "role#0",
+        "account#0"
+      ]
+    },
+    "180": {
+      "op": "bytec_0 // \"admin\"",
+      "defined_out": [
+        "\"admin\"",
+        "account#0",
+        "role#0"
+      ],
+      "stack_out": [
+        "role#0",
+        "account#0",
+        "\"admin\""
+      ]
+    },
+    "181": {
+      "callsub": "smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.requireRole",
+      "op": "callsub requireRole",
+      "stack_out": [
+        "role#0",
+        "account#0"
+      ]
+    },
+    "184": {
+      "op": "concat",
+      "defined_out": [
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0"
+      ]
+    },
+    "185": {
+      "op": "bytec_1 // \"role\"",
+      "defined_out": [
+        "\"role\"",
+        "key#0"
+      ],
+      "stack_out": [
+        "key#0",
+        "\"role\""
+      ]
+    },
+    "186": {
+      "op": "swap",
+      "stack_out": [
+        "\"role\"",
+        "key#0"
+      ]
+    },
+    "187": {
+      "op": "concat",
+      "defined_out": [
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "188": {
+      "op": "dup",
+      "defined_out": [
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "189": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "box_prefixed_key%0#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "190": {
+      "op": "bury 1",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "192": {
+      "op": "bz revokeRole_after_if_else@3",
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "195": {
+      "op": "dup",
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "196": {
+      "op": "box_del",
+      "defined_out": [
+        "box_prefixed_key%0#0",
+        "{box_del}"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "{box_del}"
+      ]
+    },
+    "197": {
+      "op": "pop",
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "198": {
+      "block": "revokeRole_after_if_else@3",
+      "stack_in": [
+        "box_prefixed_key%0#0"
+      ],
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "box_prefixed_key%0#0",
+        "1"
+      ]
+    },
+    "199": {
+      "op": "return",
+      "stack_out": [
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "200": {
+      "subroutine": "smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.performOperation[routing]",
+      "params": {},
+      "block": "performOperation",
+      "stack_in": [],
+      "op": "pushbytes \"operator\"",
+      "defined_out": [
+        "\"operator\""
+      ],
+      "stack_out": [
+        "\"operator\""
+      ]
+    },
+    "210": {
+      "callsub": "smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.requireRole",
+      "op": "callsub requireRole",
+      "stack_out": []
+    },
+    "213": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "214": {
+      "op": "return",
+      "stack_out": []
+    },
+    "215": {
+      "subroutine": "smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.updateApplication[routing]",
+      "params": {},
+      "block": "updateApplication",
+      "stack_in": [],
+      "op": "bytec_0 // \"admin\"",
+      "defined_out": [
+        "\"admin\""
+      ],
+      "stack_out": [
+        "\"admin\""
+      ]
+    },
+    "216": {
+      "callsub": "smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.requireRole",
+      "op": "callsub requireRole",
+      "stack_out": []
+    },
+    "219": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "220": {
+      "op": "return",
+      "stack_out": []
+    },
+    "221": {
+      "subroutine": "smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.deleteApplication[routing]",
+      "params": {},
+      "block": "deleteApplication",
+      "stack_in": [],
+      "op": "bytec_0 // \"admin\"",
+      "defined_out": [
+        "\"admin\""
+      ],
+      "stack_out": [
+        "\"admin\""
+      ]
+    },
+    "222": {
+      "callsub": "smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.requireRole",
+      "op": "callsub requireRole",
+      "stack_out": []
+    },
+    "225": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "226": {
+      "op": "return",
+      "stack_out": []
+    },
+    "227": {
+      "subroutine": "smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.requireRole",
+      "params": {
+        "role#0": "bytes"
+      },
+      "block": "requireRole",
+      "stack_in": [],
+      "op": "proto 1 0"
+    },
+    "230": {
+      "op": "txn Sender"
+    },
+    "232": {
+      "op": "frame_dig -1"
+    },
+    "234": {
+      "op": "bytec_0 // \"admin\"",
+      "defined_out": [
+        "\"admin\"",
+        "account#0",
+        "role#0 (copy)"
+      ],
+      "stack_out": [
+        "account#0",
+        "role#0 (copy)",
+        "\"admin\""
+      ]
+    },
+    "235": {
+      "op": "==",
+      "defined_out": [
+        "account#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "account#0",
+        "tmp%0#1"
+      ]
+    },
+    "236": {
+      "op": "bz requireRole_after_if_else@4",
+      "stack_out": [
+        "account#0"
+      ]
+    },
+    "239": {
+      "op": "frame_dig 0",
+      "stack_out": [
+        "account#0",
+        "account#0"
+      ]
+    },
+    "241": {
+      "op": "global CreatorAddress",
+      "defined_out": [
+        "account#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "account#0",
+        "account#0",
+        "tmp%1#1"
+      ]
+    },
+    "243": {
+      "op": "==",
+      "defined_out": [
+        "account#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "account#0",
+        "tmp%2#0"
+      ]
+    },
+    "244": {
+      "op": "bz requireRole_after_if_else@4",
+      "stack_out": [
+        "account#0"
+      ]
+    },
+    "247": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "account#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "account#0",
+        "tmp%1#0"
+      ]
+    },
+    "248": {
+      "error": "Missing required role",
+      "block": "requireRole_after_inlined_smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.hasRole@5",
+      "stack_in": [
+        "account#0",
+        "tmp%1#0"
+      ],
+      "op": "assert // Missing required role",
+      "defined_out": [],
+      "stack_out": [
+        "account#0"
+      ]
+    },
+    "249": {
+      "retsub": true,
+      "op": "retsub"
+    },
+    "250": {
+      "block": "requireRole_after_if_else@4",
+      "stack_in": [
+        "account#0"
+      ],
+      "op": "frame_dig -1",
+      "defined_out": [
+        "role#0 (copy)"
+      ],
+      "stack_out": [
+        "account#0",
+        "role#0 (copy)"
+      ]
+    },
+    "252": {
+      "op": "frame_dig 0",
+      "defined_out": [
+        "account#0",
+        "role#0 (copy)"
+      ],
+      "stack_out": [
+        "account#0",
+        "role#0 (copy)",
+        "account#0"
+      ]
+    },
+    "254": {
+      "op": "concat",
+      "defined_out": [
+        "account#0",
+        "key#0"
+      ],
+      "stack_out": [
+        "account#0",
+        "key#0"
+      ]
+    },
+    "255": {
+      "op": "bytec_1 // \"role\"",
+      "defined_out": [
+        "\"role\"",
+        "account#0",
+        "key#0"
+      ],
+      "stack_out": [
+        "account#0",
+        "key#0",
+        "\"role\""
+      ]
+    },
+    "256": {
+      "op": "swap",
+      "stack_out": [
+        "account#0",
+        "\"role\"",
+        "key#0"
+      ]
+    },
+    "257": {
+      "op": "concat",
+      "defined_out": [
+        "account#0",
+        "box_prefixed_key%0#0"
+      ],
+      "stack_out": [
+        "account#0",
+        "box_prefixed_key%0#0"
+      ]
+    },
+    "258": {
+      "op": "box_len",
+      "defined_out": [
+        "_%0#0",
+        "account#0",
+        "maybe_exists%0#0"
+      ],
+      "stack_out": [
+        "account#0",
+        "_%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "259": {
+      "op": "bury 1",
+      "defined_out": [
+        "account#0",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "account#0",
+        "tmp%1#0"
+      ]
+    },
+    "261": {
+      "op": "b requireRole_after_inlined_smart_contracts/2-access-control/role-based-access.algo.ts::RoleBasedContract.hasRole@5"
+    }
+  }
+}

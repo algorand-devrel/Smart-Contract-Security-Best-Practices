@@ -1,0 +1,269 @@
+{
+  "version": 3,
+  "sources": [
+    "../../1-smart-contracts-vs-logic-signatures/delegated-logic-sig.algo.ts"
+  ],
+  "mappings": "AAsBM;;AAAiB;;AAAjB;AAAA;;;AACA;;AAAqB;;;;AAArB;AADA;;;AAEA;;AAAW;;AAAX;AAFA;;;AAGA;;AAAgB;;AAAhB;AAHA;;;AAIA;;AAAyB;;AAAzB;AAJA;;;AAKA;;AAAc;AAAd;AALA;;;AAMA;;AAAiB;AAAjB;AANA;;;;;AADF;;;AAAA",
+  "op_pc_offset": 1,
+  "pc_events": {
+    "0": {
+      "op": "txn TypeEnum",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "2": {
+      "op": "pushint 1 // 1",
+      "defined_out": [
+        "1",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "1"
+      ]
+    },
+    "4": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "5": {
+      "op": "bz main_bool_false@8",
+      "stack_out": []
+    },
+    "8": {
+      "op": "txn Amount",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "10": {
+      "op": "pushint 1000000 // 1000000",
+      "defined_out": [
+        "1000000",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "1000000"
+      ]
+    },
+    "14": {
+      "op": "<=",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "15": {
+      "op": "bz main_bool_false@8",
+      "stack_out": []
+    },
+    "18": {
+      "op": "txn Fee",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "20": {
+      "op": "global MinTxnFee",
+      "defined_out": [
+        "tmp%4#0",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%4#0",
+        "tmp%5#0"
+      ]
+    },
+    "22": {
+      "op": "<=",
+      "defined_out": [
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%6#0"
+      ]
+    },
+    "23": {
+      "op": "bz main_bool_false@8",
+      "stack_out": []
+    },
+    "26": {
+      "op": "txn RekeyTo",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "28": {
+      "op": "global ZeroAddress",
+      "defined_out": [
+        "tmp%7#0",
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%7#0",
+        "tmp%8#0"
+      ]
+    },
+    "30": {
+      "op": "==",
+      "defined_out": [
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%9#0"
+      ]
+    },
+    "31": {
+      "op": "bz main_bool_false@8",
+      "stack_out": []
+    },
+    "34": {
+      "op": "txn CloseRemainderTo",
+      "defined_out": [
+        "tmp%10#0"
+      ],
+      "stack_out": [
+        "tmp%10#0"
+      ]
+    },
+    "36": {
+      "op": "global ZeroAddress",
+      "defined_out": [
+        "tmp%10#0",
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "tmp%10#0",
+        "tmp%11#0"
+      ]
+    },
+    "38": {
+      "op": "==",
+      "defined_out": [
+        "tmp%12#0"
+      ],
+      "stack_out": [
+        "tmp%12#0"
+      ]
+    },
+    "39": {
+      "op": "bz main_bool_false@8",
+      "stack_out": []
+    },
+    "42": {
+      "op": "txn Lease",
+      "defined_out": [
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0"
+      ]
+    },
+    "44": {
+      "op": "bytec_0 // TMPL_LEASE",
+      "defined_out": [
+        "TMPL_LEASE",
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%13#0",
+        "TMPL_LEASE"
+      ]
+    },
+    "45": {
+      "op": "==",
+      "defined_out": [
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%14#0"
+      ]
+    },
+    "46": {
+      "op": "bz main_bool_false@8",
+      "stack_out": []
+    },
+    "49": {
+      "op": "txn Receiver",
+      "defined_out": [
+        "tmp%15#0"
+      ],
+      "stack_out": [
+        "tmp%15#0"
+      ]
+    },
+    "51": {
+      "op": "bytec_1 // TMPL_INTENDED_RECEIVER",
+      "defined_out": [
+        "TMPL_INTENDED_RECEIVER",
+        "tmp%15#0"
+      ],
+      "stack_out": [
+        "tmp%15#0",
+        "TMPL_INTENDED_RECEIVER"
+      ]
+    },
+    "52": {
+      "op": "==",
+      "defined_out": [
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "tmp%16#0"
+      ]
+    },
+    "53": {
+      "op": "bz main_bool_false@8",
+      "stack_out": []
+    },
+    "56": {
+      "op": "pushint 1 // 1",
+      "defined_out": [
+        "and_result%0#0"
+      ],
+      "stack_out": [
+        "and_result%0#0"
+      ]
+    },
+    "58": {
+      "op": "return",
+      "stack_out": []
+    },
+    "59": {
+      "block": "main_bool_false@8",
+      "stack_in": [],
+      "op": "pushint 0 // 0",
+      "defined_out": [
+        "and_result%0#0"
+      ],
+      "stack_out": [
+        "and_result%0#0"
+      ]
+    },
+    "61": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

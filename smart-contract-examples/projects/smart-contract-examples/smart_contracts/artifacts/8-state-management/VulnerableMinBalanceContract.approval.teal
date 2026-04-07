@@ -1,0 +1,63 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    // smart_contracts/8-state-management/min-balance-check.algo.ts:11
+    // export class VulnerableMinBalanceContract extends Contract {
+    txn NumAppArgs
+    bz main___algots__.defaultCreate@5
+    pushbytes 0x21f1ddff // method "withdraw(uint64)void"
+    txna ApplicationArgs 0
+    match main_withdraw_route@3
+    err
+
+main_withdraw_route@3:
+    // smart_contracts/8-state-management/min-balance-check.algo.ts:12
+    // public withdraw(amount: uint64): void {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    &&
+    assert // OnCompletion must be NoOp && can only call when not creating
+    b withdraw
+
+main___algots__.defaultCreate@5:
+    // smart_contracts/8-state-management/min-balance-check.algo.ts:11
+    // export class VulnerableMinBalanceContract extends Contract {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    assert // OnCompletion must be NoOp && can only call when creating
+    pushint 1 // 1
+    return
+
+
+// smart_contracts/8-state-management/min-balance-check.algo.ts::VulnerableMinBalanceContract.withdraw[routing]() -> void:
+withdraw:
+    // smart_contracts/8-state-management/min-balance-check.algo.ts:12
+    // public withdraw(amount: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 8 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/8-state-management/min-balance-check.algo.ts:13
+    // const app = Global.currentApplicationAddress;
+    global CurrentApplicationAddress
+    // smart_contracts/8-state-management/min-balance-check.algo.ts:14
+    // assert(app.balance - Uint64(100_000) >= amount, "Insufficient contract balance");
+    acct_params_get AcctBalance
+    assert // account funded
+    pushint 100000 // 100000
+    -
+    <=
+    assert // Insufficient contract balance
+    // smart_contracts/8-state-management/min-balance-check.algo.ts:12
+    // public withdraw(amount: uint64): void {
+    pushint 1 // 1
+    return

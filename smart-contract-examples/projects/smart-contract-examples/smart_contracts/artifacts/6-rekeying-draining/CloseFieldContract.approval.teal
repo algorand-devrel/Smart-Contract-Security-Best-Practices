@@ -1,0 +1,164 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 1 32 0
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:4
+    // export class CloseFieldContract extends Contract {
+    txn NumAppArgs
+    bz main___algots__.defaultCreate@9
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    assert
+    pushbytess 0x8de1744a 0x306e85be // method "unsafeTransfer(address,address)void", method "safeTransfer(address,uint64)void"
+    txna ApplicationArgs 0
+    match unsafeTransfer safeTransfer
+    err
+
+main___algots__.defaultCreate@9:
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:4
+    // export class CloseFieldContract extends Contract {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    assert // OnCompletion must be NoOp && can only call when creating
+    intc_0 // 1
+    return
+
+
+// smart_contracts/6-rekeying-draining/close-field.algo.ts::CloseFieldContract.unsafeTransfer[routing]() -> void:
+unsafeTransfer:
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:6
+    // public unsafeTransfer(receiver: Account, closeTo: Account): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    intc_1 // 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    txna ApplicationArgs 2
+    dup
+    len
+    intc_1 // 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:7
+    // assert(Txn.sender === Global.creatorAddress, 'Creator only')
+    txn Sender
+    global CreatorAddress
+    ==
+    assert // Creator only
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:8-15
+    // itxn
+    //   .payment({
+    //     receiver: receiver,
+    //     amount: Uint64(0),
+    //     closeRemainderTo: closeTo, // Attacker drains the app account!
+    //     fee: Uint64(0),
+    //   })
+    //   .submit()
+    itxn_begin
+    itxn_field CloseRemainderTo
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:11
+    // amount: Uint64(0),
+    intc_2 // 0
+    itxn_field Amount
+    itxn_field Receiver
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:8-14
+    // itxn
+    //   .payment({
+    //     receiver: receiver,
+    //     amount: Uint64(0),
+    //     closeRemainderTo: closeTo, // Attacker drains the app account!
+    //     fee: Uint64(0),
+    //   })
+    intc_0 // 1
+    itxn_field TypeEnum
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:13
+    // fee: Uint64(0),
+    intc_2 // 0
+    itxn_field Fee
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:8-15
+    // itxn
+    //   .payment({
+    //     receiver: receiver,
+    //     amount: Uint64(0),
+    //     closeRemainderTo: closeTo, // Attacker drains the app account!
+    //     fee: Uint64(0),
+    //   })
+    //   .submit()
+    itxn_submit
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:6
+    // public unsafeTransfer(receiver: Account, closeTo: Account): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/6-rekeying-draining/close-field.algo.ts::CloseFieldContract.safeTransfer[routing]() -> void:
+safeTransfer:
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:19
+    // public safeTransfer(receiver: Account, amount: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    intc_1 // 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    txna ApplicationArgs 2
+    dup
+    len
+    pushint 8 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:20
+    // assert(Txn.sender === Global.creatorAddress, 'Creator only')
+    txn Sender
+    global CreatorAddress
+    ==
+    assert // Creator only
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:21-28
+    // itxn
+    //   .payment({
+    //     receiver: receiver,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //     // closeRemainderTo and rekeyTo are intentionally omitted
+    //   })
+    //   .submit()
+    itxn_begin
+    itxn_field Amount
+    itxn_field Receiver
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:21-27
+    // itxn
+    //   .payment({
+    //     receiver: receiver,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //     // closeRemainderTo and rekeyTo are intentionally omitted
+    //   })
+    intc_0 // 1
+    itxn_field TypeEnum
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:25
+    // fee: Uint64(0),
+    intc_2 // 0
+    itxn_field Fee
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:21-28
+    // itxn
+    //   .payment({
+    //     receiver: receiver,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //     // closeRemainderTo and rekeyTo are intentionally omitted
+    //   })
+    //   .submit()
+    itxn_submit
+    // smart_contracts/6-rekeying-draining/close-field.algo.ts:19
+    // public safeTransfer(receiver: Account, amount: uint64): void {
+    intc_0 // 1
+    return

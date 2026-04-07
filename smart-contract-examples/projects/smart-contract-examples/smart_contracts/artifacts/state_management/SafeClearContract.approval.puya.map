@@ -1,0 +1,625 @@
+{
+  "version": 3,
+  "sources": [
+    "../../state_management/contract.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;AAIA;;;;;;AAAA;;;AAAA;;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AAEmB;AAGa;AAA5B;AADF;AAAA;AAIA;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AACmB;;AARL;AAQyB;AAArC;AADF;AAAA;AAIA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACmB;;AAZL;AAYZ;;AAAA;AADF;AAAA;AAK0B;;AAAjB;AAhBK;AAgBL;AAAA;AADT;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAKS;AAnBQ;AAmBR;AAAA;AADT;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 1 0"
+    },
+    "5": {
+      "op": "bytecblock \"bal\" \"forfeited\" 0x151f7c75"
+    },
+    "26": {
+      "op": "pushbytes 0x01a3a3ff // method \"optInToApplication()void\"",
+      "defined_out": [
+        "Method(optInToApplication()void)"
+      ],
+      "stack_out": [
+        "Method(optInToApplication()void)"
+      ]
+    },
+    "32": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(optInToApplication()void)",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "Method(optInToApplication()void)",
+        "tmp%0#1"
+      ]
+    },
+    "35": {
+      "op": "match main_optInToApplication_route@2",
+      "stack_out": []
+    },
+    "39": {
+      "block": "main_switch_case_next@3",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%6#0"
+      ]
+    },
+    "41": {
+      "op": "!",
+      "defined_out": [
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%7#0"
+      ]
+    },
+    "42": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "43": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "45": {
+      "op": "bz main_create_NoOp@9",
+      "stack_out": []
+    },
+    "48": {
+      "op": "pushbytess 0xb1cd78a8 0x2b69a417 0x96ac564c // method \"setBalance(uint64)void\", method \"getBalance()uint64\", method \"getForfeited()uint64\"",
+      "defined_out": [
+        "Method(getBalance()uint64)",
+        "Method(getForfeited()uint64)",
+        "Method(setBalance(uint64)void)"
+      ],
+      "stack_out": [
+        "Method(setBalance(uint64)void)",
+        "Method(getBalance()uint64)",
+        "Method(getForfeited()uint64)"
+      ]
+    },
+    "65": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(getBalance()uint64)",
+        "Method(getForfeited()uint64)",
+        "Method(setBalance(uint64)void)",
+        "tmp%10#0"
+      ],
+      "stack_out": [
+        "Method(setBalance(uint64)void)",
+        "Method(getBalance()uint64)",
+        "Method(getForfeited()uint64)",
+        "tmp%10#0"
+      ]
+    },
+    "68": {
+      "op": "match setBalance getBalance getForfeited",
+      "stack_out": []
+    },
+    "76": {
+      "op": "err"
+    },
+    "77": {
+      "block": "main_create_NoOp@9",
+      "stack_in": [],
+      "op": "pushbytes 0xb8447b36 // method \"createApplication()void\"",
+      "defined_out": [
+        "Method(createApplication()void)"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)"
+      ]
+    },
+    "83": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(createApplication()void)",
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)",
+        "tmp%11#0"
+      ]
+    },
+    "86": {
+      "op": "match main_createApplication_route@10",
+      "stack_out": []
+    },
+    "90": {
+      "op": "err"
+    },
+    "91": {
+      "block": "main_createApplication_route@10",
+      "stack_in": [],
+      "op": "bytec_1 // \"forfeited\"",
+      "defined_out": [
+        "\"forfeited\""
+      ],
+      "stack_out": [
+        "\"forfeited\""
+      ]
+    },
+    "92": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "\"forfeited\"",
+        "0"
+      ],
+      "stack_out": [
+        "\"forfeited\"",
+        "0"
+      ]
+    },
+    "93": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "94": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "95": {
+      "op": "return",
+      "stack_out": []
+    },
+    "96": {
+      "block": "main_optInToApplication_route@2",
+      "stack_in": [],
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "98": {
+      "op": "intc_0 // OptIn",
+      "defined_out": [
+        "OptIn",
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0",
+        "OptIn"
+      ]
+    },
+    "99": {
+      "op": "==",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "100": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%2#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "tmp%3#0"
+      ]
+    },
+    "102": {
+      "op": "&&",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "103": {
+      "error": "OnCompletion must be OptIn && can only call when not creating",
+      "op": "assert // OnCompletion must be OptIn && can only call when not creating",
+      "stack_out": []
+    },
+    "104": {
+      "op": "b optInToApplication"
+    },
+    "107": {
+      "subroutine": "smart_contracts/state_management/contract.algo.ts::SafeClearContract.optInToApplication[routing]",
+      "params": {},
+      "block": "optInToApplication",
+      "stack_in": [],
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "109": {
+      "op": "bytec_0 // \"bal\"",
+      "defined_out": [
+        "\"bal\"",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "\"bal\""
+      ]
+    },
+    "110": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "\"bal\"",
+        "0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "\"bal\"",
+        "0"
+      ]
+    },
+    "111": {
+      "op": "app_local_put",
+      "stack_out": []
+    },
+    "112": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "113": {
+      "op": "return",
+      "stack_out": []
+    },
+    "114": {
+      "subroutine": "smart_contracts/state_management/contract.algo.ts::SafeClearContract.setBalance[routing]",
+      "params": {},
+      "block": "setBalance",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "117": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "118": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0"
+      ]
+    },
+    "119": {
+      "op": "pushint 8 // 8",
+      "defined_out": [
+        "8",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "121": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "122": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "123": {
+      "op": "btoi",
+      "defined_out": [
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0"
+      ]
+    },
+    "124": {
+      "op": "txn Sender",
+      "defined_out": [
+        "amount#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "amount#0",
+        "tmp%0#1"
+      ]
+    },
+    "126": {
+      "op": "bytec_0 // \"bal\"",
+      "defined_out": [
+        "\"bal\"",
+        "amount#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "amount#0",
+        "tmp%0#1",
+        "\"bal\""
+      ]
+    },
+    "127": {
+      "op": "uncover 2",
+      "stack_out": [
+        "tmp%0#1",
+        "\"bal\"",
+        "amount#0"
+      ]
+    },
+    "129": {
+      "op": "app_local_put",
+      "stack_out": []
+    },
+    "130": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "131": {
+      "op": "return",
+      "stack_out": []
+    },
+    "132": {
+      "subroutine": "smart_contracts/state_management/contract.algo.ts::SafeClearContract.getBalance[routing]",
+      "params": {},
+      "block": "getBalance",
+      "stack_in": [],
+      "op": "txn Sender",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "134": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "0"
+      ]
+    },
+    "135": {
+      "op": "bytec_0 // \"bal\"",
+      "defined_out": [
+        "\"bal\"",
+        "0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "0",
+        "\"bal\""
+      ]
+    },
+    "136": {
+      "op": "app_local_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "137": {
+      "error": "check LocalState exists",
+      "op": "assert // check LocalState exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "138": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "139": {
+      "op": "bytec_2 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "140": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "141": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "142": {
+      "op": "log",
+      "stack_out": []
+    },
+    "143": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "144": {
+      "op": "return",
+      "stack_out": []
+    },
+    "145": {
+      "subroutine": "smart_contracts/state_management/contract.algo.ts::SafeClearContract.getForfeited[routing]",
+      "params": {},
+      "block": "getForfeited",
+      "stack_in": [],
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "146": {
+      "op": "bytec_1 // \"forfeited\"",
+      "defined_out": [
+        "\"forfeited\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"forfeited\""
+      ]
+    },
+    "147": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "148": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "149": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "150": {
+      "op": "bytec_2 // 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "151": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "152": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "153": {
+      "op": "log",
+      "stack_out": []
+    },
+    "154": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "155": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

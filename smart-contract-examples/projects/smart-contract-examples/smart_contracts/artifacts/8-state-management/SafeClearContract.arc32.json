@@ -1,0 +1,71 @@
+{
+    "hints": {
+        "createApplication()void": {
+            "call_config": {
+                "no_op": "CREATE"
+            }
+        },
+        "optInToApplication()void": {
+            "call_config": {
+                "opt_in": "CALL"
+            }
+        }
+    },
+    "source": {
+        "approval": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBAYWxnb3JhbmRmb3VuZGF0aW9uL2FsZ29yYW5kLXR5cGVzY3JpcHQvYXJjNC9pbmRleC5kLnRzOjpDb250cmFjdC5hcHByb3ZhbFByb2dyYW0oKSAtPiB1aW50NjQ6Cm1haW46CiAgICBpbnRjYmxvY2sgMSAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvOC1zdGF0ZS1tYW5hZ2VtZW50L3NhZmUtY2xlYXItc3RhdGUuYWxnby50czoxMAogICAgLy8gZXhwb3J0IGNsYXNzIFNhZmVDbGVhckNvbnRyYWN0IGV4dGVuZHMgQ29udHJhY3QgewogICAgcHVzaGJ5dGVzcyAweDAxYTNhM2ZmIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJvcHRJblRvQXBwbGljYXRpb24oKXZvaWQiLCBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgogICAgdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAogICAgbWF0Y2ggbWFpbl9vcHRJblRvQXBwbGljYXRpb25fcm91dGVAMiBtYWluX2NyZWF0ZUFwcGxpY2F0aW9uX3JvdXRlQDMKICAgIGVycgoKbWFpbl9jcmVhdGVBcHBsaWNhdGlvbl9yb3V0ZUAzOgogICAgLy8gc21hcnRfY29udHJhY3RzLzgtc3RhdGUtbWFuYWdlbWVudC9zYWZlLWNsZWFyLXN0YXRlLmFsZ28udHM6MTQKICAgIC8vIHB1YmxpYyBjcmVhdGVBcHBsaWNhdGlvbigpOiB2b2lkIHsKICAgIHR4biBPbkNvbXBsZXRpb24KICAgICEKICAgIHR4biBBcHBsaWNhdGlvbklECiAgICAhCiAgICAmJgogICAgYXNzZXJ0IC8vIE9uQ29tcGxldGlvbiBtdXN0IGJlIE5vT3AgJiYgY2FuIG9ubHkgY2FsbCB3aGVuIGNyZWF0aW5nCiAgICAvLyBzbWFydF9jb250cmFjdHMvOC1zdGF0ZS1tYW5hZ2VtZW50L3NhZmUtY2xlYXItc3RhdGUuYWxnby50czoxMgogICAgLy8gcHVibGljIHVuY2xhaW1lZEZ1bmRzID0gR2xvYmFsU3RhdGU8dWludDY0Pih7IGtleTogInVuY2xhaW1lZCIgfSk7CiAgICBwdXNoYnl0ZXMgInVuY2xhaW1lZCIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy84LXN0YXRlLW1hbmFnZW1lbnQvc2FmZS1jbGVhci1zdGF0ZS5hbGdvLnRzOjE1CiAgICAvLyB0aGlzLnVuY2xhaW1lZEZ1bmRzLnZhbHVlID0gVWludDY0KDApOwogICAgaW50Y18xIC8vIDAKICAgIGFwcF9nbG9iYWxfcHV0CiAgICAvLyBzbWFydF9jb250cmFjdHMvOC1zdGF0ZS1tYW5hZ2VtZW50L3NhZmUtY2xlYXItc3RhdGUuYWxnby50czoxNAogICAgLy8gcHVibGljIGNyZWF0ZUFwcGxpY2F0aW9uKCk6IHZvaWQgewogICAgaW50Y18wIC8vIDEKICAgIHJldHVybgoKbWFpbl9vcHRJblRvQXBwbGljYXRpb25fcm91dGVAMjoKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy84LXN0YXRlLW1hbmFnZW1lbnQvc2FmZS1jbGVhci1zdGF0ZS5hbGdvLnRzOjE4CiAgICAvLyBwdWJsaWMgb3B0SW5Ub0FwcGxpY2F0aW9uKCk6IHZvaWQgewogICAgdHhuIE9uQ29tcGxldGlvbgogICAgaW50Y18wIC8vIE9wdEluCiAgICA9PQogICAgdHhuIEFwcGxpY2F0aW9uSUQKICAgICYmCiAgICBhc3NlcnQgLy8gT25Db21wbGV0aW9uIG11c3QgYmUgT3B0SW4gJiYgY2FuIG9ubHkgY2FsbCB3aGVuIG5vdCBjcmVhdGluZwogICAgYiBvcHRJblRvQXBwbGljYXRpb24KCgovLyBzbWFydF9jb250cmFjdHMvOC1zdGF0ZS1tYW5hZ2VtZW50L3NhZmUtY2xlYXItc3RhdGUuYWxnby50czo6U2FmZUNsZWFyQ29udHJhY3Qub3B0SW5Ub0FwcGxpY2F0aW9uW3JvdXRpbmddKCkgLT4gdm9pZDoKb3B0SW5Ub0FwcGxpY2F0aW9uOgogICAgLy8gc21hcnRfY29udHJhY3RzLzgtc3RhdGUtbWFuYWdlbWVudC9zYWZlLWNsZWFyLXN0YXRlLmFsZ28udHM6MTkKICAgIC8vIHRoaXMudXNlckJhbGFuY2UoVHhuLnNlbmRlcikudmFsdWUgPSBVaW50NjQoMCk7CiAgICB0eG4gU2VuZGVyCiAgICAvLyBzbWFydF9jb250cmFjdHMvOC1zdGF0ZS1tYW5hZ2VtZW50L3NhZmUtY2xlYXItc3RhdGUuYWxnby50czoxMQogICAgLy8gcHVibGljIHVzZXJCYWxhbmNlID0gTG9jYWxTdGF0ZTx1aW50NjQ+KHsga2V5OiAiYmFsIiB9KTsKICAgIHB1c2hieXRlcyAiYmFsIgogICAgLy8gc21hcnRfY29udHJhY3RzLzgtc3RhdGUtbWFuYWdlbWVudC9zYWZlLWNsZWFyLXN0YXRlLmFsZ28udHM6MTkKICAgIC8vIHRoaXMudXNlckJhbGFuY2UoVHhuLnNlbmRlcikudmFsdWUgPSBVaW50NjQoMCk7CiAgICBpbnRjXzEgLy8gMAogICAgYXBwX2xvY2FsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzLzgtc3RhdGUtbWFuYWdlbWVudC9zYWZlLWNsZWFyLXN0YXRlLmFsZ28udHM6MTgKICAgIC8vIHB1YmxpYyBvcHRJblRvQXBwbGljYXRpb24oKTogdm9pZCB7CiAgICBpbnRjXzAgLy8gMQogICAgcmV0dXJuCg==",
+        "clear": "I3ByYWdtYSB2ZXJzaW9uIDExCiNwcmFnbWEgdHlwZXRyYWNrIGZhbHNlCgovLyBzbWFydF9jb250cmFjdHMvOC1zdGF0ZS1tYW5hZ2VtZW50L3NhZmUtY2xlYXItc3RhdGUuYWxnby50czo6U2FmZUNsZWFyQ29udHJhY3QuY2xlYXJTdGF0ZVByb2dyYW0oKSAtPiB1aW50NjQ6Cm1haW46CiAgICBieXRlY2Jsb2NrICJ1bmNsYWltZWQiCiAgICAvLyBzbWFydF9jb250cmFjdHMvOC1zdGF0ZS1tYW5hZ2VtZW50L3NhZmUtY2xlYXItc3RhdGUuYWxnby50czoyNQogICAgLy8gY29uc3QgYmFsYW5jZSA9IHRoaXMudXNlckJhbGFuY2UoVHhuLnNlbmRlcikudmFsdWU7CiAgICB0eG4gU2VuZGVyCiAgICBwdXNoaW50IDAgLy8gMAogICAgLy8gc21hcnRfY29udHJhY3RzLzgtc3RhdGUtbWFuYWdlbWVudC9zYWZlLWNsZWFyLXN0YXRlLmFsZ28udHM6MTEKICAgIC8vIHB1YmxpYyB1c2VyQmFsYW5jZSA9IExvY2FsU3RhdGU8dWludDY0Pih7IGtleTogImJhbCIgfSk7CiAgICBwdXNoYnl0ZXMgImJhbCIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy84LXN0YXRlLW1hbmFnZW1lbnQvc2FmZS1jbGVhci1zdGF0ZS5hbGdvLnRzOjI1CiAgICAvLyBjb25zdCBiYWxhbmNlID0gdGhpcy51c2VyQmFsYW5jZShUeG4uc2VuZGVyKS52YWx1ZTsKICAgIGFwcF9sb2NhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBMb2NhbFN0YXRlIGV4aXN0cwogICAgLy8gc21hcnRfY29udHJhY3RzLzgtc3RhdGUtbWFuYWdlbWVudC9zYWZlLWNsZWFyLXN0YXRlLmFsZ28udHM6MjYKICAgIC8vIHRoaXMudW5jbGFpbWVkRnVuZHMudmFsdWUgPSB0aGlzLnVuY2xhaW1lZEZ1bmRzLnZhbHVlICsgYmFsYW5jZTsKICAgIHB1c2hpbnQgMCAvLyAwCiAgICAvLyBzbWFydF9jb250cmFjdHMvOC1zdGF0ZS1tYW5hZ2VtZW50L3NhZmUtY2xlYXItc3RhdGUuYWxnby50czoxMgogICAgLy8gcHVibGljIHVuY2xhaW1lZEZ1bmRzID0gR2xvYmFsU3RhdGU8dWludDY0Pih7IGtleTogInVuY2xhaW1lZCIgfSk7CiAgICBieXRlY18wIC8vICJ1bmNsYWltZWQiCiAgICAvLyBzbWFydF9jb250cmFjdHMvOC1zdGF0ZS1tYW5hZ2VtZW50L3NhZmUtY2xlYXItc3RhdGUuYWxnby50czoyNgogICAgLy8gdGhpcy51bmNsYWltZWRGdW5kcy52YWx1ZSA9IHRoaXMudW5jbGFpbWVkRnVuZHMudmFsdWUgKyBiYWxhbmNlOwogICAgYXBwX2dsb2JhbF9nZXRfZXgKICAgIGFzc2VydCAvLyBjaGVjayBHbG9iYWxTdGF0ZSBleGlzdHMKICAgICsKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy84LXN0YXRlLW1hbmFnZW1lbnQvc2FmZS1jbGVhci1zdGF0ZS5hbGdvLnRzOjEyCiAgICAvLyBwdWJsaWMgdW5jbGFpbWVkRnVuZHMgPSBHbG9iYWxTdGF0ZTx1aW50NjQ+KHsga2V5OiAidW5jbGFpbWVkIiB9KTsKICAgIGJ5dGVjXzAgLy8gInVuY2xhaW1lZCIKICAgIC8vIHNtYXJ0X2NvbnRyYWN0cy84LXN0YXRlLW1hbmFnZW1lbnQvc2FmZS1jbGVhci1zdGF0ZS5hbGdvLnRzOjI2CiAgICAvLyB0aGlzLnVuY2xhaW1lZEZ1bmRzLnZhbHVlID0gdGhpcy51bmNsYWltZWRGdW5kcy52YWx1ZSArIGJhbGFuY2U7CiAgICBzd2FwCiAgICBhcHBfZ2xvYmFsX3B1dAogICAgLy8gc21hcnRfY29udHJhY3RzLzgtc3RhdGUtbWFuYWdlbWVudC9zYWZlLWNsZWFyLXN0YXRlLmFsZ28udHM6MjcKICAgIC8vIHJldHVybiB0cnVlOyAvLyBBbHdheXMgYXBwcm92ZQogICAgcHVzaGludCAxIC8vIDEKICAgIHJldHVybgo="
+    },
+    "state": {
+        "global": {
+            "num_byte_slices": 0,
+            "num_uints": 1
+        },
+        "local": {
+            "num_byte_slices": 0,
+            "num_uints": 1
+        }
+    },
+    "schema": {
+        "global": {
+            "declared": {
+                "unclaimedFunds": {
+                    "type": "uint64",
+                    "key": "unclaimed"
+                }
+            },
+            "reserved": {}
+        },
+        "local": {
+            "declared": {
+                "userBalance": {
+                    "type": "uint64",
+                    "key": "bal"
+                }
+            },
+            "reserved": {}
+        }
+    },
+    "contract": {
+        "name": "SafeClearContract",
+        "methods": [
+            {
+                "name": "createApplication",
+                "args": [],
+                "readonly": false,
+                "returns": {
+                    "type": "void"
+                }
+            },
+            {
+                "name": "optInToApplication",
+                "args": [],
+                "readonly": false,
+                "returns": {
+                    "type": "void"
+                }
+            }
+        ],
+        "networks": {}
+    },
+    "bare_call_config": {}
+}

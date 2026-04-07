@@ -1,0 +1,95 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 0 1 4
+    // smart_contracts/4-transaction-input-validation/contract.algo.ts:6
+    // export class VulnerableAssetContract extends Contract {
+    txn NumAppArgs
+    bz main___algots__.defaultCreate@9
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    assert
+    pushbytess 0x6fe9af85 0x92e03b1c // method "optInToAsset(uint64)void", method "deposit()void"
+    txna ApplicationArgs 0
+    match optInToAsset deposit
+    err
+
+main___algots__.defaultCreate@9:
+    // smart_contracts/4-transaction-input-validation/contract.algo.ts:6
+    // export class VulnerableAssetContract extends Contract {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    assert // OnCompletion must be NoOp && can only call when creating
+    intc_1 // 1
+    return
+
+
+// smart_contracts/4-transaction-input-validation/contract.algo.ts::VulnerableAssetContract.optInToAsset[routing]() -> void:
+optInToAsset:
+    // smart_contracts/4-transaction-input-validation/contract.algo.ts:7
+    // public optInToAsset(asset: Asset): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 8 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/4-transaction-input-validation/contract.algo.ts:8
+    // assert(Txn.sender === Global.creatorAddress, 'Only creator')
+    txn Sender
+    global CreatorAddress
+    ==
+    assert // Only creator
+    // smart_contracts/4-transaction-input-validation/contract.algo.ts:9
+    // itxn.assetTransfer({ assetReceiver: Global.currentApplicationAddress, xferAsset: asset, assetAmount: 0, fee: 0 }).submit()
+    itxn_begin
+    global CurrentApplicationAddress
+    intc_0 // 0
+    itxn_field AssetAmount
+    itxn_field AssetReceiver
+    itxn_field XferAsset
+    intc_2 // 4
+    itxn_field TypeEnum
+    intc_0 // 0
+    itxn_field Fee
+    itxn_submit
+    // smart_contracts/4-transaction-input-validation/contract.algo.ts:7
+    // public optInToAsset(asset: Asset): void {
+    intc_1 // 1
+    return
+
+
+// smart_contracts/4-transaction-input-validation/contract.algo.ts::VulnerableAssetContract.deposit[routing]() -> void:
+deposit:
+    // smart_contracts/4-transaction-input-validation/contract.algo.ts:13
+    // assert(Global.groupSize === Uint64(2))
+    global GroupSize
+    pushint 2 // 2
+    ==
+    assert
+    // smart_contracts/4-transaction-input-validation/contract.algo.ts:14
+    // const assetXfer = gtxnFn.AssetTransferTxn(Uint64(0))
+    intc_0 // 0
+    gtxns TypeEnum
+    intc_2 // axfer
+    ==
+    assert // transaction type is axfer
+    intc_0 // 0
+    // smart_contracts/4-transaction-input-validation/contract.algo.ts:15
+    // assert(assetXfer.assetReceiver === Global.currentApplicationAddress, 'Must send to app')
+    gtxns AssetReceiver
+    global CurrentApplicationAddress
+    ==
+    assert // Must send to app
+    // smart_contracts/4-transaction-input-validation/contract.algo.ts:12
+    // public deposit(): void {
+    intc_1 // 1
+    return

@@ -1,0 +1,11 @@
+#pragma version 11
+#pragma typetrack false
+
+// smart_contracts/1-smart-contracts-vs-logic-signatures/delegated-logic-sig.algo.ts::program() -> uint64:
+main:
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/delegated-logic-sig.algo.ts:15
+    // return Txn.amount <= Uint64(1_000_000)
+    txn Amount
+    pushint 1000000 // 1000000
+    <=
+    return

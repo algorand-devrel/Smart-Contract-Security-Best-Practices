@@ -1,0 +1,39 @@
+#pragma version 11
+#pragma typetrack false
+
+// smart_contracts/8-state-management/safe-clear-state.algo.ts::SafeClearContract.clearStateProgram() -> uint64:
+main:
+    bytecblock "unclaimed"
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:25
+    // const balance = this.userBalance(Txn.sender).value;
+    txn Sender
+    pushint 0 // 0
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:11
+    // public userBalance = LocalState<uint64>({ key: "bal" });
+    pushbytes "bal"
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:25
+    // const balance = this.userBalance(Txn.sender).value;
+    app_local_get_ex
+    assert // check LocalState exists
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:26
+    // this.unclaimedFunds.value = this.unclaimedFunds.value + balance;
+    pushint 0 // 0
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:12
+    // public unclaimedFunds = GlobalState<uint64>({ key: "unclaimed" });
+    bytec_0 // "unclaimed"
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:26
+    // this.unclaimedFunds.value = this.unclaimedFunds.value + balance;
+    app_global_get_ex
+    assert // check GlobalState exists
+    +
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:12
+    // public unclaimedFunds = GlobalState<uint64>({ key: "unclaimed" });
+    bytec_0 // "unclaimed"
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:26
+    // this.unclaimedFunds.value = this.unclaimedFunds.value + balance;
+    swap
+    app_global_put
+    // smart_contracts/8-state-management/safe-clear-state.algo.ts:27
+    // return true; // Always approve
+    pushint 1 // 1
+    return

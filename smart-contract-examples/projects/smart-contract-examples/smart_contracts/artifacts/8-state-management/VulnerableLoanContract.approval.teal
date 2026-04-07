@@ -1,0 +1,153 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 1 0
+    bytecblock "debt" "col"
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:12
+    // export class VulnerableLoanContract extends Contract {
+    txn NumAppArgs
+    bz main___algots__.defaultCreate@11
+    pushbytes 0x01a3a3ff // method "optInToApplication()void"
+    txna ApplicationArgs 0
+    match main_optInToApplication_route@3
+
+main_switch_case_next@4:
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:12
+    // export class VulnerableLoanContract extends Contract {
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    assert
+    pushbytess 0xdbd7b9dd 0xf4b15b57 // method "borrow(uint64)void", method "liquidate(address)void"
+    txna ApplicationArgs 0
+    match borrow liquidate
+    err
+
+main_optInToApplication_route@3:
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:16
+    // public optInToApplication(): void {
+    txn OnCompletion
+    intc_0 // OptIn
+    ==
+    txn ApplicationID
+    &&
+    assert // OnCompletion must be OptIn && can only call when not creating
+    b optInToApplication
+
+main___algots__.defaultCreate@11:
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:12
+    // export class VulnerableLoanContract extends Contract {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    assert // OnCompletion must be NoOp && can only call when creating
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/local-state-loan.algo.ts::VulnerableLoanContract.optInToApplication[routing]() -> void:
+optInToApplication:
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:17
+    // this.debt(Txn.sender).value = Uint64(0);
+    txn Sender
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:13
+    // public debt = LocalState<uint64>({ key: "debt" });
+    bytec_0 // "debt"
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:17
+    // this.debt(Txn.sender).value = Uint64(0);
+    intc_1 // 0
+    app_local_put
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:18
+    // this.collateral(Txn.sender).value = Uint64(0);
+    txn Sender
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:14
+    // public collateral = LocalState<uint64>({ key: "col" });
+    bytec_1 // "col"
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:18
+    // this.collateral(Txn.sender).value = Uint64(0);
+    intc_1 // 0
+    app_local_put
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:16
+    // public optInToApplication(): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/local-state-loan.algo.ts::VulnerableLoanContract.borrow[routing]() -> void:
+borrow:
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:21
+    // public borrow(amount: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 8 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:23
+    // this.debt(Txn.sender).value = this.debt(Txn.sender).value + amount;
+    txn Sender
+    intc_1 // 0
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:13
+    // public debt = LocalState<uint64>({ key: "debt" });
+    bytec_0 // "debt"
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:23
+    // this.debt(Txn.sender).value = this.debt(Txn.sender).value + amount;
+    app_local_get_ex
+    assert // check LocalState exists
+    +
+    txn Sender
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:13
+    // public debt = LocalState<uint64>({ key: "debt" });
+    bytec_0 // "debt"
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:23
+    // this.debt(Txn.sender).value = this.debt(Txn.sender).value + amount;
+    uncover 2
+    app_local_put
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:21
+    // public borrow(amount: uint64): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/local-state-loan.algo.ts::VulnerableLoanContract.liquidate[routing]() -> void:
+liquidate:
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:26
+    // public liquidate(user: Account): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 32 // 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:28
+    // assert(this.debt(user).value > this.collateral(user).value, "Not undercollateralized");
+    dup
+    intc_1 // 0
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:13
+    // public debt = LocalState<uint64>({ key: "debt" });
+    bytec_0 // "debt"
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:28
+    // assert(this.debt(user).value > this.collateral(user).value, "Not undercollateralized");
+    app_local_get_ex
+    assert // check LocalState exists
+    swap
+    intc_1 // 0
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:14
+    // public collateral = LocalState<uint64>({ key: "col" });
+    bytec_1 // "col"
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:28
+    // assert(this.debt(user).value > this.collateral(user).value, "Not undercollateralized");
+    app_local_get_ex
+    assert // check LocalState exists
+    >
+    assert // Not undercollateralized
+    // smart_contracts/8-state-management/local-state-loan.algo.ts:26
+    // public liquidate(user: Account): void {
+    intc_0 // 1
+    return

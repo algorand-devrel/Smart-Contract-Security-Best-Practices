@@ -1,0 +1,302 @@
+{
+  "version": 3,
+  "sources": [
+    "../../1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts"
+  ],
+  "mappings": "AAeM;;AAAiB;AAAjB;AAAA;;;AACA;;AAAiB;AAAjB;AADA;;;AAEA;;AAAc;AAAd;AAFA;;;AAGA;;AAAgB;;AAAhB;AAHA;;;AAIA;;AAAyB;;AAAzB;AAJA;;;AAKA;;AAAW;;AAAX;AALA;;;AAMA;;AAAc;AAAd;AANA;;;AAOA;;AAAiB;AAAjB;AAPA;;;;AADF;;;AAAA",
+  "op_pc_offset": 2,
+  "pc_events": {
+    "0": {
+      "op": "txn TypeEnum",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "2": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "1"
+      ]
+    },
+    "3": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "4": {
+      "op": "bz main_bool_false@9",
+      "stack_out": []
+    },
+    "7": {
+      "op": "txn Receiver",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "9": {
+      "op": "bytec_0 // TMPL_RECIPIENT",
+      "defined_out": [
+        "TMPL_RECIPIENT",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0",
+        "TMPL_RECIPIENT"
+      ]
+    },
+    "10": {
+      "op": "==",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "11": {
+      "op": "bz main_bool_false@9",
+      "stack_out": []
+    },
+    "14": {
+      "op": "txn Amount",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "16": {
+      "op": "intc_1 // TMPL_MAX_AMOUNT",
+      "defined_out": [
+        "TMPL_MAX_AMOUNT",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0",
+        "TMPL_MAX_AMOUNT"
+      ]
+    },
+    "17": {
+      "op": "<=",
+      "defined_out": [
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "tmp%5#0"
+      ]
+    },
+    "18": {
+      "op": "bz main_bool_false@9",
+      "stack_out": []
+    },
+    "21": {
+      "op": "txn RekeyTo",
+      "defined_out": [
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "tmp%6#0"
+      ]
+    },
+    "23": {
+      "op": "global ZeroAddress",
+      "defined_out": [
+        "tmp%6#0",
+        "tmp%7#0"
+      ],
+      "stack_out": [
+        "tmp%6#0",
+        "tmp%7#0"
+      ]
+    },
+    "25": {
+      "op": "==",
+      "defined_out": [
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "tmp%8#0"
+      ]
+    },
+    "26": {
+      "op": "bz main_bool_false@9",
+      "stack_out": []
+    },
+    "29": {
+      "op": "txn CloseRemainderTo",
+      "defined_out": [
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%9#0"
+      ]
+    },
+    "31": {
+      "op": "global ZeroAddress",
+      "defined_out": [
+        "tmp%10#0",
+        "tmp%9#0"
+      ],
+      "stack_out": [
+        "tmp%9#0",
+        "tmp%10#0"
+      ]
+    },
+    "33": {
+      "op": "==",
+      "defined_out": [
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "tmp%11#0"
+      ]
+    },
+    "34": {
+      "op": "bz main_bool_false@9",
+      "stack_out": []
+    },
+    "37": {
+      "op": "txn Fee",
+      "defined_out": [
+        "tmp%12#0"
+      ],
+      "stack_out": [
+        "tmp%12#0"
+      ]
+    },
+    "39": {
+      "op": "global MinTxnFee",
+      "defined_out": [
+        "tmp%12#0",
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "tmp%12#0",
+        "tmp%13#0"
+      ]
+    },
+    "41": {
+      "op": "<=",
+      "defined_out": [
+        "tmp%14#0"
+      ],
+      "stack_out": [
+        "tmp%14#0"
+      ]
+    },
+    "42": {
+      "op": "bz main_bool_false@9",
+      "stack_out": []
+    },
+    "45": {
+      "op": "txn Lease",
+      "defined_out": [
+        "tmp%15#0"
+      ],
+      "stack_out": [
+        "tmp%15#0"
+      ]
+    },
+    "47": {
+      "op": "bytec_1 // TMPL_LEASE",
+      "defined_out": [
+        "TMPL_LEASE",
+        "tmp%15#0"
+      ],
+      "stack_out": [
+        "tmp%15#0",
+        "TMPL_LEASE"
+      ]
+    },
+    "48": {
+      "op": "==",
+      "defined_out": [
+        "tmp%16#0"
+      ],
+      "stack_out": [
+        "tmp%16#0"
+      ]
+    },
+    "49": {
+      "op": "bz main_bool_false@9",
+      "stack_out": []
+    },
+    "52": {
+      "op": "txn LastValid",
+      "defined_out": [
+        "tmp%17#0"
+      ],
+      "stack_out": [
+        "tmp%17#0"
+      ]
+    },
+    "54": {
+      "op": "intc_2 // TMPL_EXPIRATION_ROUND",
+      "defined_out": [
+        "TMPL_EXPIRATION_ROUND",
+        "tmp%17#0"
+      ],
+      "stack_out": [
+        "tmp%17#0",
+        "TMPL_EXPIRATION_ROUND"
+      ]
+    },
+    "55": {
+      "op": "<=",
+      "defined_out": [
+        "tmp%18#0"
+      ],
+      "stack_out": [
+        "tmp%18#0"
+      ]
+    },
+    "56": {
+      "op": "bz main_bool_false@9",
+      "stack_out": []
+    },
+    "59": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "and_result%0#0"
+      ],
+      "stack_out": [
+        "and_result%0#0"
+      ]
+    },
+    "60": {
+      "op": "return",
+      "stack_out": []
+    },
+    "61": {
+      "block": "main_bool_false@9",
+      "stack_in": [],
+      "op": "pushint 0 // 0",
+      "defined_out": [
+        "and_result%0#0"
+      ],
+      "stack_out": [
+        "and_result%0#0"
+      ]
+    },
+    "63": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

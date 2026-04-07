@@ -1,0 +1,42 @@
+node_modules/
+dist/
+build/
+coverage/
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.*local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# TypeScript
+*.tsbuildinfo
+
+# AlgoKit
+debug_traces/
+.algokit/static-analysis/
+.algokit/sources/
+
+# Test artifacts
+*.received.*
+
+# Claude Code local config
+.claude/
+.mcp.json

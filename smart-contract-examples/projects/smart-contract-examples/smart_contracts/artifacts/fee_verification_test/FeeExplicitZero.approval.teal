@@ -1,0 +1,88 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    // smart_contracts/fee_verification_test/contract.algo.ts:5
+    // export class FeeExplicitZero extends Contract {
+    txn NumAppArgs
+    bz main___algots__.defaultCreate@5
+    pushbytes 0xc62854aa // method "ping(uint64)void"
+    txna ApplicationArgs 0
+    match main_ping_route@3
+    err
+
+main_ping_route@3:
+    // smart_contracts/fee_verification_test/contract.algo.ts:6
+    // public ping(amount: uint64): void {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    &&
+    assert // OnCompletion must be NoOp && can only call when not creating
+    b ping
+
+main___algots__.defaultCreate@5:
+    // smart_contracts/fee_verification_test/contract.algo.ts:5
+    // export class FeeExplicitZero extends Contract {
+    txn OnCompletion
+    !
+    txn ApplicationID
+    !
+    &&
+    assert // OnCompletion must be NoOp && can only call when creating
+    pushint 1 // 1
+    return
+
+
+// smart_contracts/fee_verification_test/contract.algo.ts::FeeExplicitZero.ping[routing]() -> void:
+ping:
+    // smart_contracts/fee_verification_test/contract.algo.ts:6
+    // public ping(amount: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 8 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/fee_verification_test/contract.algo.ts:7-13
+    // itxn
+    //   .payment({
+    //     receiver: Txn.sender,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //   })
+    //   .submit()
+    itxn_begin
+    // smart_contracts/fee_verification_test/contract.algo.ts:9
+    // receiver: Txn.sender,
+    txn Sender
+    itxn_field Receiver
+    itxn_field Amount
+    // smart_contracts/fee_verification_test/contract.algo.ts:7-12
+    // itxn
+    //   .payment({
+    //     receiver: Txn.sender,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //   })
+    pushint 1 // 1
+    itxn_field TypeEnum
+    // smart_contracts/fee_verification_test/contract.algo.ts:11
+    // fee: Uint64(0),
+    pushint 0 // 0
+    itxn_field Fee
+    // smart_contracts/fee_verification_test/contract.algo.ts:7-13
+    // itxn
+    //   .payment({
+    //     receiver: Txn.sender,
+    //     amount: amount,
+    //     fee: Uint64(0),
+    //   })
+    //   .submit()
+    itxn_submit
+    // smart_contracts/fee_verification_test/contract.algo.ts:6
+    // public ping(amount: uint64): void {
+    pushint 1 // 1
+    return
