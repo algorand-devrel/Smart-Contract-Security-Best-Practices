@@ -2482,31 +2482,6 @@ Never use a single-key account as the creator of a contract holding significant 
 
 ## 14. Security Tooling & Audit
 
-### DO: Integrate Tealer static analysis
-
-[Tealer](https://github.com/crytic/tealer) is a static analysis tool for TEAL programs. It can detect common vulnerability patterns including missing access controls, unchecked group sizes, and fee issues.
-
-**AlgoKit integration:**
-
-```bash
-# Run Tealer analysis on compiled TEAL
-algokit task analyze <path-to-approval.teal>
-```
-
-**CI/CD integration example (GitHub Actions):**
-
-```yaml
-- name: Analyze smart contracts
-  run: |
-    algokit project run build
-    algokit task analyze artifacts/approval.teal --reporter json > analysis.json
-    # Fail the build if critical issues are found
-    if jq -e '.[] | select(.severity == "critical")' analysis.json > /dev/null 2>&1; then
-      echo "Critical security issues found!"
-      exit 1
-    fi
-```
-
 ### DO: Pin and monitor your Puya compiler version
 
 Like any compiler, Puya can have security-relevant bugs. Always:
@@ -2536,7 +2511,6 @@ If your protocol manages user funds, establish a bug bounty program. This create
 
 ### Key Takeaways
 
-- Integrate Tealer static analysis into CI/CD.
 - Pin and monitor your Puya compiler version.
 - Get a professional audit before mainnet deployment with real value.
 - Run a bug bounty program for protocols managing user funds.
@@ -2665,7 +2639,6 @@ class PausableContract(ARC4Contract):
 - **Logic Signatures**: [https://dev.algorand.co/concepts/smart-contracts/logic-sigs/]
 - **Trail of Bits Algorand Vulnerabilities:** [github.com/crytic/building-secure-contracts](https://github.com/crytic/building-secure-contracts/tree/master/not-so-smart-contracts/algorand)
 - **Folks Finance Contract Library:** [github.com/Folks-Finance/algorand-smart-contract-library](https://github.com/Folks-Finance/algorand-smart-contract-library)
-- **Tealer Static Analyzer:** [github.com/crytic/tealer](https://github.com/crytic/tealer)
 - **VRF Randomness Beacon:** [dev.algorand.co/concepts/smart-contracts/randomness](https://dev.algorand.co/concepts/protocol/randomness/)
 
 ---
