@@ -2,6 +2,9 @@
 
 A practical security reference for Algorand developers using **Algorand TypeScript** and **Algorand Python**. Covers common vulnerabilities with concrete code examples showing both the vulnerable pattern and the secure fix.
 
+> [!WARNING]
+> This is a work in progress at an early stage. It is not definitive or complete.
+
 ## Guide
 
 See [guide.md](./guide.md) for the full guide covering:
