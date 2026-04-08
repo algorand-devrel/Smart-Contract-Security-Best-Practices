@@ -3,8 +3,8 @@
   "sources": [
     "../../1-smart-contracts-vs-logic-signatures/delegated-logic-sig.algo.ts"
   ],
-  "mappings": "AAsBM;;AAAiB;;AAAjB;AAAA;;;AACA;;AAAqB;;;;AAArB;AADA;;;AAEA;;AAAW;;AAAX;AAFA;;;AAGA;;AAAgB;;AAAhB;AAHA;;;AAIA;;AAAyB;;AAAzB;AAJA;;;AAKA;;AAAc;AAAd;AALA;;;AAMA;;AAAiB;AAAjB;AANA;;;;;AADF;;;AAAA",
-  "op_pc_offset": 1,
+  "mappings": "AAuBM;;AAAiB;AAAjB;AAAA;;;AACA;;AAAqB;;;;AAArB;AADA;;;AAEA;;AAAW;;AAAX;AAFA;;;AAGA;;AAAgB;;AAAhB;AAHA;;;AAIA;;AAAyB;;AAAzB;AAJA;;;AAKA;;AAAiB;AAAjB;AALA;;;AAOA;;AAAc;AAAd;AAPA;;;AAQA;;AAAmB;AAAnB;AARA;;;AASA;;AAAkB;AAAlB;AATA;;;;AADF;;;AAAA",
+  "op_pc_offset": 2,
   "pc_events": {
     "0": {
       "op": "txn TypeEnum",
@@ -16,7 +16,7 @@
       ]
     },
     "2": {
-      "op": "pushint 1 // 1",
+      "op": "intc_0 // 1",
       "defined_out": [
         "1",
         "tmp%0#0"
@@ -26,7 +26,7 @@
         "1"
       ]
     },
-    "4": {
+    "3": {
       "op": "==",
       "defined_out": [
         "tmp%1#0"
@@ -35,11 +35,11 @@
         "tmp%1#0"
       ]
     },
-    "5": {
-      "op": "bz main_bool_false@8",
+    "4": {
+      "op": "bz main_bool_false@10",
       "stack_out": []
     },
-    "8": {
+    "7": {
       "op": "txn Amount",
       "defined_out": [
         "tmp%2#0"
@@ -48,7 +48,7 @@
         "tmp%2#0"
       ]
     },
-    "10": {
+    "9": {
       "op": "pushint 1000000 // 1000000",
       "defined_out": [
         "1000000",
@@ -59,7 +59,7 @@
         "1000000"
       ]
     },
-    "14": {
+    "13": {
       "op": "<=",
       "defined_out": [
         "tmp%3#0"
@@ -68,11 +68,11 @@
         "tmp%3#0"
       ]
     },
-    "15": {
-      "op": "bz main_bool_false@8",
+    "14": {
+      "op": "bz main_bool_false@10",
       "stack_out": []
     },
-    "18": {
+    "17": {
       "op": "txn Fee",
       "defined_out": [
         "tmp%4#0"
@@ -81,7 +81,7 @@
         "tmp%4#0"
       ]
     },
-    "20": {
+    "19": {
       "op": "global MinTxnFee",
       "defined_out": [
         "tmp%4#0",
@@ -92,7 +92,7 @@
         "tmp%5#0"
       ]
     },
-    "22": {
+    "21": {
       "op": "<=",
       "defined_out": [
         "tmp%6#0"
@@ -101,11 +101,11 @@
         "tmp%6#0"
       ]
     },
-    "23": {
-      "op": "bz main_bool_false@8",
+    "22": {
+      "op": "bz main_bool_false@10",
       "stack_out": []
     },
-    "26": {
+    "25": {
       "op": "txn RekeyTo",
       "defined_out": [
         "tmp%7#0"
@@ -114,7 +114,7 @@
         "tmp%7#0"
       ]
     },
-    "28": {
+    "27": {
       "op": "global ZeroAddress",
       "defined_out": [
         "tmp%7#0",
@@ -125,7 +125,7 @@
         "tmp%8#0"
       ]
     },
-    "30": {
+    "29": {
       "op": "==",
       "defined_out": [
         "tmp%9#0"
@@ -134,11 +134,11 @@
         "tmp%9#0"
       ]
     },
-    "31": {
-      "op": "bz main_bool_false@8",
+    "30": {
+      "op": "bz main_bool_false@10",
       "stack_out": []
     },
-    "34": {
+    "33": {
       "op": "txn CloseRemainderTo",
       "defined_out": [
         "tmp%10#0"
@@ -147,7 +147,7 @@
         "tmp%10#0"
       ]
     },
-    "36": {
+    "35": {
       "op": "global ZeroAddress",
       "defined_out": [
         "tmp%10#0",
@@ -158,7 +158,7 @@
         "tmp%11#0"
       ]
     },
-    "38": {
+    "37": {
       "op": "==",
       "defined_out": [
         "tmp%12#0"
@@ -167,12 +167,12 @@
         "tmp%12#0"
       ]
     },
-    "39": {
-      "op": "bz main_bool_false@8",
+    "38": {
+      "op": "bz main_bool_false@10",
       "stack_out": []
     },
-    "42": {
-      "op": "txn Lease",
+    "41": {
+      "op": "txn Receiver",
       "defined_out": [
         "tmp%13#0"
       ],
@@ -180,18 +180,18 @@
         "tmp%13#0"
       ]
     },
-    "44": {
-      "op": "bytec_0 // TMPL_LEASE",
+    "43": {
+      "op": "bytec_0 // TMPL_INTENDED_RECEIVER",
       "defined_out": [
-        "TMPL_LEASE",
+        "TMPL_INTENDED_RECEIVER",
         "tmp%13#0"
       ],
       "stack_out": [
         "tmp%13#0",
-        "TMPL_LEASE"
+        "TMPL_INTENDED_RECEIVER"
       ]
     },
-    "45": {
+    "44": {
       "op": "==",
       "defined_out": [
         "tmp%14#0"
@@ -200,12 +200,12 @@
         "tmp%14#0"
       ]
     },
-    "46": {
-      "op": "bz main_bool_false@8",
+    "45": {
+      "op": "bz main_bool_false@10",
       "stack_out": []
     },
-    "49": {
-      "op": "txn Receiver",
+    "48": {
+      "op": "txn Lease",
       "defined_out": [
         "tmp%15#0"
       ],
@@ -213,18 +213,18 @@
         "tmp%15#0"
       ]
     },
-    "51": {
-      "op": "bytec_1 // TMPL_INTENDED_RECEIVER",
+    "50": {
+      "op": "bytec_1 // TMPL_LEASE",
       "defined_out": [
-        "TMPL_INTENDED_RECEIVER",
+        "TMPL_LEASE",
         "tmp%15#0"
       ],
       "stack_out": [
         "tmp%15#0",
-        "TMPL_INTENDED_RECEIVER"
+        "TMPL_LEASE"
       ]
     },
-    "52": {
+    "51": {
       "op": "==",
       "defined_out": [
         "tmp%16#0"
@@ -233,12 +233,78 @@
         "tmp%16#0"
       ]
     },
-    "53": {
-      "op": "bz main_bool_false@8",
+    "52": {
+      "op": "bz main_bool_false@10",
       "stack_out": []
     },
-    "56": {
-      "op": "pushint 1 // 1",
+    "55": {
+      "op": "txn FirstValid",
+      "defined_out": [
+        "tmp%17#0"
+      ],
+      "stack_out": [
+        "tmp%17#0"
+      ]
+    },
+    "57": {
+      "op": "intc_1 // TMPL_FIRST_VALID",
+      "defined_out": [
+        "TMPL_FIRST_VALID",
+        "tmp%17#0"
+      ],
+      "stack_out": [
+        "tmp%17#0",
+        "TMPL_FIRST_VALID"
+      ]
+    },
+    "58": {
+      "op": "==",
+      "defined_out": [
+        "tmp%18#0"
+      ],
+      "stack_out": [
+        "tmp%18#0"
+      ]
+    },
+    "59": {
+      "op": "bz main_bool_false@10",
+      "stack_out": []
+    },
+    "62": {
+      "op": "txn LastValid",
+      "defined_out": [
+        "tmp%19#0"
+      ],
+      "stack_out": [
+        "tmp%19#0"
+      ]
+    },
+    "64": {
+      "op": "intc_2 // TMPL_LAST_VALID",
+      "defined_out": [
+        "TMPL_LAST_VALID",
+        "tmp%19#0"
+      ],
+      "stack_out": [
+        "tmp%19#0",
+        "TMPL_LAST_VALID"
+      ]
+    },
+    "65": {
+      "op": "==",
+      "defined_out": [
+        "tmp%20#0"
+      ],
+      "stack_out": [
+        "tmp%20#0"
+      ]
+    },
+    "66": {
+      "op": "bz main_bool_false@10",
+      "stack_out": []
+    },
+    "69": {
+      "op": "intc_0 // 1",
       "defined_out": [
         "and_result%0#0"
       ],
@@ -246,12 +312,12 @@
         "and_result%0#0"
       ]
     },
-    "58": {
+    "70": {
       "op": "return",
       "stack_out": []
     },
-    "59": {
-      "block": "main_bool_false@8",
+    "71": {
+      "block": "main_bool_false@10",
       "stack_in": [],
       "op": "pushint 0 // 0",
       "defined_out": [
@@ -261,7 +327,7 @@
         "and_result%0#0"
       ]
     },
-    "61": {
+    "73": {
       "op": "return",
       "stack_out": []
     }

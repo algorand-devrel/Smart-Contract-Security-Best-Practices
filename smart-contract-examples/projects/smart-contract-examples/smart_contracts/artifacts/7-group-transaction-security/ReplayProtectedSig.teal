@@ -3,7 +3,7 @@
 
 // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts::program() -> uint64:
 main:
-    intcblock 1 TMPL_EXPIRATION_ROUND
+    intcblock 1 TMPL_FIRST_VALID TMPL_LAST_VALID
     bytecblock TMPL_LEASE
     // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:15
     // Txn.typeEnum === TransactionType.Payment &&
@@ -13,7 +13,7 @@ main:
     // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:15-16
     // Txn.typeEnum === TransactionType.Payment &&
     // Txn.amount <= Uint64(1_000_000) &&
-    bz main_bool_false@8
+    bz main_bool_false@9
     // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:16
     // Txn.amount <= Uint64(1_000_000) &&
     txn Amount
@@ -22,7 +22,7 @@ main:
     // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:15-16
     // Txn.typeEnum === TransactionType.Payment &&
     // Txn.amount <= Uint64(1_000_000) &&
-    bz main_bool_false@8
+    bz main_bool_false@9
     // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:17
     // Txn.fee <= Global.minTxnFee &&
     txn Fee
@@ -32,7 +32,7 @@ main:
     // Txn.typeEnum === TransactionType.Payment &&
     // Txn.amount <= Uint64(1_000_000) &&
     // Txn.fee <= Global.minTxnFee &&
-    bz main_bool_false@8
+    bz main_bool_false@9
     // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:18
     // Txn.rekeyTo === Global.zeroAddress &&
     txn RekeyTo
@@ -43,7 +43,7 @@ main:
     // Txn.amount <= Uint64(1_000_000) &&
     // Txn.fee <= Global.minTxnFee &&
     // Txn.rekeyTo === Global.zeroAddress &&
-    bz main_bool_false@8
+    bz main_bool_false@9
     // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:19
     // Txn.closeRemainderTo === Global.zeroAddress &&
     txn CloseRemainderTo
@@ -55,7 +55,7 @@ main:
     // Txn.fee <= Global.minTxnFee &&
     // Txn.rekeyTo === Global.zeroAddress &&
     // Txn.closeRemainderTo === Global.zeroAddress &&
-    bz main_bool_false@8
+    bz main_bool_false@9
     // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:21
     // Txn.lease === TemplateVar<bytes>("LEASE") &&
     txn Lease
@@ -67,49 +67,67 @@ main:
     // Txn.fee <= Global.minTxnFee &&
     // Txn.rekeyTo === Global.zeroAddress &&
     // Txn.closeRemainderTo === Global.zeroAddress &&
-    // // Lease + LastValid bound = at most one transaction per window
+    // // Lease + exact FirstValid/LastValid = at most one execution
     // Txn.lease === TemplateVar<bytes>("LEASE") &&
-    bz main_bool_false@8
+    bz main_bool_false@9
     // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:22
-    // Txn.lastValid <= TemplateVar<uint64>("EXPIRATION_ROUND")
-    txn LastValid
-    intc_1 // TMPL_EXPIRATION_ROUND
-    <=
+    // Txn.firstValid === TemplateVar<uint64>("FIRST_VALID") &&
+    txn FirstValid
+    intc_1 // TMPL_FIRST_VALID
+    ==
     // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:15-22
     // Txn.typeEnum === TransactionType.Payment &&
     // Txn.amount <= Uint64(1_000_000) &&
     // Txn.fee <= Global.minTxnFee &&
     // Txn.rekeyTo === Global.zeroAddress &&
     // Txn.closeRemainderTo === Global.zeroAddress &&
-    // // Lease + LastValid bound = at most one transaction per window
+    // // Lease + exact FirstValid/LastValid = at most one execution
     // Txn.lease === TemplateVar<bytes>("LEASE") &&
-    // Txn.lastValid <= TemplateVar<uint64>("EXPIRATION_ROUND")
-    bz main_bool_false@8
+    // Txn.firstValid === TemplateVar<uint64>("FIRST_VALID") &&
+    bz main_bool_false@9
+    // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:23
+    // Txn.lastValid === TemplateVar<uint64>("LAST_VALID")
+    txn LastValid
+    intc_2 // TMPL_LAST_VALID
+    ==
+    // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:15-23
+    // Txn.typeEnum === TransactionType.Payment &&
+    // Txn.amount <= Uint64(1_000_000) &&
+    // Txn.fee <= Global.minTxnFee &&
+    // Txn.rekeyTo === Global.zeroAddress &&
+    // Txn.closeRemainderTo === Global.zeroAddress &&
+    // // Lease + exact FirstValid/LastValid = at most one execution
+    // Txn.lease === TemplateVar<bytes>("LEASE") &&
+    // Txn.firstValid === TemplateVar<uint64>("FIRST_VALID") &&
+    // Txn.lastValid === TemplateVar<uint64>("LAST_VALID")
+    bz main_bool_false@9
     intc_0 // 1
-    // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:14-23
+    // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:14-24
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&
     //   Txn.amount <= Uint64(1_000_000) &&
     //   Txn.fee <= Global.minTxnFee &&
     //   Txn.rekeyTo === Global.zeroAddress &&
     //   Txn.closeRemainderTo === Global.zeroAddress &&
-    //   // Lease + LastValid bound = at most one transaction per window
+    //   // Lease + exact FirstValid/LastValid = at most one execution
     //   Txn.lease === TemplateVar<bytes>("LEASE") &&
-    //   Txn.lastValid <= TemplateVar<uint64>("EXPIRATION_ROUND")
+    //   Txn.firstValid === TemplateVar<uint64>("FIRST_VALID") &&
+    //   Txn.lastValid === TemplateVar<uint64>("LAST_VALID")
     // );
     return
 
-main_bool_false@8:
+main_bool_false@9:
     pushint 0 // 0
-    // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:14-23
+    // smart_contracts/7-group-transaction-security/replay-protected-sig.algo.ts:14-24
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&
     //   Txn.amount <= Uint64(1_000_000) &&
     //   Txn.fee <= Global.minTxnFee &&
     //   Txn.rekeyTo === Global.zeroAddress &&
     //   Txn.closeRemainderTo === Global.zeroAddress &&
-    //   // Lease + LastValid bound = at most one transaction per window
+    //   // Lease + exact FirstValid/LastValid = at most one execution
     //   Txn.lease === TemplateVar<bytes>("LEASE") &&
-    //   Txn.lastValid <= TemplateVar<uint64>("EXPIRATION_ROUND")
+    //   Txn.firstValid === TemplateVar<uint64>("FIRST_VALID") &&
+    //   Txn.lastValid === TemplateVar<uint64>("LAST_VALID")
     // );
     return

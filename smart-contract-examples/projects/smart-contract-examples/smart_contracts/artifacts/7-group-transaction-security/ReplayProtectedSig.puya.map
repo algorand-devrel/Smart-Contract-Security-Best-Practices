@@ -3,7 +3,7 @@
   "sources": [
     "../../7-group-transaction-security/replay-protected-sig.algo.ts"
   ],
-  "mappings": "AAcM;;AAAiB;AAAjB;AAAA;;;AACA;;AAAqB;;;;AAArB;AADA;;;AAEA;;AAAW;;AAAX;AAFA;;;AAGA;;AAAgB;;AAAhB;AAHA;;;AAIA;;AAAyB;;AAAzB;AAJA;;;AAMA;;AAAc;AAAd;AANA;;;AAOA;;AAAiB;AAAjB;AAPA;;;;AADF;;;AAAA",
+  "mappings": "AAcM;;AAAiB;AAAjB;AAAA;;;AACA;;AAAqB;;;;AAArB;AADA;;;AAEA;;AAAW;;AAAX;AAFA;;;AAGA;;AAAgB;;AAAhB;AAHA;;;AAIA;;AAAyB;;AAAzB;AAJA;;;AAMA;;AAAc;AAAd;AANA;;;AAOA;;AAAmB;AAAnB;AAPA;;;AAQA;;AAAkB;AAAlB;AARA;;;;AADF;;;AAAA",
   "op_pc_offset": 2,
   "pc_events": {
     "0": {
@@ -36,7 +36,7 @@
       ]
     },
     "4": {
-      "op": "bz main_bool_false@8",
+      "op": "bz main_bool_false@9",
       "stack_out": []
     },
     "7": {
@@ -69,7 +69,7 @@
       ]
     },
     "14": {
-      "op": "bz main_bool_false@8",
+      "op": "bz main_bool_false@9",
       "stack_out": []
     },
     "17": {
@@ -102,7 +102,7 @@
       ]
     },
     "22": {
-      "op": "bz main_bool_false@8",
+      "op": "bz main_bool_false@9",
       "stack_out": []
     },
     "25": {
@@ -135,7 +135,7 @@
       ]
     },
     "30": {
-      "op": "bz main_bool_false@8",
+      "op": "bz main_bool_false@9",
       "stack_out": []
     },
     "33": {
@@ -168,7 +168,7 @@
       ]
     },
     "38": {
-      "op": "bz main_bool_false@8",
+      "op": "bz main_bool_false@9",
       "stack_out": []
     },
     "41": {
@@ -201,11 +201,11 @@
       ]
     },
     "45": {
-      "op": "bz main_bool_false@8",
+      "op": "bz main_bool_false@9",
       "stack_out": []
     },
     "48": {
-      "op": "txn LastValid",
+      "op": "txn FirstValid",
       "defined_out": [
         "tmp%15#0"
       ],
@@ -214,18 +214,18 @@
       ]
     },
     "50": {
-      "op": "intc_1 // TMPL_EXPIRATION_ROUND",
+      "op": "intc_1 // TMPL_FIRST_VALID",
       "defined_out": [
-        "TMPL_EXPIRATION_ROUND",
+        "TMPL_FIRST_VALID",
         "tmp%15#0"
       ],
       "stack_out": [
         "tmp%15#0",
-        "TMPL_EXPIRATION_ROUND"
+        "TMPL_FIRST_VALID"
       ]
     },
     "51": {
-      "op": "<=",
+      "op": "==",
       "defined_out": [
         "tmp%16#0"
       ],
@@ -234,10 +234,43 @@
       ]
     },
     "52": {
-      "op": "bz main_bool_false@8",
+      "op": "bz main_bool_false@9",
       "stack_out": []
     },
     "55": {
+      "op": "txn LastValid",
+      "defined_out": [
+        "tmp%17#0"
+      ],
+      "stack_out": [
+        "tmp%17#0"
+      ]
+    },
+    "57": {
+      "op": "intc_2 // TMPL_LAST_VALID",
+      "defined_out": [
+        "TMPL_LAST_VALID",
+        "tmp%17#0"
+      ],
+      "stack_out": [
+        "tmp%17#0",
+        "TMPL_LAST_VALID"
+      ]
+    },
+    "58": {
+      "op": "==",
+      "defined_out": [
+        "tmp%18#0"
+      ],
+      "stack_out": [
+        "tmp%18#0"
+      ]
+    },
+    "59": {
+      "op": "bz main_bool_false@9",
+      "stack_out": []
+    },
+    "62": {
       "op": "intc_0 // 1",
       "defined_out": [
         "and_result%0#0"
@@ -246,12 +279,12 @@
         "and_result%0#0"
       ]
     },
-    "56": {
+    "63": {
       "op": "return",
       "stack_out": []
     },
-    "57": {
-      "block": "main_bool_false@8",
+    "64": {
+      "block": "main_bool_false@9",
       "stack_in": [],
       "op": "pushint 0 // 0",
       "defined_out": [
@@ -261,7 +294,7 @@
         "and_result%0#0"
       ]
     },
-    "59": {
+    "66": {
       "op": "return",
       "stack_out": []
     }

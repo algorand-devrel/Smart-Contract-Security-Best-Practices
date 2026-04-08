@@ -22,44 +22,59 @@ describe('Escrow Logic Signature — e2e on localnet', () => {
   const localnet = algorandFixture()
   beforeEach(localnet.newScope, 10_000)
 
+  /** Get a validity window centered around the current round */
+  async function getValidityWindow(algorand: AlgorandClient) {
+    const status = await algorand.client.algod.status().do()
+    const currentRound = Number(status['lastRound'])
+    return { firstValid: currentRound, lastValid: currentRound + 1000 }
+  }
+
   /** Compile EscrowSig with standard template params */
   async function setupEscrow(
     algorand: AlgorandClient,
     recipientAddr: { publicKey: Uint8Array },
     overrides: Partial<TealTemplateParams> = {},
   ) {
-    return compileLogicSig(algorand, 'EscrowSig.teal', {
-      TMPL_RECIPIENT: recipientAddr.publicKey,
-      TMPL_MAX_AMOUNT: 500_000,
-      TMPL_LEASE: new TextEncoder().encode('aaaabbbbccccddddeeeeffffgggghhhh'),
-      TMPL_EXPIRATION_ROUND: 50_000_000,
-      ...overrides,
-    })
+    const { firstValid, lastValid } = await getValidityWindow(algorand)
+    return {
+      ...(await compileLogicSig(algorand, 'EscrowSig.teal', {
+        TMPL_RECIPIENT: recipientAddr.publicKey,
+        TMPL_MAX_AMOUNT: 500_000,
+        TMPL_LEASE: new TextEncoder().encode('aaaabbbbccccddddeeeeffffgggghhhh'),
+        TMPL_FIRST_VALID: firstValid,
+        TMPL_LAST_VALID: lastValid,
+        ...overrides,
+      })),
+      firstValid,
+      lastValid,
+    }
   }
 
   test('valid withdrawal succeeds', async () => {
     const { testAccount, algorand } = localnet.context
     const recipient = algorand.account.random()
 
-    const escrow = await setupEscrow(algorand, recipient.addr)
+    const { addr: escrowAddr, firstValid, lastValid } = await setupEscrow(algorand, recipient.addr)
 
     // Fund the escrow
     await algorand.send.payment({
       sender: testAccount,
-      receiver: escrow.addr,
+      receiver: escrowAddr,
       amount: (1).algo(),
     })
 
     // Withdraw within limits
     await algorand.send.payment({
-      sender: escrow.addr,
+      sender: escrowAddr,
       receiver: recipient.addr,
       amount: (500_000).microAlgo(),
       staticFee: (1_000).microAlgo(),
       lease: 'aaaabbbbccccddddeeeeffffgggghhhh',
+      firstValidRound: BigInt(firstValid),
+      lastValidRound: BigInt(lastValid),
     })
 
-    const escrowBalance = (await algorand.account.getInformation(escrow.addr)).balance
+    const escrowBalance = (await algorand.account.getInformation(escrowAddr)).balance
     expect(escrowBalance.microAlgo).toBe(1_000_000n - 500_000n - 1_000n)
   })
 
@@ -68,21 +83,23 @@ describe('Escrow Logic Signature — e2e on localnet', () => {
     const recipient = algorand.account.random()
     const wrongRecipient = algorand.account.random()
 
-    const escrow = await setupEscrow(algorand, recipient.addr)
+    const { addr: escrowAddr, firstValid, lastValid } = await setupEscrow(algorand, recipient.addr)
 
     await algorand.send.payment({
       sender: testAccount,
-      receiver: escrow.addr,
+      receiver: escrowAddr,
       amount: (1).algo(),
     })
 
     await expect(
       algorand.send.payment({
-        sender: escrow.addr,
+        sender: escrowAddr,
         receiver: wrongRecipient.addr,
         amount: (100_000).microAlgo(),
         staticFee: (1_000).microAlgo(),
         lease: 'aaaabbbbccccddddeeeeffffgggghhhh',
+        firstValidRound: BigInt(firstValid),
+        lastValidRound: BigInt(lastValid),
       }),
     ).rejects.toThrow()
   })
@@ -91,33 +108,43 @@ describe('Escrow Logic Signature — e2e on localnet', () => {
     const { testAccount, algorand } = localnet.context
     const recipient = algorand.account.random()
 
-    const escrow = await setupEscrow(algorand, recipient.addr)
+    const { addr: escrowAddr, firstValid, lastValid } = await setupEscrow(algorand, recipient.addr)
 
     await algorand.send.payment({
       sender: testAccount,
-      receiver: escrow.addr,
+      receiver: escrowAddr,
       amount: (1).algo(),
     })
 
     // MAX_AMOUNT is 500_000 — try to withdraw more
     await expect(
       algorand.send.payment({
-        sender: escrow.addr,
+        sender: escrowAddr,
         receiver: recipient.addr,
         amount: (600_000).microAlgo(),
         staticFee: (1_000).microAlgo(),
         lease: 'aaaabbbbccccddddeeeeffffgggghhhh',
+        firstValidRound: BigInt(firstValid),
+        lastValidRound: BigInt(lastValid),
       }),
     ).rejects.toThrow()
   })
 
-  test('rejects payment past expiration round', async () => {
+  test('rejects payment with expired validity window', async () => {
     const { testAccount, algorand } = localnet.context
     const recipient = algorand.account.random()
 
-    // Compile with an expiration round of 1 — already passed
-    const escrow = await setupEscrow(algorand, recipient.addr, {
-      TMPL_EXPIRATION_ROUND: 1,
+    // Get current round
+    const status = await algorand.client.algod.status().do()
+    const currentRound = Number(status['lastRound'])
+
+    // Compile with a validity window that has already passed
+    const escrow = await compileLogicSig(algorand, 'EscrowSig.teal', {
+      TMPL_RECIPIENT: recipient.addr.publicKey,
+      TMPL_MAX_AMOUNT: 500_000,
+      TMPL_LEASE: new TextEncoder().encode('aaaabbbbccccddddeeeeffffgggghhhh'),
+      TMPL_FIRST_VALID: 1,
+      TMPL_LAST_VALID: 1,
     })
 
     await algorand.send.payment({
@@ -126,7 +153,7 @@ describe('Escrow Logic Signature — e2e on localnet', () => {
       amount: (1).algo(),
     })
 
-    // The SDK sets lastValid to ~currentRound + 1000, which is > 1, so the lsig rejects
+    // The SDK sets lastValid to ~currentRound + 1000, which != 1, so the lsig rejects
     await expect(
       algorand.send.payment({
         sender: escrow.addr,

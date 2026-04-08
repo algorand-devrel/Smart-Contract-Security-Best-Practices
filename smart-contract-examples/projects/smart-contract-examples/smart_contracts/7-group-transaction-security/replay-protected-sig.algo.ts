@@ -17,9 +17,10 @@ export class ReplayProtectedSig extends LogicSig {
       Txn.fee <= Global.minTxnFee &&
       Txn.rekeyTo === Global.zeroAddress &&
       Txn.closeRemainderTo === Global.zeroAddress &&
-      // Lease + LastValid bound = at most one transaction per window
+      // Lease + exact FirstValid/LastValid = at most one execution
       Txn.lease === TemplateVar<bytes>("LEASE") &&
-      Txn.lastValid <= TemplateVar<uint64>("EXPIRATION_ROUND")
+      Txn.firstValid === TemplateVar<uint64>("FIRST_VALID") &&
+      Txn.lastValid === TemplateVar<uint64>("LAST_VALID")
     );
   }
 }

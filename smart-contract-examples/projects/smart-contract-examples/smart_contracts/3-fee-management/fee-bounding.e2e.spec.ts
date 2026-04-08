@@ -1,3 +1,4 @@
+import { AlgorandClient } from '@algorandfoundation/algokit-utils'
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { TealTemplateParams } from '@algorandfoundation/algokit-utils/types/app'
 import { readFile } from 'fs/promises'
@@ -20,6 +21,13 @@ async function compileLogicSig(
 describe('Fee Bounding — e2e on localnet', () => {
   const localnet = algorandFixture()
   beforeEach(localnet.newScope, 10_000)
+
+  /** Get a validity window centered around the current round */
+  async function getValidityWindow(algorand: AlgorandClient) {
+    const status = await algorand.client.algod.status().do()
+    const currentRound = Number(status['lastRound'])
+    return { firstValid: currentRound, lastValid: currentRound + 1000 }
+  }
 
   test('UnboundedFeeSig: excessive fee drains the escrow (VULN)', async () => {
     const { testAccount, algorand } = localnet.context
@@ -59,10 +67,13 @@ describe('Fee Bounding — e2e on localnet', () => {
   test('BoundedFeeSig: excessive fee is rejected', async () => {
     const { testAccount, algorand } = localnet.context
     const receiver = algorand.account.random()
+    const { firstValid, lastValid } = await getValidityWindow(algorand)
 
     const lsigAccount = await compileLogicSig(algorand, 'BoundedFeeSig.teal', {
       TMPL_INTENDED_RECEIVER: receiver.addr.publicKey,
       TMPL_LEASE: new TextEncoder().encode('aaaabbbbccccddddeeeeffffgggghhhh'),
+      TMPL_FIRST_VALID: firstValid,
+      TMPL_LAST_VALID: lastValid,
     })
 
     // Fund the escrow
@@ -80,6 +91,8 @@ describe('Fee Bounding — e2e on localnet', () => {
         amount: (0).algo(),
         staticFee: (100_000).microAlgo(),
         lease: 'aaaabbbbccccddddeeeeffffgggghhhh',
+        firstValidRound: BigInt(firstValid),
+        lastValidRound: BigInt(lastValid),
       }),
     ).rejects.toThrow()
   })
@@ -87,10 +100,13 @@ describe('Fee Bounding — e2e on localnet', () => {
   test('BoundedFeeSig: normal fee payment succeeds', async () => {
     const { testAccount, algorand } = localnet.context
     const receiver = algorand.account.random()
+    const { firstValid, lastValid } = await getValidityWindow(algorand)
 
     const lsigAccount = await compileLogicSig(algorand, 'BoundedFeeSig.teal', {
       TMPL_INTENDED_RECEIVER: receiver.addr.publicKey,
       TMPL_LEASE: new TextEncoder().encode('aaaabbbbccccddddeeeeffffgggghhhh'),
+      TMPL_FIRST_VALID: firstValid,
+      TMPL_LAST_VALID: lastValid,
     })
 
     // Fund the escrow
@@ -107,6 +123,8 @@ describe('Fee Bounding — e2e on localnet', () => {
       amount: (500_000).microAlgo(),
       staticFee: (1_000).microAlgo(),
       lease: 'aaaabbbbccccddddeeeeffffgggghhhh',
+      firstValidRound: BigInt(firstValid),
+      lastValidRound: BigInt(lastValid),
     })
 
     const escrowBalance = (await algorand.account.getInformation(lsigAccount.addr)).balance

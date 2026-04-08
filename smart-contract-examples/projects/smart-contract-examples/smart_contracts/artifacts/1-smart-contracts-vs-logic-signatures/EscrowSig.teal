@@ -3,7 +3,7 @@
 
 // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts::program() -> uint64:
 main:
-    intcblock 1 TMPL_MAX_AMOUNT TMPL_EXPIRATION_ROUND
+    intcblock 1 TMPL_MAX_AMOUNT TMPL_FIRST_VALID TMPL_LAST_VALID
     bytecblock TMPL_RECIPIENT TMPL_LEASE
     // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:16
     // Txn.typeEnum === TransactionType.Payment &&
@@ -13,7 +13,7 @@ main:
     // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:16-17
     // Txn.typeEnum === TransactionType.Payment &&
     // Txn.receiver === TemplateVar<Account>('RECIPIENT') &&
-    bz main_bool_false@9
+    bz main_bool_false@10
     // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:17
     // Txn.receiver === TemplateVar<Account>('RECIPIENT') &&
     txn Receiver
@@ -22,7 +22,7 @@ main:
     // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:16-17
     // Txn.typeEnum === TransactionType.Payment &&
     // Txn.receiver === TemplateVar<Account>('RECIPIENT') &&
-    bz main_bool_false@9
+    bz main_bool_false@10
     // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:18
     // Txn.amount <= TemplateVar<uint64>('MAX_AMOUNT') &&
     txn Amount
@@ -32,7 +32,7 @@ main:
     // Txn.typeEnum === TransactionType.Payment &&
     // Txn.receiver === TemplateVar<Account>('RECIPIENT') &&
     // Txn.amount <= TemplateVar<uint64>('MAX_AMOUNT') &&
-    bz main_bool_false@9
+    bz main_bool_false@10
     // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:19
     // Txn.rekeyTo === Global.zeroAddress &&
     txn RekeyTo
@@ -43,7 +43,7 @@ main:
     // Txn.receiver === TemplateVar<Account>('RECIPIENT') &&
     // Txn.amount <= TemplateVar<uint64>('MAX_AMOUNT') &&
     // Txn.rekeyTo === Global.zeroAddress &&
-    bz main_bool_false@9
+    bz main_bool_false@10
     // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:20
     // Txn.closeRemainderTo === Global.zeroAddress &&
     txn CloseRemainderTo
@@ -55,7 +55,7 @@ main:
     // Txn.amount <= TemplateVar<uint64>('MAX_AMOUNT') &&
     // Txn.rekeyTo === Global.zeroAddress &&
     // Txn.closeRemainderTo === Global.zeroAddress &&
-    bz main_bool_false@9
+    bz main_bool_false@10
     // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:21
     // Txn.fee <= Global.minTxnFee &&
     txn Fee
@@ -68,26 +68,12 @@ main:
     // Txn.rekeyTo === Global.zeroAddress &&
     // Txn.closeRemainderTo === Global.zeroAddress &&
     // Txn.fee <= Global.minTxnFee &&
-    bz main_bool_false@9
-    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:22
+    bz main_bool_false@10
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:23
     // Txn.lease === TemplateVar<bytes>('LEASE') &&
     txn Lease
     bytec_1 // TMPL_LEASE
     ==
-    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:16-22
-    // Txn.typeEnum === TransactionType.Payment &&
-    // Txn.receiver === TemplateVar<Account>('RECIPIENT') &&
-    // Txn.amount <= TemplateVar<uint64>('MAX_AMOUNT') &&
-    // Txn.rekeyTo === Global.zeroAddress &&
-    // Txn.closeRemainderTo === Global.zeroAddress &&
-    // Txn.fee <= Global.minTxnFee &&
-    // Txn.lease === TemplateVar<bytes>('LEASE') &&
-    bz main_bool_false@9
-    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:23
-    // Txn.lastValid <= TemplateVar<uint64>('EXPIRATION_ROUND')
-    txn LastValid
-    intc_2 // TMPL_EXPIRATION_ROUND
-    <=
     // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:16-23
     // Txn.typeEnum === TransactionType.Payment &&
     // Txn.receiver === TemplateVar<Account>('RECIPIENT') &&
@@ -95,11 +81,44 @@ main:
     // Txn.rekeyTo === Global.zeroAddress &&
     // Txn.closeRemainderTo === Global.zeroAddress &&
     // Txn.fee <= Global.minTxnFee &&
+    // // Lease + exact FirstValid/LastValid = at most one execution
     // Txn.lease === TemplateVar<bytes>('LEASE') &&
-    // Txn.lastValid <= TemplateVar<uint64>('EXPIRATION_ROUND')
-    bz main_bool_false@9
+    bz main_bool_false@10
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:24
+    // Txn.firstValid === TemplateVar<uint64>('FIRST_VALID') &&
+    txn FirstValid
+    intc_2 // TMPL_FIRST_VALID
+    ==
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:16-24
+    // Txn.typeEnum === TransactionType.Payment &&
+    // Txn.receiver === TemplateVar<Account>('RECIPIENT') &&
+    // Txn.amount <= TemplateVar<uint64>('MAX_AMOUNT') &&
+    // Txn.rekeyTo === Global.zeroAddress &&
+    // Txn.closeRemainderTo === Global.zeroAddress &&
+    // Txn.fee <= Global.minTxnFee &&
+    // // Lease + exact FirstValid/LastValid = at most one execution
+    // Txn.lease === TemplateVar<bytes>('LEASE') &&
+    // Txn.firstValid === TemplateVar<uint64>('FIRST_VALID') &&
+    bz main_bool_false@10
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:25
+    // Txn.lastValid === TemplateVar<uint64>('LAST_VALID')
+    txn LastValid
+    intc_3 // TMPL_LAST_VALID
+    ==
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:16-25
+    // Txn.typeEnum === TransactionType.Payment &&
+    // Txn.receiver === TemplateVar<Account>('RECIPIENT') &&
+    // Txn.amount <= TemplateVar<uint64>('MAX_AMOUNT') &&
+    // Txn.rekeyTo === Global.zeroAddress &&
+    // Txn.closeRemainderTo === Global.zeroAddress &&
+    // Txn.fee <= Global.minTxnFee &&
+    // // Lease + exact FirstValid/LastValid = at most one execution
+    // Txn.lease === TemplateVar<bytes>('LEASE') &&
+    // Txn.firstValid === TemplateVar<uint64>('FIRST_VALID') &&
+    // Txn.lastValid === TemplateVar<uint64>('LAST_VALID')
+    bz main_bool_false@10
     intc_0 // 1
-    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:15-24
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:15-26
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&
     //   Txn.receiver === TemplateVar<Account>('RECIPIENT') &&
@@ -107,14 +126,16 @@ main:
     //   Txn.rekeyTo === Global.zeroAddress &&
     //   Txn.closeRemainderTo === Global.zeroAddress &&
     //   Txn.fee <= Global.minTxnFee &&
+    //   // Lease + exact FirstValid/LastValid = at most one execution
     //   Txn.lease === TemplateVar<bytes>('LEASE') &&
-    //   Txn.lastValid <= TemplateVar<uint64>('EXPIRATION_ROUND')
+    //   Txn.firstValid === TemplateVar<uint64>('FIRST_VALID') &&
+    //   Txn.lastValid === TemplateVar<uint64>('LAST_VALID')
     // )
     return
 
-main_bool_false@9:
+main_bool_false@10:
     pushint 0 // 0
-    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:15-24
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:15-26
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&
     //   Txn.receiver === TemplateVar<Account>('RECIPIENT') &&
@@ -122,7 +143,9 @@ main_bool_false@9:
     //   Txn.rekeyTo === Global.zeroAddress &&
     //   Txn.closeRemainderTo === Global.zeroAddress &&
     //   Txn.fee <= Global.minTxnFee &&
+    //   // Lease + exact FirstValid/LastValid = at most one execution
     //   Txn.lease === TemplateVar<bytes>('LEASE') &&
-    //   Txn.lastValid <= TemplateVar<uint64>('EXPIRATION_ROUND')
+    //   Txn.firstValid === TemplateVar<uint64>('FIRST_VALID') &&
+    //   Txn.lastValid === TemplateVar<uint64>('LAST_VALID')
     // )
     return

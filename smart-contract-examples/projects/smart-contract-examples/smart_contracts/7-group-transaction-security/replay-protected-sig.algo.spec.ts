@@ -11,7 +11,8 @@ describe('ReplayProtectedSig Logic Signature', () => {
 
   function setup() {
     ctx.setTemplateVar('LEASE', LEASE)
-    ctx.setTemplateVar('EXPIRATION_ROUND', Uint64(100_000))
+    ctx.setTemplateVar('FIRST_VALID', Uint64(1_000))
+    ctx.setTemplateVar('LAST_VALID', Uint64(100_000))
     return new ReplayProtectedSig()
   }
 
@@ -19,7 +20,7 @@ describe('ReplayProtectedSig Logic Signature', () => {
   function evalPayment(lsig: ReplayProtectedSig, overrides: Record<string, unknown> = {}) {
     let result: boolean | uint64
     ctx.txn
-      .createScope([ctx.any.txn.payment({ amount: 500_000, fee: 1_000, lease: LEASE, lastValid: Uint64(50_000), ...overrides })])
+      .createScope([ctx.any.txn.payment({ amount: 500_000, fee: 1_000, lease: LEASE, firstValid: Uint64(1_000), lastValid: Uint64(100_000), ...overrides })])
       .execute(() => {
         result = ctx.executeLogicSig(lsig)
       })
@@ -59,7 +60,11 @@ describe('ReplayProtectedSig Logic Signature', () => {
     expect(evalPayment(setup(), { lease: Bytes('zzzzyyyyxxxxwwwwvvvvuuuuttttssss', { length: 32 }) })).toBe(false)
   })
 
-  test('rejects lastValid past expiration round', () => {
+  test('rejects wrong firstValid (replay protection)', () => {
+    expect(evalPayment(setup(), { firstValid: Uint64(999) })).toBe(false)
+  })
+
+  test('rejects wrong lastValid (replay protection)', () => {
     expect(evalPayment(setup(), { lastValid: Uint64(200_000) })).toBe(false)
   })
 })

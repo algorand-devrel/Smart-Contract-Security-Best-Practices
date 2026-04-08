@@ -7,6 +7,7 @@ import {
   TemplateVar,
   Account,
   type bytes,
+  type uint64,
 } from '@algorandfoundation/algorand-typescript'
 
 // VULNERABLE: Only checks amount — allows rekeying, closing, and replay
@@ -16,7 +17,7 @@ export class UnsafePaymentSig extends LogicSig {
   }
 }
 
-// SAFE: All checks including receiver restriction via TemplateVar
+// SAFE: All checks including receiver restriction and replay protection via TemplateVar
 export class SafePaymentSig extends LogicSig {
   public program(): boolean {
     return (
@@ -25,8 +26,11 @@ export class SafePaymentSig extends LogicSig {
       Txn.fee <= Global.minTxnFee &&
       Txn.rekeyTo === Global.zeroAddress &&
       Txn.closeRemainderTo === Global.zeroAddress &&
+      Txn.receiver === TemplateVar<Account>('INTENDED_RECEIVER') &&
+      // Lease + exact FirstValid/LastValid = at most one execution
       Txn.lease === TemplateVar<bytes>('LEASE') &&
-      Txn.receiver === TemplateVar<Account>('INTENDED_RECEIVER')
+      Txn.firstValid === TemplateVar<uint64>('FIRST_VALID') &&
+      Txn.lastValid === TemplateVar<uint64>('LAST_VALID')
     )
   }
 }

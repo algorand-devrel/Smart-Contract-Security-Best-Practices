@@ -1,5 +1,5 @@
 import { TestExecutionContext } from '@algorandfoundation/algorand-typescript-testing'
-import { Bytes, type uint64 } from '@algorandfoundation/algorand-typescript'
+import { Bytes, Uint64, type uint64 } from '@algorandfoundation/algorand-typescript'
 import { afterEach, describe, expect, test } from 'vitest'
 import { BoundedFeeSig, UnboundedFeeSig } from './fee-bounding.algo'
 
@@ -14,13 +14,15 @@ describe('LogicSig Fee Bounding', () => {
     const receiver = ctx.any.account()
     ctx.setTemplateVar('INTENDED_RECEIVER', receiver)
     ctx.setTemplateVar('LEASE', LEASE)
+    ctx.setTemplateVar('FIRST_VALID', Uint64(1_000))
+    ctx.setTemplateVar('LAST_VALID', Uint64(2_000))
     return receiver
   }
 
   /** Helper: run a LogicSig against a payment transaction */
   function evalPayment(lsig: UnboundedFeeSig | BoundedFeeSig, overrides: Record<string, unknown> = {}) {
     let result: boolean | uint64
-    ctx.txn.createScope([ctx.any.txn.payment({ amount: 500_000, fee: 1_000, lease: LEASE, ...overrides })]).execute(() => {
+    ctx.txn.createScope([ctx.any.txn.payment({ amount: 500_000, fee: 1_000, lease: LEASE, firstValid: Uint64(1_000), lastValid: Uint64(2_000), ...overrides })]).execute(() => {
       result = ctx.executeLogicSig(lsig)
     })
     return result!
@@ -47,6 +49,16 @@ describe('LogicSig Fee Bounding', () => {
     test('rejects excessive fee', () => {
       const receiver = setup()
       expect(evalPayment(new BoundedFeeSig(), { receiver, fee: 10_000 })).toBe(false)
+    })
+
+    test('rejects wrong firstValid (replay protection)', () => {
+      const receiver = setup()
+      expect(evalPayment(new BoundedFeeSig(), { receiver, firstValid: Uint64(999) })).toBe(false)
+    })
+
+    test('rejects wrong lastValid (replay protection)', () => {
+      const receiver = setup()
+      expect(evalPayment(new BoundedFeeSig(), { receiver, lastValid: Uint64(3_000) })).toBe(false)
     })
   })
 })

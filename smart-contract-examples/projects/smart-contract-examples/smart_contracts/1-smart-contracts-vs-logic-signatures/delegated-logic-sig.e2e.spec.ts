@@ -95,10 +95,18 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
   })
 
   describe('SafePaymentSig — delegated mode', () => {
+    /** Get a validity window centered around the current round */
+    async function getValidityWindow(algorand: AlgorandClient) {
+      const status = await algorand.client.algod.status().do()
+      const currentRound = Number(status['lastRound'])
+      return { firstValid: currentRound, lastValid: currentRound + 1000 }
+    }
+
     test('valid payment succeeds', async () => {
       const { testAccount, algorand } = localnet.context
       const delegator = algorand.account.random()
       const receiver = algorand.account.random()
+      const { firstValid, lastValid } = await getValidityWindow(algorand)
 
       await algorand.send.payment({
         sender: testAccount,
@@ -109,6 +117,8 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
       await makeDelegatedLsig(algorand, delegator.account.sk, 'SafePaymentSig.teal', {
         TMPL_INTENDED_RECEIVER: receiver.addr.publicKey,
         TMPL_LEASE: new TextEncoder().encode('aaaabbbbccccddddeeeeffffgggghhhh'),
+        TMPL_FIRST_VALID: firstValid,
+        TMPL_LAST_VALID: lastValid,
       })
 
       await algorand.send.payment({
@@ -117,6 +127,8 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
         amount: (500_000).microAlgo(),
         staticFee: (1_000).microAlgo(),
         lease: 'aaaabbbbccccddddeeeeffffgggghhhh',
+        firstValidRound: BigInt(firstValid),
+        lastValidRound: BigInt(lastValid),
       })
 
       const receiverBalance = (await algorand.account.getInformation(receiver.addr)).balance
@@ -128,6 +140,7 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
       const delegator = algorand.account.random()
       const receiver = algorand.account.random()
       const attacker = algorand.account.random()
+      const { firstValid, lastValid } = await getValidityWindow(algorand)
 
       await algorand.send.payment({
         sender: testAccount,
@@ -138,6 +151,8 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
       await makeDelegatedLsig(algorand, delegator.account.sk, 'SafePaymentSig.teal', {
         TMPL_INTENDED_RECEIVER: receiver.addr.publicKey,
         TMPL_LEASE: new TextEncoder().encode('aaaabbbbccccddddeeeeffffgggghhhh'),
+        TMPL_FIRST_VALID: firstValid,
+        TMPL_LAST_VALID: lastValid,
       })
 
       await expect(
@@ -147,6 +162,8 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
           amount: (0).algo(),
           staticFee: (1_000).microAlgo(),
           lease: 'aaaabbbbccccddddeeeeffffgggghhhh',
+          firstValidRound: BigInt(firstValid),
+          lastValidRound: BigInt(lastValid),
           rekeyTo: attacker.addr,
         }),
       ).rejects.toThrow()
@@ -157,6 +174,7 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
       const delegator = algorand.account.random()
       const receiver = algorand.account.random()
       const wrongReceiver = algorand.account.random()
+      const { firstValid, lastValid } = await getValidityWindow(algorand)
 
       await algorand.send.payment({
         sender: testAccount,
@@ -167,6 +185,8 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
       await makeDelegatedLsig(algorand, delegator.account.sk, 'SafePaymentSig.teal', {
         TMPL_INTENDED_RECEIVER: receiver.addr.publicKey,
         TMPL_LEASE: new TextEncoder().encode('aaaabbbbccccddddeeeeffffgggghhhh'),
+        TMPL_FIRST_VALID: firstValid,
+        TMPL_LAST_VALID: lastValid,
       })
 
       await expect(
@@ -176,6 +196,8 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
           amount: (500_000).microAlgo(),
           staticFee: (1_000).microAlgo(),
           lease: 'aaaabbbbccccddddeeeeffffgggghhhh',
+          firstValidRound: BigInt(firstValid),
+          lastValidRound: BigInt(lastValid),
         }),
       ).rejects.toThrow()
     })
@@ -184,6 +206,7 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
       const { testAccount, algorand } = localnet.context
       const delegator = algorand.account.random()
       const receiver = algorand.account.random()
+      const { firstValid, lastValid } = await getValidityWindow(algorand)
 
       await algorand.send.payment({
         sender: testAccount,
@@ -194,6 +217,8 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
       await makeDelegatedLsig(algorand, delegator.account.sk, 'SafePaymentSig.teal', {
         TMPL_INTENDED_RECEIVER: receiver.addr.publicKey,
         TMPL_LEASE: new TextEncoder().encode('aaaabbbbccccddddeeeeffffgggghhhh'),
+        TMPL_FIRST_VALID: firstValid,
+        TMPL_LAST_VALID: lastValid,
       })
 
       await expect(
@@ -203,6 +228,8 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
           amount: (500_000).microAlgo(),
           staticFee: (100_000).microAlgo(),
           lease: 'aaaabbbbccccddddeeeeffffgggghhhh',
+          firstValidRound: BigInt(firstValid),
+          lastValidRound: BigInt(lastValid),
         }),
       ).rejects.toThrow()
     })

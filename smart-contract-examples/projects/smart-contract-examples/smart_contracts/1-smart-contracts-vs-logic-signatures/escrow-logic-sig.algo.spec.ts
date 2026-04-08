@@ -14,14 +14,15 @@ describe('Escrow Logic Signature', () => {
     recipient = ctx.any.account()
     ctx.setTemplateVar('RECIPIENT', recipient)
     ctx.setTemplateVar('MAX_AMOUNT', Uint64(1_000_000))
-    ctx.setTemplateVar('EXPIRATION_ROUND', Uint64(100_000))
     ctx.setTemplateVar('LEASE', LEASE)
+    ctx.setTemplateVar('FIRST_VALID', Uint64(1_000))
+    ctx.setTemplateVar('LAST_VALID', Uint64(100_000))
     return new EscrowSig()
   }
 
   /** Valid payment that satisfies all escrow checks */
   function validPayment(overrides: Record<string, unknown> = {}) {
-    return { receiver: recipient, lease: LEASE, lastValid: Uint64(50_000), ...overrides }
+    return { receiver: recipient, lease: LEASE, firstValid: Uint64(1_000), lastValid: Uint64(100_000), ...overrides }
   }
 
   /** Helper: run the escrow LogicSig against a payment transaction */
@@ -61,7 +62,11 @@ describe('Escrow Logic Signature', () => {
     expect(evalPayment(setup(), { lease: Bytes('zzzzyyyyxxxxwwwwvvvvuuuuttttssss', { length: 32 }) })).toBe(false)
   })
 
-  test('rejects payment past expiration round', () => {
+  test('rejects wrong firstValid (replay protection)', () => {
+    expect(evalPayment(setup(), { firstValid: Uint64(999) })).toBe(false)
+  })
+
+  test('rejects wrong lastValid (replay protection)', () => {
     expect(evalPayment(setup(), { lastValid: Uint64(200_000) })).toBe(false)
   })
 

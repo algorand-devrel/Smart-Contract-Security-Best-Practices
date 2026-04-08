@@ -1,3 +1,4 @@
+import { AlgorandClient } from '@algorandfoundation/algokit-utils'
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { TealTemplateParams } from '@algorandfoundation/algokit-utils/types/app'
 import { randomBytes } from 'crypto'
@@ -11,28 +12,37 @@ describe('ReplayProtectedSig — e2e on localnet', () => {
   const localnet = algorandFixture()
   beforeEach(localnet.newScope, 10_000)
 
+  /** Get a validity window centered around the current round */
+  async function getValidityWindow(algorand: AlgorandClient) {
+    const status = await algorand.client.algod.status().do()
+    const currentRound = Number(status['lastRound'])
+    return { firstValid: currentRound, lastValid: currentRound + 1000 }
+  }
+
   /** Compile ReplayProtectedSig with a random lease (unique escrow per call) */
   async function setupEscrow(
-    algorand: ReturnType<typeof algorandFixture>['algorand'],
+    algorand: AlgorandClient,
     overrides: Partial<TealTemplateParams> = {},
   ) {
     const leaseBytes = new Uint8Array(randomBytes(32))
+    const { firstValid, lastValid } = await getValidityWindow(algorand)
     const teal = await readFile(join(ARTIFACTS, 'ReplayProtectedSig.teal'), 'utf-8')
     const compiled = await algorand.app.compileTealTemplate(teal, {
       TMPL_LEASE: leaseBytes,
-      TMPL_EXPIRATION_ROUND: 50_000_000,
+      TMPL_FIRST_VALID: firstValid,
+      TMPL_LAST_VALID: lastValid,
       ...overrides,
     })
     const escrow = algorand.account.logicsig(compiled.compiledBase64ToBytes)
-    
-    return { escrow, leaseBytes }
+
+    return { escrow, leaseBytes, firstValid, lastValid }
   }
 
   test('valid payment succeeds', async () => {
     const { testAccount, algorand } = localnet.context
     const receiver = algorand.account.random()
 
-    const { escrow, leaseBytes } = await setupEscrow(algorand)
+    const { escrow, leaseBytes, firstValid, lastValid } = await setupEscrow(algorand)
 
     // Fund the escrow
     await algorand.send.payment({
@@ -48,6 +58,8 @@ describe('ReplayProtectedSig — e2e on localnet', () => {
       amount: (500_000).microAlgo(),
       staticFee: (1_000).microAlgo(),
       lease: leaseBytes,
+      firstValidRound: BigInt(firstValid),
+      lastValidRound: BigInt(lastValid),
     })
 
     const escrowBalance = (await algorand.account.getInformation(escrow.addr)).balance
@@ -58,7 +70,7 @@ describe('ReplayProtectedSig — e2e on localnet', () => {
     const { testAccount, algorand } = localnet.context
     const receiver = algorand.account.random()
 
-    const { escrow, leaseBytes } = await setupEscrow(algorand)
+    const { escrow, leaseBytes, firstValid, lastValid } = await setupEscrow(algorand)
 
     // Fund the escrow
     await algorand.send.payment({
@@ -74,6 +86,8 @@ describe('ReplayProtectedSig — e2e on localnet', () => {
       amount: (100_000).microAlgo(),
       staticFee: (1_000).microAlgo(),
       lease: leaseBytes,
+      firstValidRound: BigInt(firstValid),
+      lastValidRound: BigInt(lastValid),
     })
 
     // Same lease within overlapping validity window → rejected by Algorand's lease dedup
@@ -84,22 +98,26 @@ describe('ReplayProtectedSig — e2e on localnet', () => {
         amount: (100_000).microAlgo(),
         staticFee: (1_000).microAlgo(),
         lease: leaseBytes,
+        firstValidRound: BigInt(firstValid),
+        lastValidRound: BigInt(lastValid),
       }),
     ).rejects.toThrow()
   })
 
-  test('LogicSig expires after rounds advance', async () => {
+  test('LogicSig expires after rounds advance past validity window', async () => {
     const { testAccount, algorand } = localnet.context
     const receiver = algorand.account.random()
 
     // Get current round
     const status = await algorand.client.algod.status().do()
     const currentRound = Number(status['lastRound'])
-    const expirationRound = currentRound + 10
+    const firstValid = currentRound
+    const lastValid = currentRound + 10
 
-    // Compile with a near-future expiration
+    // Compile with a near-future validity window
     const { escrow, leaseBytes } = await setupEscrow(algorand, {
-      TMPL_EXPIRATION_ROUND: expirationRound,
+      TMPL_FIRST_VALID: firstValid,
+      TMPL_LAST_VALID: lastValid,
     })
 
     // Fund the escrow
@@ -109,17 +127,18 @@ describe('ReplayProtectedSig — e2e on localnet', () => {
       amount: (2).algo(),
     })
 
-    // First payment succeeds (lastValid set to expiration round)
+    // First payment succeeds
     await algorand.send.payment({
       sender: escrow.addr,
       receiver: receiver.addr,
       amount: (100_000).microAlgo(),
       staticFee: (1_000).microAlgo(),
-      lastValidRound: BigInt(expirationRound),
+      firstValidRound: BigInt(firstValid),
+      lastValidRound: BigInt(lastValid),
       lease: leaseBytes,
     })
 
-    // Advance rounds past expiration by sending dummy transactions
+    // Advance rounds past the validity window by sending dummy transactions
     for (let i = 0; i < 15; i++) {
       await algorand.send.payment({
         sender: testAccount,
@@ -128,8 +147,8 @@ describe('ReplayProtectedSig — e2e on localnet', () => {
       })
     }
 
-    // Now currentRound > expirationRound.
-    // The LogicSig requires lastValid <= expirationRound,
+    // Now currentRound > lastValid.
+    // The LogicSig requires lastValid === LAST_VALID (which is in the past),
     // but the network requires lastValid > currentRound.
     // These constraints are mutually exclusive → the LogicSig is effectively expired.
     await expect(
@@ -147,7 +166,7 @@ describe('ReplayProtectedSig — e2e on localnet', () => {
     const { testAccount, algorand } = localnet.context
     const receiver = algorand.account.random()
 
-    const { escrow, leaseBytes } = await setupEscrow(algorand)
+    const { escrow, leaseBytes, firstValid, lastValid } = await setupEscrow(algorand)
 
     // Fund the escrow
     await algorand.send.payment({
@@ -164,6 +183,8 @@ describe('ReplayProtectedSig — e2e on localnet', () => {
         amount: (1_500_000).microAlgo(),
         staticFee: (1_000).microAlgo(),
         lease: leaseBytes,
+        firstValidRound: BigInt(firstValid),
+        lastValidRound: BigInt(lastValid),
       }),
     ).rejects.toThrow()
   })

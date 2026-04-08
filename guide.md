@@ -57,7 +57,7 @@ LogicSigs are powerful but dangerous, especially in delegated mode, where a sing
 
 Regardless of mode, LogicSigs are more dangerous than smart contracts because:
 
-- **No state:** A LogicSig cannot track whether it has already approved a transaction, making replay attacks possible unless explicitly prevented, e.g. if the `Lease`, `First Round Valid` and `Last Round Valid` fields are constrained.
+- **No state:** A LogicSig cannot track whether it has already approved a transaction, making replay attacks possible unless explicitly prevented by pinning the `Lease`, `FirstValid`, and `LastValid` fields to exact values (see [replay protection](#do-use-lease--pinned-firstvalidlastvalid-for-replay-protection)).
 - **Public bytecode:** After the first transaction, the bytecode of a LogicSig account is on-chain. Anyone can reconstruct it and submit new transactions using the LogicSig.
 - **Delegated authority:** Anyone who obtains the signed program of a delegated account can transact from the signer's personal account. The only way to revoke this delegation is to **permanently** change the account authorizer via rekeying.
 - **Arguments are not signed:** LogicSig arguments are public and they are **not** covered by the delegation signature, **not** part of the transaction ID, and **not** part of the group ID. Anyone constructing a transaction with the LogicSig can supply arbitrary arguments. The program must not rely on arguments for security-critical checks.
@@ -75,10 +75,10 @@ Every LogicSig — whether Contract Account or Delegated — **MUST** verify:
 5. **Transaction type restricted:** Only allow the intended type (e.g., `Payment`)
 6. **Use `txn`, not `gtxn`, for self-validation:** If using `gtxn`, also check `txn GroupIndex` to pin the LogicSig to a specific position. Otherwise an attacker can reuse the same LogicSig on multiple transactions in a group, where only the first is checked and the rest are unconstrained.
 7. **`GenesisHash` checked:** Network restriction (if the LogicSig should only work on one network)
-8. **Replay protection**: Depending on the use case, the logic sig should not be arbitrarily replayable. Secure examples include delegated logic signatures that bind the validity window (first/last valid rounds) and a specific `lease`, or logic sigs that pair with a smart contract call that performs stateful checks.
+8. **Replay protection**: Depending on the use case, the logic sig should not be arbitrarily replayable. Secure examples include logic signatures that pin `FirstValid`, `LastValid`, and `Lease` to exact template values (ensuring at most one execution per validity window), or logic sigs that pair with a smart contract call that performs stateful checks.
 9. **`LastValid` bounded:** Expiration (if the authorization should not last forever)
 
-See sections [3 (Fee Management)](#3-fee-management) and [6 (Rekeying)](#6-rekeying--account-draining) for in-depth coverage. Replay protection, unsigned arguments, and cross-network reuse are covered below in this section.
+See sections [3 (Fee Management)](#3-fee-management) and [6 (Rekeying)](#6-rekeying--account-draining) for in-depth coverage. [Replay protection](#do-use-lease--pinned-firstvalidlastvalid-for-replay-protection), unsigned arguments, and cross-network reuse are covered below in this section.
 
 ### Vulnerable: Delegated LogicSig without safety checks
 
@@ -120,9 +120,7 @@ def unsafe_payment_sig() -> bool:
 
 The safe version locks down every dangerous field. Alice delegates to Bob. Bob can pull up to 1 ALGO per transaction, but only to a pre-specified receiver, with replay protection:
 
-TODO - not actually safe. By "replay protection" I'm assuming this is intended to be "execute once", so you need to bind first/last round as well. Lease lifetime is [first, last] round, which is attacker controlled, so they can execute one of these every ~2 rounds, unbounded.
-
-TODO - With the exception of a "safe" delegated payemnt, I would change most logic sig examples here to be application calls with templated app ID, selector + oncomplete=noop
+TODO - With the exception of a "safe" delegated payment, I would change most logic sig examples here to be application calls with templated app ID, selector + oncomplete=noop
 
 Algorand TypeScript — SAFE
 
@@ -136,9 +134,10 @@ import {
   TemplateVar,
   Account,
   type bytes,
+  type uint64,
 } from "@algorandfoundation/algorand-typescript";
 
-// SAFE: All checks including receiver restriction via TemplateVar
+// SAFE: All checks including receiver restriction and replay protection via TemplateVar
 class SafePaymentSig extends LogicSig {
   public program(): boolean {
     return (
@@ -147,8 +146,11 @@ class SafePaymentSig extends LogicSig {
       Txn.fee <= Global.minTxnFee &&
       Txn.rekeyTo === Global.zeroAddress &&
       Txn.closeRemainderTo === Global.zeroAddress &&
+      Txn.receiver === TemplateVar<Account>("INTENDED_RECEIVER") &&
+      // Lease + exact FirstValid/LastValid = at most one execution
       Txn.lease === TemplateVar<bytes>("LEASE") &&
-      Txn.receiver === TemplateVar<Account>("INTENDED_RECEIVER")
+      Txn.firstValid === TemplateVar<uint64>("FIRST_VALID") &&
+      Txn.lastValid === TemplateVar<uint64>("LAST_VALID")
     );
   }
 }
@@ -167,8 +169,11 @@ def safe_payment_sig() -> bool:
         and Txn.fee <= Global.min_txn_fee
         and Txn.rekey_to == Global.zero_address          # Prevent rekeying
         and Txn.close_remainder_to == Global.zero_address # Prevent draining
-        and Txn.lease == TemplateVar[Bytes]("LEASE")        # Pin lease for replay protection
         and Txn.receiver == TemplateVar[Account]("INTENDED_RECEIVER")  # Restrict recipient
+        # Lease + exact first/last valid = at most one execution
+        and Txn.lease == TemplateVar[Bytes]("LEASE")
+        and Txn.first_valid == TemplateVar[UInt64]("FIRST_VALID")
+        and Txn.last_valid == TemplateVar[UInt64]("LAST_VALID")
     )
 ```
 
@@ -178,7 +183,7 @@ This is correct but fragile. Miss any single check and Alice's account is compro
 
 ### Pattern: Escrow LogicSig (Contract Account Mode)
 
-A Contract Account escrow that releases funds only to a specific recipient, with amount limits and an expiration round. The compiled program hash _is_ the escrow address. Fund it, and anyone with the bytecode can submit withdrawals that satisfy all conditions.
+A Contract Account escrow that releases funds only to a specific recipient, with amount limits and a fixed validity window. The compiled program hash _is_ the escrow address. Fund it, and anyone with the bytecode can submit withdrawals that satisfy all conditions — but only once, thanks to the pinned lease and validity window.
 
 Algorand TypeScript
 
@@ -204,8 +209,10 @@ class EscrowSig extends LogicSig {
       Txn.rekeyTo === Global.zeroAddress &&
       Txn.closeRemainderTo === Global.zeroAddress &&
       Txn.fee <= Global.minTxnFee &&
+      // Lease + exact FirstValid/LastValid = at most one execution
       Txn.lease === TemplateVar<bytes>("LEASE") &&
-      Txn.lastValid <= TemplateVar<uint64>("EXPIRATION_ROUND")
+      Txn.firstValid === TemplateVar<uint64>("FIRST_VALID") &&
+      Txn.lastValid === TemplateVar<uint64>("LAST_VALID")
     );
   }
 }
@@ -226,14 +233,16 @@ def escrow_sig() -> bool:
         and Txn.rekey_to == Global.zero_address
         and Txn.close_remainder_to == Global.zero_address
         and Txn.fee <= Global.min_txn_fee
+        # Lease + exact first/last valid = at most one execution
         and Txn.lease == TemplateVar[Bytes]("LEASE")
-        and Txn.last_valid <= TemplateVar[UInt64]("EXPIRATION_ROUND")
+        and Txn.first_valid == TemplateVar[UInt64]("FIRST_VALID")
+        and Txn.last_valid == TemplateVar[UInt64]("LAST_VALID")
     )
 ```
 
 > **Runnable examples:** [EscrowSig source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts) | [Unit Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.spec.ts) | [E2E Usage](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.e2e.spec.ts)
 
-**How it works:** Compile the program with template values (recipient address, max amount, expiration round) → the hash becomes the escrow address → fund that address → anyone with the bytecode can submit a payment that satisfies all conditions. The `TemplateVar` values are baked into the compiled bytecode, so they cannot be changed after deployment.
+**How it works:** Compile the program with template values (recipient address, max amount, first/last valid rounds) → the hash becomes the escrow address → fund that address → anyone with the bytecode can submit a payment that satisfies all conditions. The `TemplateVar` values are baked into the compiled bytecode, so they cannot be changed after deployment.
 
 ### DON'T: Use LogicSig arguments for access control
 
@@ -246,7 +255,14 @@ This means arguments must never be used for access control or to restrict who ca
 Algorand TypeScript — VULNERABLE
 
 ```typescript
-import { Bytes, LogicSig, Txn, Global, TransactionType, op } from '@algorandfoundation/algorand-typescript'
+import {
+  Bytes,
+  LogicSig,
+  Txn,
+  Global,
+  TransactionType,
+  op,
+} from "@algorandfoundation/algorand-typescript";
 
 // VULNERABLE: LogicSig arguments are NOT signed — anyone who sees one valid
 // transaction can copy the "password" argument and reuse it to drain the escrow.
@@ -258,8 +274,8 @@ export class UnsafeArgSig extends LogicSig {
       Txn.rekeyTo === Global.zeroAddress &&
       Txn.closeRemainderTo === Global.zeroAddress &&
       // "Secret" password — provides zero security because args are public
-      op.arg(0) === Bytes('s3cret')
-    )
+      op.arg(0) === Bytes("s3cret")
+    );
   }
 }
 ```
@@ -293,11 +309,13 @@ The developer's intent is that only someone who knows the password can trigger p
 
 > **Runnable examples:** [UnsafeArgSig source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/7-group-transaction-security/unsigned-args.algo.ts) | [Unit Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/7-group-transaction-security/unsigned-args.algo.spec.ts) | [E2E Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/7-group-transaction-security/unsigned-args.e2e.spec.ts)
 
-### DO: Use Lease + bounded LastValid for replay protection
+### DO: Use Lease + pinned FirstValid/LastValid for replay protection
 
-If a LogicSig authorizes transactions based on time windows (e.g., "allow one payment per day"), an attacker can submit the same transaction multiple times within the same window. The LogicSig has no state to track previous executions. This affects both modes: in **Contract Account** mode, anyone with the bytecode can replay withdrawals; in **Delegated** mode, anyone with the signed program can replay spending.
+A LogicSig has no state to track previous executions. Without replay protection, an attacker can replay the same transaction unbounded, withdrawing from escrows or spending from delegated accounts.
 
-The `Lease` field together with a bounded `LastValid` prevents this. A lease is a 32-byte value that, combined with the sender, prevents duplicate transactions within the same round range (`FirstValid` to `LastValid`). Bounding `LastValid` limits how long the LogicSig can be used. Together they ensure at most one transaction per validity window. Both LogicSig examples above — SafePaymentSig and EscrowSig — include `Lease` and `LastValid` checks.
+Every Algorand transaction requires `FirstValid` and `LastValid` (up to 1000 rounds apart). A [Lease](https://dev.algorand.co/concepts/transactions/leases/) creates a `{Sender : Lease}` lock that persists until `LastValid` passes, blocking any other transaction with the same sender and lease during that window. **The lock expires after `LastValid`**, so the lease alone is not a one-time gate.
+
+For "execute at most once" semantics, a LogicSig must pin both `FirstValid` and `LastValid` to exact template values. If either is left unchecked, the attacker chooses short-lived windows, waits for each lock to expire, and replays. All LogicSig examples above include `Lease`, `FirstValid`, and `LastValid` checks.
 
 ### DO: Check GenesisHash for network-specific LogicSigs
 
@@ -308,7 +326,15 @@ A LogicSig compiled on testnet works identically on mainnet. If a LogicSig shoul
 Algorand TypeScript — VULNERABLE
 
 ```typescript
-import { LogicSig, Txn, Global, TransactionType, Uint64, TemplateVar, type bytes } from '@algorandfoundation/algorand-typescript'
+import {
+  LogicSig,
+  Txn,
+  Global,
+  TransactionType,
+  Uint64,
+  TemplateVar,
+  type bytes,
+} from "@algorandfoundation/algorand-typescript";
 
 // VULNERABLE: No genesis hash check — this LogicSig works on any network.
 // An attacker can reuse it on mainnet if it was only intended for testnet.
@@ -321,7 +347,7 @@ export class CrossNetworkSig extends LogicSig {
       Txn.rekeyTo === Global.zeroAddress &&
       Txn.closeRemainderTo === Global.zeroAddress &&
       Txn.receiver === TemplateVar<bytes>("RECEIVER")
-    )
+    );
   }
 }
 ```
@@ -350,7 +376,15 @@ def cross_network_sig() -> bool:
 Algorand TypeScript — SAFE
 
 ```typescript
-import { LogicSig, Txn, Global, TransactionType, Uint64, TemplateVar, type bytes } from '@algorandfoundation/algorand-typescript'
+import {
+  LogicSig,
+  Txn,
+  Global,
+  TransactionType,
+  Uint64,
+  TemplateVar,
+  type bytes,
+} from "@algorandfoundation/algorand-typescript";
 
 // SAFE: Genesis hash check pins this LogicSig to one network.
 export class NetworkRestrictedSig extends LogicSig {
@@ -364,7 +398,7 @@ export class NetworkRestrictedSig extends LogicSig {
       Txn.receiver === TemplateVar<bytes>("RECEIVER") &&
       // Pin to a specific network — prevents cross-network reuse
       Global.genesisHash === TemplateVar<bytes>("GENESIS_HASH")
-    )
+    );
   }
 }
 ```
@@ -446,7 +480,7 @@ The application account can't be closed, can't be rekeyed, and inner transaction
 ### Key Takeaways
 
 - **Understand which mode you're using:** Contract Account (no key, deterministic address) vs Delegated (signed program, someone else's account) and its implications.
-- **Follow the [security checklist](#do-follow-the-logicsig-security-checklist)** for every LogicSig: `RekeyTo`, `CloseRemainderTo`, `AssetCloseTo`, `Fee`, type, `Lease`, `GenesisHash`, `LastValid`.
+- **Follow the [security checklist](#do-follow-the-logicsig-security-checklist)** for every LogicSig: `RekeyTo`, `CloseRemainderTo`, `AssetCloseTo`, `Fee`, type, `Lease`, `FirstValid`, `LastValid`, `GenesisHash`.
 - **Never trust LogicSig arguments for access control:** they are not signed and anyone can supply arbitrary values.
 - **Check `Global.genesisHash`** in network-specific LogicSigs to prevent cross-network reuse.
 - **Default to smart contracts** unless you have a specific reason not to. They give you access control, state, and composability for free.
@@ -818,9 +852,10 @@ import {
   TemplateVar,
   Account,
   type bytes,
+  type uint64,
 } from "@algorandfoundation/algorand-typescript";
 
-// SAFE: All checks including fee bound
+// SAFE: All checks including fee bound and replay protection
 class BoundedFeeSig extends LogicSig {
   public program(): boolean {
     return (
@@ -830,7 +865,10 @@ class BoundedFeeSig extends LogicSig {
       Txn.receiver === TemplateVar<Account>("INTENDED_RECEIVER") &&
       Txn.rekeyTo === Global.zeroAddress &&
       Txn.closeRemainderTo === Global.zeroAddress &&
-      Txn.lease === TemplateVar<bytes>("LEASE")
+      // Lease + exact FirstValid/LastValid = at most one execution
+      Txn.lease === TemplateVar<bytes>("LEASE") &&
+      Txn.firstValid === TemplateVar<uint64>("FIRST_VALID") &&
+      Txn.lastValid === TemplateVar<uint64>("LAST_VALID")
     );
   }
 }
@@ -841,7 +879,7 @@ Algorand Python — SAFE
 ```python
 from algopy import logicsig, Txn, Global, UInt64, Bytes, TransactionType, TemplateVar, Account
 
-# SAFE: All checks including fee bound
+# SAFE: All checks including fee bound and replay protection
 @logicsig
 def bounded_fee_sig() -> bool:
     return (
@@ -851,7 +889,10 @@ def bounded_fee_sig() -> bool:
         and Txn.receiver == TemplateVar[Account]("INTENDED_RECEIVER")
         and Txn.rekey_to == Global.zero_address
         and Txn.close_remainder_to == Global.zero_address
+        # Lease + exact first/last valid = at most one execution
         and Txn.lease == TemplateVar[Bytes]("LEASE")
+        and Txn.first_valid == TemplateVar[UInt64]("FIRST_VALID")
+        and Txn.last_valid == TemplateVar[UInt64]("LAST_VALID")
     )
 ```
 
@@ -1262,7 +1303,7 @@ Three transaction fields can permanently compromise an account in a single trans
 | `CloseRemainderTo` | Sends **all remaining ALGO** to the specified address and closes the account.                                  |
 | `AssetCloseTo`     | Sends **all remaining units** of an asset to the specified address and removes the opt-in.                     |
 
-LogicSigs are especially vulnerable because they rely entirely on field checks to approve or reject transactions. If you forget to check one of these fields, nothing else stops it, and the program cannot be patched after deployment. The impact differs by mode: in **Contract Account** mode, rekeying transfers control of the escrow address; in **Delegated** mode, it transfers the delegator's personal account. Similarly, `CloseRemainderTo` drains either the escrow or the delegator's full ALGO balance. 
+LogicSigs are especially vulnerable because they rely entirely on field checks to approve or reject transactions. If you forget to check one of these fields, nothing else stops it, and the program cannot be patched after deployment. The impact differs by mode: in **Contract Account** mode, rekeying transfers control of the escrow address; in **Delegated** mode, it transfers the delegator's personal account. Similarly, `CloseRemainderTo` drains either the escrow or the delegator's full ALGO balance.
 
 Smart contracts are safer by default since inner transaction fields like `closeRemainderTo` and `rekeyTo` are omitted unless explicitly set, but must still guard against exposing these fields to user-controlled inputs.
 
@@ -1617,7 +1658,10 @@ export class VulnerableLoanContract extends Contract {
 
   public liquidate(user: Account): void {
     // User can dodge this by clearing local state first
-    assert(this.debt(user).value > this.collateral(user).value, "Not undercollateralized");
+    assert(
+      this.debt(user).value > this.collateral(user).value,
+      "Not undercollateralized",
+    );
     // ... seize collateral
   }
 }
@@ -1681,7 +1725,10 @@ export class SecureLoanContract extends Contract {
 
   public liquidate(user: Account): void {
     // User cannot erase their debt — BoxMap persists regardless of ClearState
-    assert(this.debt(user).value > this.collateral(user).value, "Not undercollateralized");
+    assert(
+      this.debt(user).value > this.collateral(user).value,
+      "Not undercollateralized",
+    );
     // ... seize collateral
   }
 }
@@ -1982,10 +2029,7 @@ Unguarded addition can panic if the result exceeds `2^64 - 1`, which an attacker
 Algorand TypeScript
 
 ```typescript
-import {
-  Contract,
-  Uint64,
-} from "@algorandfoundation/algorand-typescript";
+import { Contract, Uint64 } from "@algorandfoundation/algorand-typescript";
 
 export class UnguardedOverflowContract extends Contract {
   // Unguarded: If a + b overflows uint64, the transaction fails.
@@ -2341,23 +2385,34 @@ If only the owner can call the method that reads the random value, the owner can
 The real Randomness Beacon isn't available on LocalNet. Use a beacon stub that implements the same `get`/`must_get` interface with a controllable `set_next` method, so you can test your app's randomness logic with deterministic values.
 
 ```typescript
-import { bytes, Bytes, Contract, GlobalState, arc4 } from '@algorandfoundation/algorand-typescript'
+import {
+  bytes,
+  Bytes,
+  Contract,
+  GlobalState,
+  arc4,
+} from "@algorandfoundation/algorand-typescript";
 
 export class BeaconStub extends Contract {
   next = GlobalState<bytes>({
-    initialValue: Bytes.fromHex('0000000000000000000000000000000000000000000000000000000000000000'),
-  })
+    initialValue: Bytes.fromHex(
+      "0000000000000000000000000000000000000000000000000000000000000000",
+    ),
+  });
 
   set_next(nextValue: bytes<32>) {
-    this.next.value = nextValue
+    this.next.value = nextValue;
   }
 
-  must_get(round: arc4.Uint64, user_data: arc4.DynamicBytes): arc4.DynamicBytes {
-    return new arc4.DynamicBytes(this.next.value)
+  must_get(
+    round: arc4.Uint64,
+    user_data: arc4.DynamicBytes,
+  ): arc4.DynamicBytes {
+    return new arc4.DynamicBytes(this.next.value);
   }
 
   get(round: arc4.Uint64, user_data: arc4.DynamicBytes): arc4.DynamicBytes {
-    return new arc4.DynamicBytes(this.next.value)
+    return new arc4.DynamicBytes(this.next.value);
   }
 }
 ```

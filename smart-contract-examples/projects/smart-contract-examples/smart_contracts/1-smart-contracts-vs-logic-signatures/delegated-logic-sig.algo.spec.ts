@@ -1,5 +1,5 @@
 import { TestExecutionContext } from '@algorandfoundation/algorand-typescript-testing'
-import { Bytes, type uint64 } from '@algorandfoundation/algorand-typescript'
+import { Bytes, Uint64, type uint64 } from '@algorandfoundation/algorand-typescript'
 import { afterEach, describe, expect, test } from 'vitest'
 import { SafePaymentSig, UnsafePaymentSig } from './delegated-logic-sig.algo'
 
@@ -59,12 +59,14 @@ describe('Delegated Logic Signatures', () => {
       receiver = ctx.any.account()
       ctx.setTemplateVar('INTENDED_RECEIVER', receiver)
       ctx.setTemplateVar('LEASE', LEASE)
+      ctx.setTemplateVar('FIRST_VALID', Uint64(1_000))
+      ctx.setTemplateVar('LAST_VALID', Uint64(2_000))
       return new SafePaymentSig()
     }
 
     /** Valid payment that satisfies all checks */
     function validPayment(overrides: Record<string, unknown> = {}) {
-      return { receiver, lease: LEASE, ...overrides }
+      return { receiver, lease: LEASE, firstValid: Uint64(1_000), lastValid: Uint64(2_000), ...overrides }
     }
 
     test('approves valid payment', () => {
@@ -103,6 +105,16 @@ describe('Delegated Logic Signatures', () => {
       expect(
         evalPayment(lsig, validPayment({ lease: Bytes('zzzzyyyyxxxxwwwwvvvvuuuuttttssss', { length: 32 }) })),
       ).toBe(false)
+    })
+
+    test('rejects wrong firstValid (replay protection)', () => {
+      const lsig = setupSafe()
+      expect(evalPayment(lsig, validPayment({ firstValid: Uint64(999) }))).toBe(false)
+    })
+
+    test('rejects wrong lastValid (replay protection)', () => {
+      const lsig = setupSafe()
+      expect(evalPayment(lsig, validPayment({ lastValid: Uint64(3_000) }))).toBe(false)
     })
 
     test('rejects non-payment transaction', () => {

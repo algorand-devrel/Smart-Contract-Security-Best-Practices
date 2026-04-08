@@ -3,7 +3,7 @@
   "sources": [
     "../../1-smart-contracts-vs-logic-signatures/delegated-logic-sig.algo.ts"
   ],
-  "mappings": ";AAcW;;AAAqB;;;;AAArB;AAAP",
+  "mappings": ";AAeW;;AAAqB;;;;AAArB;AAAP",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
