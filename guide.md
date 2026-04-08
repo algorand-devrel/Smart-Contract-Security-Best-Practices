@@ -6,6 +6,9 @@ This guide is a practical security reference for Algorand developers using **Alg
 
 Whether you're building your first contract or preparing for a mainnet launch, use this as a resource to harden your application before it holds real assets.
 
+> [!WARNING]
+> This is a work in progress at an early stage. It is not definitive or complete.
+
 > **Disclaimer:** This guide covers common vulnerabilities and best practices but is not exhaustive. Always have your contracts audited by a professional security firm before deploying to mainnet with real value.
 
 ---
