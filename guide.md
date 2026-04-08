@@ -1603,6 +1603,18 @@ class SecureGroupContract(ARC4Contract):
 
 > **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/7-group-transaction-security/group-validation.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/7-group-transaction-security/group-validation.e2e.spec.ts)
 
+### DO: Design methods to be replay-safe
+
+Nothing prevents a user (or attacker) from calling the same contract method multiple times with the same arguments. If the method is not designed for this, the result can be double-spending, duplicate reward claims, or repeated votes.
+
+There are two approaches:
+
+1. **Make methods idempotent:** The method produces the same state regardless of how many times it is called. For example, a `setConfig(value)` method that overwrites state is naturally idempotent. Calling it twice with the same value is harmless.
+
+2. **Guard against re-execution:** Methods that are not idempotent must track whether the action has already been performed and reject duplicate calls. For example, a `claim()` method should record that the user has claimed and reject subsequent calls, and a `vote()` method should check whether the user has already voted.
+
+When designing a contract method, consider: "What happens if this is called twice with the same arguments?" If the answer is undesirable (double payout, double vote, duplicate state entry), add an explicit guard.
+
 ### DO: Implement rate limiting for flash-loan risk
 
 On Algorand, flash-loan-style attacks happen within a single atomic transaction group. An attacker can borrow funds, manipulate contract state (e.g., skew a price oracle or drain a liquidity pool), and repay, all atomically. If any step fails, the entire group reverts, making the attack risk-free for the attacker. Because Algorand groups can contain up to 16 transactions, a single group provides enough room to execute complex multi-step exploits.
@@ -1614,6 +1626,7 @@ The [Folks Finance RateLimiter](https://github.com/Folks-Finance/algorand-smart-
 ### Key Takeaways
 
 - Use ABI method parameters for group transaction references instead of hard-coded indexes.
+- Design methods to be either idempotent or guarded against re-execution.
 - Implement rate limiting for contracts exposed to flash-loan risk.
 
 ---
