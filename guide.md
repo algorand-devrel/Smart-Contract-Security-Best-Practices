@@ -54,10 +54,10 @@ LogicSigs are powerful but dangerous, especially in delegated mode, where a sing
 
 Regardless of mode, LogicSigs are more dangerous than smart contracts because:
 
-- **No state:** A LogicSig cannot track whether it has already approved a transaction, making replay attacks possible unless the `Lease` field is used.
+- **No state:** A LogicSig cannot track whether it has already approved a transaction, making replay attacks possible unless explicitly prevented, e.g. if the `Lease`, `First Round Valid` and `Last Round Valid` fields are constrained.
 - **Public bytecode:** After the first transaction, the bytecode of a LogicSig account is on-chain. Anyone can reconstruct it and submit new transactions using the LogicSig.
-- **Delegated authority:** Anyone who obtains the signed program of a delegated account can transact from the signer's personal account. There is no way to revoke the delegation short of rekeying the account.
-- **Arguments are not signed:** LogicSig arguments are **not** covered by the delegation signature, **not** part of the transaction ID, and **not** part of the group ID. Anyone constructing a transaction with the LogicSig can supply arbitrary arguments. The program must not rely on arguments for security-critical checks.
+- **Delegated authority:** Anyone who obtains the signed program of a delegated account can transact from the signer's personal account. The only way to revoke this delegation is to **permanently** change the account authorizer via rekeying.
+- **Arguments are not signed:** LogicSig arguments are public and they are **not** covered by the delegation signature, **not** part of the transaction ID, and **not** part of the group ID. Anyone constructing a transaction with the LogicSig can supply arbitrary arguments. The program must not rely on arguments for security-critical checks.
 - **Dangerous fields unchecked by default:** If the program doesn't explicitly check `RekeyTo`, `CloseRemainderTo`, and `AssetCloseTo`, an attacker can drain the account or take permanent control.
 - **Cross-network reuse:** The same compiled program works on mainnet, testnet, and betanet unless `Global.genesisHash` is checked.
 
@@ -70,9 +70,9 @@ Every LogicSig — whether Contract Account or Delegated — **MUST** verify:
 3. **`AssetCloseTo == ZeroAddress`:** Prevent draining all units of an asset (if applicable)
 4. **`Fee` bounded:** Prevent fee extraction (use `Txn.fee <= Global.minTxnFee`)
 5. **Transaction type restricted:** Only allow the intended type (e.g., `Payment`)
-6. **`Lease` required:** Replay protection (combined with a bounded `LastValid`, ensures only one transaction per validity window)
-7. **Use `txn`, not `gtxn`, for self-validation:** If using `gtxn`, also check `txn GroupIndex` to pin the LogicSig to a specific position. Otherwise an attacker can reuse the same LogicSig on multiple transactions in a group, where only the first is checked and the rest are unconstrained.
-8. **`GenesisHash` checked:** Network restriction (if the LogicSig should only work on one network)
+6. **Use `txn`, not `gtxn`, for self-validation:** If using `gtxn`, also check `txn GroupIndex` to pin the LogicSig to a specific position. Otherwise an attacker can reuse the same LogicSig on multiple transactions in a group, where only the first is checked and the rest are unconstrained.
+7. **`GenesisHash` checked:** Network restriction (if the LogicSig should only work on one network)
+8. **Replay protection**: Depending on the use case, the logic sig should not be arbitrarily replayable. Secure examples include delegated logic signatures that bind the validity window (first/last valid rounds) and a specific `lease`, or logic sigs that pair with a smart contract call that performs stateful checks.
 9. **`LastValid` bounded:** Expiration (if the authorization should not last forever)
 
 See sections [3 (Fee Management)](#3-fee-management) and [6 (Rekeying)](#6-rekeying--account-draining) for in-depth coverage. Replay protection, unsigned arguments, and cross-network reuse are covered below in this section.
@@ -118,6 +118,8 @@ def unsafe_payment_sig() -> bool:
 The safe version locks down every dangerous field. Alice delegates to Bob. Bob can pull up to 1 ALGO per transaction, but only to a pre-specified receiver, with replay protection:
 
 TODO - not actually safe. By "replay protection" I'm assuming this is intended to be "execute once", so you need to bind first/last round as well. Lease lifetime is [first, last] round, which is attacker controlled, so they can execute one of these every ~2 rounds, unbounded.
+
+TODO - With the exception of a "safe" delegated payemnt, I would change most logic sig examples here to be application calls with templated app ID, selector + oncomplete=noop
 
 Algorand TypeScript — SAFE
 
