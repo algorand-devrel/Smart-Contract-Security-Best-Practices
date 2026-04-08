@@ -66,7 +66,7 @@ Regardless of mode, LogicSigs are more dangerous than smart contracts because:
 
 ### DO: Follow the LogicSig Security Checklist
 
-Every LogicSig — whether Contract Account or Delegated — **MUST** verify:
+Every LogicSig — whether Contract Account or Delegated — must consider **all** transaction fields and either check/restrict each one, or include a TEAL comment explaining why it is left unchecked. The following fields **MUST** be verified:
 
 1. **`RekeyTo == ZeroAddress`:** Prevent permanent account takeover
 2. **`CloseRemainderTo == ZeroAddress`:** Prevent draining all ALGO
