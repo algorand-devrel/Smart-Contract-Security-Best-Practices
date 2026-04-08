@@ -77,7 +77,7 @@ Every LogicSig — whether Contract Account or Delegated — **MUST** verify:
 
 See sections [3 (Fee Management)](#3-fee-management) and [6 (Rekeying)](#6-rekeying--account-draining) for in-depth coverage. Replay protection, unsigned arguments, and cross-network reuse are covered below in this section.
 
-### Vulnerable: Delegated LogicSig without ty checks
+### Vulnerable: Delegated LogicSig without safety checks
 
 A delegated LogicSig that only checks the amount. Everything else is unvalidated. If Alice signs this program, anyone who obtains it can transact from Alice's account.
 
@@ -87,7 +87,7 @@ Algorand TypeScript — VULNERABLE
 import { LogicSig, Txn, Uint64 } from "@algorandfoundation/algorand-typescript";
 
 // VULNERABLE: Only checks amount — allows rekeying, closing, and replay
-class UnPaymentSig extends LogicSig {
+class UnsafePaymentSig extends LogicSig {
   public program(): boolean {
     return Txn.amount <= Uint64(1_000_000);
   }
