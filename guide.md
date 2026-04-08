@@ -77,7 +77,7 @@ Every LogicSig — whether Contract Account or Delegated — **MUST** verify:
 
 See sections [3 (Fee Management)](#3-fee-management) and [6 (Rekeying)](#6-rekeying--account-draining) for in-depth coverage. Replay protection, unsigned arguments, and cross-network reuse are covered below in this section.
 
-### Vulnerable: Delegated LogicSig without safety checks
+### Vulnerable: Delegated LogicSig without ty checks
 
 A delegated LogicSig that only checks the amount. Everything else is unvalidated. If Alice signs this program, anyone who obtains it can transact from Alice's account.
 
@@ -87,7 +87,7 @@ Algorand TypeScript — VULNERABLE
 import { LogicSig, Txn, Uint64 } from "@algorandfoundation/algorand-typescript";
 
 // VULNERABLE: Only checks amount — allows rekeying, closing, and replay
-class UnsafePaymentSig extends LogicSig {
+class UnPaymentSig extends LogicSig {
   public program(): boolean {
     return Txn.amount <= Uint64(1_000_000);
   }
@@ -116,6 +116,8 @@ def unsafe_payment_sig() -> bool:
 ### Fixed: Delegated LogicSig with full safety checks
 
 The safe version locks down every dangerous field. Alice delegates to Bob. Bob can pull up to 1 ALGO per transaction, but only to a pre-specified receiver, with replay protection:
+
+TODO - not actually safe. By "replay protection" I'm assuming this is intended to be "execute once", so you need to bind first/last round as well. Lease lifetime is [first, last] round, which is attacker controlled, so they can execute one of these every ~2 rounds, unbounded.
 
 Algorand TypeScript — SAFE
 
