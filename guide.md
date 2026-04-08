@@ -2,7 +2,7 @@
 
 Smart contracts on Algorand manage real value and a single vulnerability can result in irreversible loss of funds. Unlike traditional software, deployed contracts are immutable by default and operate in an adversarial environment where every transaction is public and anyone can interact with your program. Therefore, security has to be built in from the start.
 
-This guide is a practical security reference for Algorand developers using **Algorand TypeScript** and **Algorand Python**. It covers the most common vulnerabilities — from access control flaws and unchecked inner transaction fees to arithmetic overflows and rekeying attacks — with concrete code examples showing both the vulnerable pattern and the secure fix.
+This guide is a practical security reference for Algorand developers using **Algorand TypeScript** and **Algorand Python**. It covers the most common vulnerabilities — from access control flaws and unchecked transaction fees to arithmetic overflows and rekeying attacks — with concrete code examples showing both the vulnerable pattern and the secure fix.
 
 Whether you're building your first contract or preparing for a mainnet launch, use this as a resource to harden your application before it holds real assets.
 
