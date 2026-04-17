@@ -1,0 +1,894 @@
+{
+  "version": 3,
+  "sources": [
+    "../../9-arithmetic-safety/config-validation.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;AAMA;;AAAA;AAAA;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AAC+B;AAKa;AAAxC;AAJkB;AAKa;AAA/B;AAJmB;AAKa;AAAhC;AAHF;AAAA;AAMA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AAX2B;AAY3B;;AAAA;AAXkB;AAYlB;;AAAA;AAXmB;AAYnB;AAAA;AAJF;AAAA;AASA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAC6B;AApBA;AAoBA;AAAA;AAApB;;AAAA;AAAP;AAC2B;AApBT;AAoBS;AAAA;AAAnB;AAA4C;AAnBjC;AAmBiC;AAAA;AAA7C;AAFT;AAAA;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 0 1 8"
+    },
+    "6": {
+      "op": "bytecblock \"max\" \"rate\" \"scale\""
+    },
+    "23": {
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "25": {
+      "op": "!",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "26": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "27": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "29": {
+      "op": "bz main_create_NoOp@6",
+      "stack_out": []
+    },
+    "32": {
+      "op": "pushbytess 0x352d0f12 0x4f1e7ad3 // method \"configure(uint64,uint64,uint64)void\", method \"calculatePayout(uint64)uint64\"",
+      "defined_out": [
+        "Method(calculatePayout(uint64)uint64)",
+        "Method(configure(uint64,uint64,uint64)void)"
+      ],
+      "stack_out": [
+        "Method(configure(uint64,uint64,uint64)void)",
+        "Method(calculatePayout(uint64)uint64)"
+      ]
+    },
+    "44": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(calculatePayout(uint64)uint64)",
+        "Method(configure(uint64,uint64,uint64)void)",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "Method(configure(uint64,uint64,uint64)void)",
+        "Method(calculatePayout(uint64)uint64)",
+        "tmp%4#0"
+      ]
+    },
+    "47": {
+      "op": "match configure calculatePayout",
+      "stack_out": []
+    },
+    "53": {
+      "op": "err"
+    },
+    "54": {
+      "block": "main_create_NoOp@6",
+      "stack_in": [],
+      "op": "pushbytes 0xb8447b36 // method \"createApplication()void\"",
+      "defined_out": [
+        "Method(createApplication()void)"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)"
+      ]
+    },
+    "60": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ]
+    },
+    "63": {
+      "op": "match createApplication",
+      "stack_out": []
+    },
+    "67": {
+      "op": "err"
+    },
+    "68": {
+      "subroutine": "smart_contracts/9-arithmetic-safety/config-validation.algo.ts::VulnerableRewardsConfigContract.createApplication[routing]",
+      "params": {},
+      "block": "createApplication",
+      "stack_in": [],
+      "op": "bytec_0 // \"max\"",
+      "defined_out": [
+        "\"max\""
+      ],
+      "stack_out": [
+        "\"max\""
+      ]
+    },
+    "69": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "\"max\"",
+        "0"
+      ],
+      "stack_out": [
+        "\"max\"",
+        "0"
+      ]
+    },
+    "70": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "71": {
+      "op": "bytec_1 // \"rate\"",
+      "defined_out": [
+        "\"rate\""
+      ],
+      "stack_out": [
+        "\"rate\""
+      ]
+    },
+    "72": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"rate\"",
+        "0"
+      ]
+    },
+    "73": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "74": {
+      "op": "bytec_2 // \"scale\"",
+      "defined_out": [
+        "\"scale\""
+      ],
+      "stack_out": [
+        "\"scale\""
+      ]
+    },
+    "75": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "\"scale\"",
+        "1"
+      ],
+      "stack_out": [
+        "\"scale\"",
+        "1"
+      ]
+    },
+    "76": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "77": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "78": {
+      "op": "return",
+      "stack_out": []
+    },
+    "79": {
+      "subroutine": "smart_contracts/9-arithmetic-safety/config-validation.algo.ts::VulnerableRewardsConfigContract.configure[routing]",
+      "params": {},
+      "block": "configure",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "82": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "83": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0"
+      ]
+    },
+    "84": {
+      "op": "intc_2 // 8",
+      "defined_out": [
+        "8",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "85": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "86": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "87": {
+      "op": "btoi",
+      "defined_out": [
+        "maxEligibleDeposits#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0"
+      ]
+    },
+    "88": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0"
+      ]
+    },
+    "91": {
+      "op": "dup",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0",
+        "tmp%2#0 (copy)"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0",
+        "tmp%2#0 (copy)"
+      ]
+    },
+    "92": {
+      "op": "len",
+      "defined_out": [
+        "len%1#0",
+        "maxEligibleDeposits#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0",
+        "len%1#0"
+      ]
+    },
+    "93": {
+      "op": "intc_2 // 8",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0",
+        "len%1#0",
+        "8"
+      ]
+    },
+    "94": {
+      "op": "==",
+      "defined_out": [
+        "eq%1#0",
+        "maxEligibleDeposits#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0",
+        "eq%1#0"
+      ]
+    },
+    "95": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0"
+      ]
+    },
+    "96": {
+      "op": "btoi",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0"
+      ]
+    },
+    "97": {
+      "op": "txna ApplicationArgs 3",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0"
+      ]
+    },
+    "100": {
+      "op": "dup",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0",
+        "tmp%4#0 (copy)"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0",
+        "tmp%4#0 (copy)"
+      ]
+    },
+    "101": {
+      "op": "len",
+      "defined_out": [
+        "len%2#0",
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0",
+        "len%2#0"
+      ]
+    },
+    "102": {
+      "op": "intc_2 // 8",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0",
+        "len%2#0",
+        "8"
+      ]
+    },
+    "103": {
+      "op": "==",
+      "defined_out": [
+        "eq%2#0",
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0",
+        "eq%2#0"
+      ]
+    },
+    "104": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0"
+      ]
+    },
+    "105": {
+      "op": "btoi",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "106": {
+      "op": "txn Sender",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%0#1"
+      ]
+    },
+    "108": {
+      "op": "global CreatorAddress",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%0#1",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%0#1",
+        "tmp%1#1"
+      ]
+    },
+    "110": {
+      "op": "==",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%2#1"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%2#1"
+      ]
+    },
+    "111": {
+      "error": "Admin only",
+      "op": "assert // Admin only",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "112": {
+      "op": "bytec_0 // \"max\"",
+      "defined_out": [
+        "\"max\"",
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "\"max\""
+      ]
+    },
+    "113": {
+      "op": "uncover 3",
+      "stack_out": [
+        "rewardRate#0",
+        "rewardScale#0",
+        "\"max\"",
+        "maxEligibleDeposits#0"
+      ]
+    },
+    "115": {
+      "op": "app_global_put",
+      "stack_out": [
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "116": {
+      "op": "bytec_1 // \"rate\"",
+      "defined_out": [
+        "\"rate\"",
+        "rewardRate#0",
+        "rewardScale#0"
+      ],
+      "stack_out": [
+        "rewardRate#0",
+        "rewardScale#0",
+        "\"rate\""
+      ]
+    },
+    "117": {
+      "op": "uncover 2",
+      "stack_out": [
+        "rewardScale#0",
+        "\"rate\"",
+        "rewardRate#0"
+      ]
+    },
+    "119": {
+      "op": "app_global_put",
+      "stack_out": [
+        "rewardScale#0"
+      ]
+    },
+    "120": {
+      "op": "bytec_2 // \"scale\"",
+      "defined_out": [
+        "\"scale\"",
+        "rewardScale#0"
+      ],
+      "stack_out": [
+        "rewardScale#0",
+        "\"scale\""
+      ]
+    },
+    "121": {
+      "op": "swap",
+      "stack_out": [
+        "\"scale\"",
+        "rewardScale#0"
+      ]
+    },
+    "122": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "123": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "124": {
+      "op": "return",
+      "stack_out": []
+    },
+    "125": {
+      "subroutine": "smart_contracts/9-arithmetic-safety/config-validation.algo.ts::VulnerableRewardsConfigContract.calculatePayout[routing]",
+      "params": {},
+      "block": "calculatePayout",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "128": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "129": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0"
+      ]
+    },
+    "130": {
+      "op": "intc_2 // 8",
+      "defined_out": [
+        "8",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "131": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "132": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "133": {
+      "op": "btoi",
+      "defined_out": [
+        "eligibleDeposits#0"
+      ],
+      "stack_out": [
+        "eligibleDeposits#0"
+      ]
+    },
+    "134": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "eligibleDeposits#0"
+      ],
+      "stack_out": [
+        "eligibleDeposits#0",
+        "0"
+      ]
+    },
+    "135": {
+      "op": "bytec_0 // \"max\"",
+      "defined_out": [
+        "\"max\"",
+        "0",
+        "eligibleDeposits#0"
+      ],
+      "stack_out": [
+        "eligibleDeposits#0",
+        "0",
+        "\"max\""
+      ]
+    },
+    "136": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "eligibleDeposits#0",
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "eligibleDeposits#0",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "137": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "eligibleDeposits#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "138": {
+      "op": "dig 1",
+      "defined_out": [
+        "eligibleDeposits#0",
+        "eligibleDeposits#0 (copy)",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "eligibleDeposits#0",
+        "maybe_value%0#0",
+        "eligibleDeposits#0 (copy)"
+      ]
+    },
+    "140": {
+      "op": ">=",
+      "defined_out": [
+        "eligibleDeposits#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "eligibleDeposits#0",
+        "tmp%0#1"
+      ]
+    },
+    "141": {
+      "error": "Exceeds configured limit",
+      "op": "assert // Exceeds configured limit",
+      "stack_out": [
+        "eligibleDeposits#0"
+      ]
+    },
+    "142": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "eligibleDeposits#0",
+        "0"
+      ]
+    },
+    "143": {
+      "op": "bytec_1 // \"rate\"",
+      "defined_out": [
+        "\"rate\"",
+        "0",
+        "eligibleDeposits#0"
+      ],
+      "stack_out": [
+        "eligibleDeposits#0",
+        "0",
+        "\"rate\""
+      ]
+    },
+    "144": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "eligibleDeposits#0",
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "eligibleDeposits#0",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "145": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "eligibleDeposits#0",
+        "maybe_value%1#0"
+      ]
+    },
+    "146": {
+      "op": "*",
+      "defined_out": [
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1"
+      ]
+    },
+    "147": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "tmp%1#1",
+        "0"
+      ]
+    },
+    "148": {
+      "op": "bytec_2 // \"scale\"",
+      "defined_out": [
+        "\"scale\"",
+        "0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1",
+        "0",
+        "\"scale\""
+      ]
+    },
+    "149": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%2#0",
+        "maybe_value%2#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1",
+        "maybe_value%2#0",
+        "maybe_exists%2#0"
+      ]
+    },
+    "150": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "tmp%1#1",
+        "maybe_value%2#0"
+      ]
+    },
+    "151": {
+      "op": "/",
+      "defined_out": [
+        "tmp%2#1"
+      ],
+      "stack_out": [
+        "tmp%2#1"
+      ]
+    },
+    "152": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "153": {
+      "op": "pushbytes 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "159": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "160": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "tmp%4#0"
+      ]
+    },
+    "161": {
+      "op": "log",
+      "stack_out": []
+    },
+    "162": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "163": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

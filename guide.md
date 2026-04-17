@@ -602,6 +602,218 @@ class SecureContract(ARC4Contract):
 
 > **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/2-access-control/access-control.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/2-access-control/access-control.e2e.spec.ts)
 
+### DO: Classify every ABI method as permissionless or permissioned
+
+Every ABI method should have an explicit **authorization model**:
+
+- **Permissionless**: anyone can call it, so every argument and consumed transaction must be validated.
+- **Permissioned**: only callers that satisfy a defined policy can call it.
+
+Do not leave this implicit. A business method that moves funds, changes configuration, or redirects a treasury is **permissioned** unless you have deliberately designed it to be open to everyone. This is the first decision in the [smart contract playbook](https://github.com/algorandfoundation/the-compass/blob/main/src/smart-contracts/playbook.md).
+
+### Vulnerable: Privileged method exposed as permissionless
+
+Algorand TypeScript — VULNERABLE
+
+```typescript
+import type { bytes } from "@algorandfoundation/algorand-typescript";
+import {
+  Account,
+  Contract,
+  Global,
+  GlobalState,
+} from "@algorandfoundation/algorand-typescript";
+
+// VULNERABLE: Anyone can redirect a privileged treasury address
+export class VulnerableTreasuryContract extends Contract {
+  treasury = GlobalState<bytes>({ key: "treasury" });
+
+  public createApplication(): void {
+    this.treasury.value = Global.creatorAddress.bytes;
+  }
+
+  public setTreasury(newTreasury: Account): void {
+    this.treasury.value = newTreasury.bytes;
+  }
+}
+```
+
+Algorand Python — VULNERABLE
+
+```python
+from algopy import ARC4Contract, Account, Bytes, Global, arc4
+
+# VULNERABLE: Anyone can redirect a privileged treasury address
+class VulnerableTreasuryContract(ARC4Contract):
+    def __init__(self) -> None:
+        self.treasury = Bytes()
+
+    @arc4.abimethod
+    def create_application(self) -> None:
+        self.treasury = Global.creator_address.bytes
+
+    @arc4.abimethod
+    def set_treasury(self, new_treasury: Account) -> None:
+        self.treasury = new_treasury.bytes
+```
+
+### Fixed: Restrict privileged methods with an explicit authorization policy
+
+Algorand TypeScript — SAFE
+
+```typescript
+import type { bytes } from "@algorandfoundation/algorand-typescript";
+import {
+  Account,
+  Contract,
+  Global,
+  GlobalState,
+  Txn,
+  assert,
+} from "@algorandfoundation/algorand-typescript";
+
+export class SafeTreasuryContract extends Contract {
+  admin = GlobalState<bytes>({ key: "admin" });
+  treasury = GlobalState<bytes>({ key: "treasury" });
+
+  public createApplication(): void {
+    this.admin.value = Global.creatorAddress.bytes;
+    this.treasury.value = Global.creatorAddress.bytes;
+  }
+
+  private requireAdmin(): void {
+    assert(Txn.sender.bytes === this.admin.value, "Admin only");
+  }
+
+  public setTreasury(newTreasury: Account): void {
+    this.requireAdmin();
+    this.treasury.value = newTreasury.bytes;
+  }
+
+  public rotateAdmin(newAdmin: Account): void {
+    this.requireAdmin();
+    this.admin.value = newAdmin.bytes;
+  }
+}
+```
+
+Algorand Python — SAFE
+
+```python
+from algopy import ARC4Contract, Account, Bytes, Global, Txn, arc4
+
+class SafeTreasuryContract(ARC4Contract):
+    def __init__(self) -> None:
+        self.admin = Bytes()
+        self.treasury = Bytes()
+
+    @arc4.abimethod
+    def create_application(self) -> None:
+        self.admin = Global.creator_address.bytes
+        self.treasury = Global.creator_address.bytes
+
+    def _require_admin(self) -> None:
+        assert Txn.sender.bytes == self.admin, "Admin only"
+
+    @arc4.abimethod
+    def set_treasury(self, new_treasury: Account) -> None:
+        self._require_admin()
+        self.treasury = new_treasury.bytes
+
+    @arc4.abimethod
+    def rotate_admin(self, new_admin: Account) -> None:
+        self._require_admin()
+        self.admin = new_admin.bytes
+```
+
+> **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/2-access-control/method-authorization.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/2-access-control/method-authorization.e2e.spec.ts)
+
+### Pattern: Updatable authorization policy without lock-in
+
+If a permission policy can change over time, define **who can change it**, **how it changes**, and **how you recover from mistakes**. A one-step `setAdmin()` can permanently lock the contract if it sets the wrong address. Prefer a two-step handoff where the current admin nominates the next admin and the next admin explicitly accepts the role.
+
+Algorand TypeScript
+
+```typescript
+import type { bytes } from "@algorandfoundation/algorand-typescript";
+import {
+  Account,
+  Bytes,
+  Contract,
+  Global,
+  GlobalState,
+  Txn,
+  assert,
+} from "@algorandfoundation/algorand-typescript";
+
+export class RotatingAdminContract extends Contract {
+  admin = GlobalState<bytes>({ key: "admin" });
+  pendingAdmin = GlobalState<bytes>({ key: "pending" });
+
+  public createApplication(): void {
+    this.admin.value = Global.creatorAddress.bytes;
+    this.pendingAdmin.value = Bytes("");
+  }
+
+  private requireAdmin(): void {
+    assert(Txn.sender.bytes === this.admin.value, "Admin only");
+  }
+
+  public proposeAdmin(newAdmin: Account): void {
+    this.requireAdmin();
+    this.pendingAdmin.value = newAdmin.bytes;
+  }
+
+  public acceptAdmin(): void {
+    assert(Txn.sender.bytes === this.pendingAdmin.value, "Pending admin only");
+    this.admin.value = Txn.sender.bytes;
+    this.pendingAdmin.value = Bytes("");
+  }
+
+  public cancelAdminRotation(): void {
+    this.requireAdmin();
+    this.pendingAdmin.value = Bytes("");
+  }
+}
+```
+
+Algorand Python
+
+```python
+from algopy import ARC4Contract, Account, Bytes, Global, Txn, arc4
+
+class RotatingAdminContract(ARC4Contract):
+    def __init__(self) -> None:
+        self.admin = Bytes()
+        self.pending_admin = Bytes()
+
+    @arc4.abimethod
+    def create_application(self) -> None:
+        self.admin = Global.creator_address.bytes
+        self.pending_admin = Bytes()
+
+    def _require_admin(self) -> None:
+        assert Txn.sender.bytes == self.admin, "Admin only"
+
+    @arc4.abimethod
+    def propose_admin(self, new_admin: Account) -> None:
+        self._require_admin()
+        self.pending_admin = new_admin.bytes
+
+    @arc4.abimethod
+    def accept_admin(self) -> None:
+        assert Txn.sender.bytes == self.pending_admin, "Pending admin only"
+        self.admin = Txn.sender.bytes
+        self.pending_admin = Bytes()
+
+    @arc4.abimethod
+    def cancel_admin_rotation(self) -> None:
+        self._require_admin()
+        self.pending_admin = Bytes()
+```
+
+> **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/2-access-control/method-authorization.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/2-access-control/method-authorization.e2e.spec.ts)
+
 ### DON'T: Allow deletion while the contract still holds funds
 
 Even with proper access control, deleting a contract while its application account still holds ALGO or ASAs can permanently lock those funds. The application address becomes inaccessible after deletion (unless it was rekeyed beforehand), and any minimum balance locked by boxes is lost forever.
@@ -762,7 +974,10 @@ class RoleBasedContract(ARC4Contract):
 ### Key Takeaways
 
 - PuyaTs/PuyaPy reject update and delete by default. Contracts are immutable and permanent unless you explicitly define handlers.
+- Classify every ABI method as either **permissionless** or **permissioned** before you implement it.
 - If you define `updateApplication()` or `deleteApplication()`, always add access control (at minimum, a creator check).
+- Restrict privileged business methods with an explicit authorization policy; never rely on caller goodwill.
+- If the authorization policy can change, protect the change itself and avoid one-step lock-in.
 - Guard deletion: ensure the application account's funds have been withdrawn before allowing `deleteApplication()`, otherwise ALGO and ASAs can be permanently locked.
 - Start with creator-only checks. Graduate to role-based access when your protocol requires multiple admins or operators.
 - Use `BoxMap` for role storage. It doesn't require user opt-in and persists until explicitly deleted.
@@ -920,6 +1135,8 @@ During network congestion, the minimum fee may not be sufficient for timely incl
 ### Risk
 
 Smart contracts receive transactions from untrusted callers. Every field — asset ID, receiver, amount, type, and OnComplete action — must be validated. Missing checks can lead to fund theft, asset substitution, or bypassing of business logic.
+
+This applies not just to grouped transactions, but also to **permissionless ABI methods**. If anyone can call a method, then every method argument becomes part of your security boundary. Validate **fixed-length**, **bounded**, and **enumerated** inputs explicitly.
 
 ### Unchecked Asset ID
 
@@ -1099,9 +1316,122 @@ class ProfileContract(ARC4Contract):
         # ... process data
 ```
 
+### DO: Validate fixed-length arguments
+
+If a permissionless method expects an argument to be exactly 32 bytes, 8 bytes, or any other fixed size, assert that exact size in the application. Do not assume the caller or client library will always provide the right shape.
+
+Algorand TypeScript — SAFE
+
+```typescript
+import type { bytes } from "@algorandfoundation/algorand-typescript";
+import {
+  Contract,
+  Uint64,
+  assert,
+} from "@algorandfoundation/algorand-typescript";
+
+export class FixedLengthValidationContract extends Contract {
+  public submitCommitment(commitment: bytes): void {
+    assert(commitment.length === Uint64(32), "Commitment must be 32 bytes");
+  }
+}
+```
+
+Algorand Python — SAFE
+
+```python
+from algopy import ARC4Contract, Bytes, UInt64, arc4
+
+class FixedLengthValidationContract(ARC4Contract):
+    @arc4.abimethod
+    def submit_commitment(self, commitment: Bytes) -> None:
+        assert commitment.length == UInt64(32), "Commitment must be 32 bytes"
+```
+
+> **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/4-transaction-input-validation/permissionless-args.e2e.spec.ts)
+
+### DO: Validate bounded arguments
+
+If an argument is only safe within a numeric range, assert both the lower and upper bound before you use it. This includes basis points, percentages, windows, durations, and quantity limits.
+
+Algorand TypeScript — SAFE
+
+```typescript
+import type { uint64 } from "@algorandfoundation/algorand-typescript";
+import {
+  Contract,
+  Uint64,
+  assert,
+} from "@algorandfoundation/algorand-typescript";
+
+export class BoundedInputContract extends Contract {
+  public setSlippage(slippageBps: uint64): void {
+    assert(slippageBps <= Uint64(10_000), "Slippage out of range");
+  }
+}
+```
+
+Algorand Python — SAFE
+
+```python
+from algopy import ARC4Contract, UInt64, arc4
+
+class BoundedInputContract(ARC4Contract):
+    @arc4.abimethod
+    def set_slippage(self, slippage_bps: arc4.UInt64) -> None:
+        assert slippage_bps.native <= UInt64(10_000), "Slippage out of range"
+```
+
+> **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/4-transaction-input-validation/permissionless-args.e2e.spec.ts)
+
+### DO: Validate enumerated arguments
+
+If a method only supports a closed set of values, reject everything else. This is common for action selectors, swap modes, order sides, and phase identifiers.
+
+Algorand TypeScript — SAFE
+
+```typescript
+import type { uint64 } from "@algorandfoundation/algorand-typescript";
+import {
+  Contract,
+  Uint64,
+  assert,
+} from "@algorandfoundation/algorand-typescript";
+
+const MODE_EXACT_IN = Uint64(0);
+const MODE_EXACT_OUT = Uint64(1);
+
+export class EnumeratedInputContract extends Contract {
+  public chooseMode(mode: uint64): void {
+    assert(mode === MODE_EXACT_IN || mode === MODE_EXACT_OUT, "Invalid mode");
+  }
+}
+```
+
+Algorand Python — SAFE
+
+```python
+from algopy import ARC4Contract, UInt64, arc4
+
+MODE_EXACT_IN = UInt64(0)
+MODE_EXACT_OUT = UInt64(1)
+
+class EnumeratedInputContract(ARC4Contract):
+    @arc4.abimethod
+    def choose_mode(self, mode: arc4.UInt64) -> None:
+        value = mode.native
+        assert value == MODE_EXACT_IN or value == MODE_EXACT_OUT, "Invalid mode"
+```
+
+> **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/4-transaction-input-validation/permissionless-args.e2e.spec.ts)
+
 ### Key Takeaways
 
 - Always check `xferAsset` when receiving asset transfers.
+- For permissionless methods, treat every ABI argument as part of the security boundary.
+- Validate fixed-length arguments with an exact byte-length check.
+- Validate bounded arguments against their full safe range, not just the happy path.
+- Validate enumerated arguments against the allowed set and reject everything else.
 - Prefer typed ABI method parameters (`gtxn.PaymentTxn`, `gtxn.AssetTransferTxn`) over raw group indexes.
 - Validate receiver, amount, and type on every transaction you consume.
 - Keep your Puya compiler updated: check the [security bulletins](https://dev.algorand.co/bulletins/).
@@ -1842,6 +2172,264 @@ class SafeClearContract(Contract):
 
 > **Runnable examples:** [SafeClearContract source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/8-state-management/safe-clear-state.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/8-state-management/safe-clear-state.e2e.spec.ts)
 
+### DON'T: Model protocol states with overlapping flags
+
+If your application behaves like a finite state machine, define its states so they are **mutually exclusive**. Multiple booleans such as `saleOpen`, `paused`, `settlementOpen`, and `closed` often drift into contradictory combinations unless every transition clears every other flag correctly.
+
+When the states overlap, methods that should be impossible together can become callable in the same configuration. That is a logic bug even if every individual `assert()` looks reasonable in isolation.
+
+Algorand TypeScript — VULNERABLE
+
+```typescript
+import type { uint64 } from "@algorandfoundation/algorand-typescript";
+import {
+  Contract,
+  GlobalState,
+  Uint64,
+  assert,
+} from "@algorandfoundation/algorand-typescript";
+
+// VULNERABLE: Independent flags can both be true at the same time
+export class VulnerableLifecycleContract extends Contract {
+  saleOpen = GlobalState<uint64>({ key: "sale" });
+  settlementOpen = GlobalState<uint64>({ key: "settle" });
+
+  public createApplication(): void {
+    this.saleOpen.value = Uint64(0);
+    this.settlementOpen.value = Uint64(0);
+  }
+
+  public openSale(): void {
+    this.saleOpen.value = Uint64(1);
+  }
+
+  public openSettlement(): void {
+    // VULNERABLE: This enables settlement without disabling sale,
+    // so the contract can be in two phases at once.
+    this.settlementOpen.value = Uint64(1);
+  }
+
+  public buy(amount: uint64): void {
+    assert(this.saleOpen.value === Uint64(1), "Sale closed");
+    amount;
+  }
+
+  public settle(): void {
+    // If both flags are 1, both buy() and settle() are simultaneously valid.
+    assert(this.settlementOpen.value === Uint64(1), "Settlement closed");
+  }
+}
+```
+
+Algorand Python — VULNERABLE
+
+```python
+from algopy import ARC4Contract, UInt64, arc4
+
+# VULNERABLE: Independent flags can both be true at the same time
+class VulnerableLifecycleContract(ARC4Contract):
+    def __init__(self) -> None:
+        self.sale_open = UInt64(0)
+        self.settlement_open = UInt64(0)
+
+    @arc4.abimethod
+    def open_sale(self) -> None:
+        self.sale_open = UInt64(1)
+
+    @arc4.abimethod
+    def open_settlement(self) -> None:
+        # VULNERABLE: Enables settlement without disabling sale,
+        # so the contract can be in two phases at once.
+        self.settlement_open = UInt64(1)
+
+    @arc4.abimethod
+    def buy(self, amount: arc4.UInt64) -> None:
+        assert self.sale_open == UInt64(1), "Sale closed"
+        amount
+
+    @arc4.abimethod
+    def settle(self) -> None:
+        # If both flags are 1, both buy() and settle() are simultaneously valid.
+        assert self.settlement_open == UInt64(1), "Settlement closed"
+```
+
+### Fixed: Restrict methods to explicit mutually exclusive states
+
+Algorand TypeScript — SAFE
+
+```typescript
+import type { uint64 } from "@algorandfoundation/algorand-typescript";
+import {
+  Contract,
+  GlobalState,
+  Uint64,
+  assert,
+} from "@algorandfoundation/algorand-typescript";
+
+const PHASE_FUNDING = Uint64(0);
+const PHASE_TRADING = Uint64(1);
+const PHASE_SETTLEMENT = Uint64(2);
+const PHASE_CLOSED = Uint64(3);
+
+export class SafeLifecycleContract extends Contract {
+  phase = GlobalState<uint64>({ key: "phase" });
+
+  public createApplication(): void {
+    this.phase.value = PHASE_FUNDING;
+  }
+
+  private requirePhase(expected: uint64): void {
+    assert(this.phase.value === expected, "Wrong state");
+  }
+
+  public openTrading(): void {
+    this.requirePhase(PHASE_FUNDING);
+    this.phase.value = PHASE_TRADING;
+  }
+
+  public openSettlement(): void {
+    this.requirePhase(PHASE_TRADING);
+    this.phase.value = PHASE_SETTLEMENT;
+  }
+
+  public buy(amount: uint64): void {
+    this.requirePhase(PHASE_TRADING);
+    amount;
+  }
+
+  public settle(): void {
+    this.requirePhase(PHASE_SETTLEMENT);
+    this.phase.value = PHASE_CLOSED;
+  }
+}
+```
+
+Algorand Python — SAFE
+
+```python
+from algopy import ARC4Contract, UInt64, arc4
+
+PHASE_FUNDING = UInt64(0)
+PHASE_TRADING = UInt64(1)
+PHASE_SETTLEMENT = UInt64(2)
+PHASE_CLOSED = UInt64(3)
+
+class SafeLifecycleContract(ARC4Contract):
+    def __init__(self) -> None:
+        self.phase = PHASE_FUNDING
+
+    def _require_phase(self, expected: UInt64) -> None:
+        assert self.phase == expected, "Wrong state"
+
+    @arc4.abimethod
+    def open_trading(self) -> None:
+        self._require_phase(PHASE_FUNDING)
+        self.phase = PHASE_TRADING
+
+    @arc4.abimethod
+    def open_settlement(self) -> None:
+        self._require_phase(PHASE_TRADING)
+        self.phase = PHASE_SETTLEMENT
+
+    @arc4.abimethod
+    def buy(self, amount: arc4.UInt64) -> None:
+        self._require_phase(PHASE_TRADING)
+        amount
+
+    @arc4.abimethod
+    def settle(self) -> None:
+        self._require_phase(PHASE_SETTLEMENT)
+        self.phase = PHASE_CLOSED
+```
+
+> **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/8-state-management/state-machine.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/8-state-management/state-machine.e2e.spec.ts)
+
+### Pattern: Explicit finite state machine with guarded transitions
+
+Centralize state checks in helpers such as `requirePhase()` or `transitionTo()` so every transition uses the same rules. This makes it much harder to forget to clear a flag or accidentally permit a method in two incompatible states. Treat phase identifiers the same way as other security-sensitive inputs: validate them, keep them single-source, and cross-check them with access control from [2 (Access Control)](#2-access-control).
+
+Algorand TypeScript
+
+```typescript
+import type { uint64 } from "@algorandfoundation/algorand-typescript";
+import {
+  Contract,
+  GlobalState,
+  Uint64,
+  assert,
+} from "@algorandfoundation/algorand-typescript";
+
+const PHASE_FUNDING = Uint64(0);
+const PHASE_TRADING = Uint64(1);
+const PHASE_SETTLEMENT = Uint64(2);
+const PHASE_CLOSED = Uint64(3);
+
+export class PhaseGuardContract extends Contract {
+  phase = GlobalState<uint64>({ key: "phase" });
+
+  public createApplication(): void {
+    this.phase.value = PHASE_FUNDING;
+  }
+
+  private requirePhase(expected: uint64): void {
+    assert(this.phase.value === expected, "Wrong state");
+  }
+
+  private transitionTo(expected: uint64, next: uint64): void {
+    this.requirePhase(expected);
+    this.phase.value = next;
+  }
+
+  public activate(): void {
+    this.transitionTo(PHASE_FUNDING, PHASE_TRADING);
+  }
+
+  public pauseForSettlement(): void {
+    this.transitionTo(PHASE_TRADING, PHASE_SETTLEMENT);
+  }
+
+  public finalize(): void {
+    this.transitionTo(PHASE_SETTLEMENT, PHASE_CLOSED);
+  }
+}
+```
+
+Algorand Python
+
+```python
+from algopy import ARC4Contract, UInt64, arc4
+
+PHASE_FUNDING = UInt64(0)
+PHASE_TRADING = UInt64(1)
+PHASE_SETTLEMENT = UInt64(2)
+PHASE_CLOSED = UInt64(3)
+
+class PhaseGuardContract(ARC4Contract):
+    def __init__(self) -> None:
+        self.phase = PHASE_FUNDING
+
+    def _require_phase(self, expected: UInt64) -> None:
+        assert self.phase == expected, "Wrong state"
+
+    def _transition_to(self, expected: UInt64, next_phase: UInt64) -> None:
+        self._require_phase(expected)
+        self.phase = next_phase
+
+    @arc4.abimethod
+    def activate(self) -> None:
+        self._transition_to(PHASE_FUNDING, PHASE_TRADING)
+
+    @arc4.abimethod
+    def pause_for_settlement(self) -> None:
+        self._transition_to(PHASE_TRADING, PHASE_SETTLEMENT)
+
+    @arc4.abimethod
+    def finalize(self) -> None:
+        self._transition_to(PHASE_SETTLEMENT, PHASE_CLOSED)
+```
+
+> **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/8-state-management/state-machine.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/8-state-management/state-machine.e2e.spec.ts)
+
 ### DO: Use pull-based withdrawals instead of push-based distribution
 
 When distributing funds to multiple users, prefer letting each user withdraw their own funds ("pull") rather than sending to all users in a single call ("push"). Batching inner payments in one app call means a single failed transfer rolls back the entire group, and individual failures are easier to handle when each user triggers their own withdrawal.
@@ -1963,7 +2551,7 @@ Before deleting a contract, **all boxes must be deleted first**. Boxes hold MBR 
 
 ### DON'T: Hard-code minimum balance values
 
-The contract account's minimum balance depends on opted-in assets, created apps, local state schemas, and boxes. Hard-coding a value means the contract will break if any of these change. For example, it will break after creating a new box or opting into an asset.
+This is primarily an **operational correctness** issue rather than a classic exploit category. The contract account's minimum balance depends on opted-in assets, created apps, local state schemas, and boxes. Hard-coding a value means the contract will break if any of these change. For example, it will break after creating a new box or opting into an asset.
 
 Algorand TypeScript
 
@@ -1989,7 +2577,9 @@ def withdraw(self, amount: UInt64) -> None:
     # ... send inner payment
 ```
 
-### DO: Use dynamic minimum balance checks
+### DO: Prefer dynamic minimum balance checks
+
+Using `app.minBalance` is recommended because it makes the invariant explicit, avoids stale assumptions, and gives callers a clear application error instead of silently relying on a later runtime failure.
 
 Algorand TypeScript
 
@@ -2019,6 +2609,8 @@ def withdraw(self, amount: UInt64) -> None:
 
 - Use `BoxMap` instead of `LocalState` for data that must persist regardless of user action.
 - Clear state programs must never fail. Handle cleared state gracefully.
+- If your app behaves like a state machine, model state with one authoritative phase variable instead of overlapping flags.
+- Restrict methods to explicit states and make those states mutually exclusive unless concurrency is deliberate.
 - Use the **pull pattern** (users withdraw their own funds) instead of the push pattern (contract distributes to users).
 - Delete all boxes before deleting a contract.
 - Never hard-code minimum balance values.
@@ -2031,13 +2623,320 @@ def withdraw(self, amount: UInt64) -> None:
 
 The AVM uses **unsigned 64-bit integers** (`uint64`). Arithmetic operations can overflow (exceed 2^64 - 1) or underflow (go below 0), causing unexpected behavior or exploitable bugs.
 
+Arithmetic review should start at **configuration time**, not just at the line that eventually panics. If an admin or creator can store a zero denominator, an overflow-prone multiplier, or a bound that makes later arithmetic impossible, then the contract can be left in an invalid numeric configuration where later methods deterministically fail when they use that state.
+
+### DON'T: Allow configuration that can put the app into a broken numeric state
+
+This example uses a simple reward formula: `payout = eligible_deposits * reward_rate / reward_scale`.
+
+If a method later computes `eligible_deposits * rate / scale`, then any configuration path that sets `scale = 0` or allows `max_eligible_deposits * rate` to exceed `uint64` is part of the vulnerability. Detect those cases before the configuration is committed on-chain.
+
+### Vulnerable: Store arithmetic parameters without numeric analysis
+
+Algorand TypeScript — VULNERABLE
+
+```typescript
+import type { uint64 } from "@algorandfoundation/algorand-typescript";
+import {
+  Contract,
+  Global,
+  GlobalState,
+  Txn,
+  assert,
+  Uint64,
+} from "@algorandfoundation/algorand-typescript";
+
+// VULNERABLE: Stores zero denominators and overflow-prone limits
+export class VulnerableRewardsConfigContract extends Contract {
+  maxEligibleDeposits = GlobalState<uint64>({ key: "max" });
+  rewardRate = GlobalState<uint64>({ key: "rate" });
+  rewardScale = GlobalState<uint64>({ key: "scale" });
+
+  public createApplication(): void {
+    this.maxEligibleDeposits.value = Uint64(0);
+    this.rewardRate.value = Uint64(0);
+    this.rewardScale.value = Uint64(1);
+  }
+
+  public configure(
+    maxEligibleDeposits: uint64,
+    rewardRate: uint64,
+    rewardScale: uint64,
+  ): void {
+    assert(Txn.sender === Global.creatorAddress, "Admin only");
+    this.maxEligibleDeposits.value = maxEligibleDeposits;
+    this.rewardRate.value = rewardRate;
+    this.rewardScale.value = rewardScale;
+  }
+
+  // VULNERABLE: The configured envelope can be invalid, so even a payout
+  // at the configured maximum can fail at runtime.
+  public calculatePayout(eligibleDeposits: uint64): uint64 {
+    assert(
+      eligibleDeposits <= this.maxEligibleDeposits.value,
+      "Exceeds configured limit",
+    );
+    return (eligibleDeposits * this.rewardRate.value) / this.rewardScale.value;
+  }
+}
+```
+
+Algorand Python — VULNERABLE
+
+```python
+from algopy import ARC4Contract, Global, Txn, UInt64, arc4
+
+# VULNERABLE: Stores zero denominators and overflow-prone limits
+class VulnerableRewardsConfigContract(ARC4Contract):
+    def __init__(self) -> None:
+        self.max_eligible_deposits = UInt64(0)
+        self.reward_rate = UInt64(0)
+        self.reward_scale = UInt64(1)
+
+    @arc4.abimethod
+    def configure(
+        self,
+        max_eligible_deposits: arc4.UInt64,
+        reward_rate: arc4.UInt64,
+        reward_scale: arc4.UInt64,
+    ) -> None:
+        assert Txn.sender == Global.creator_address, "Admin only"
+        self.max_eligible_deposits = max_eligible_deposits.native
+        self.reward_rate = reward_rate.native
+        self.reward_scale = reward_scale.native
+
+    @arc4.abimethod
+    def calculate_payout(self, eligible_deposits: arc4.UInt64) -> arc4.UInt64:
+        value = eligible_deposits.native
+        assert value <= self.max_eligible_deposits, "Exceeds configured limit"
+        return arc4.UInt64((value * self.reward_rate) // self.reward_scale)
+```
+
+### Fixed: Validate numeric invariants before storing configuration
+
+Algorand TypeScript — SAFE
+
+```typescript
+import type { uint64 } from "@algorandfoundation/algorand-typescript";
+import {
+  Contract,
+  Global,
+  GlobalState,
+  Txn,
+  Uint64,
+  assert,
+} from "@algorandfoundation/algorand-typescript";
+
+const MAX_UINT64 = Uint64(18_446_744_073_709_551_615n);
+
+export class SafeRewardsConfigContract extends Contract {
+  maxEligibleDeposits = GlobalState<uint64>({ key: "max" });
+  rewardRate = GlobalState<uint64>({ key: "rate" });
+  rewardScale = GlobalState<uint64>({ key: "scale" });
+
+  public createApplication(): void {
+    this.maxEligibleDeposits.value = Uint64(0);
+    this.rewardRate.value = Uint64(0);
+    this.rewardScale.value = Uint64(1);
+  }
+
+  public configure(
+    maxEligibleDeposits: uint64,
+    rewardRate: uint64,
+    rewardScale: uint64,
+  ): void {
+    assert(Txn.sender === Global.creatorAddress, "Admin only");
+    assert(rewardScale > Uint64(0), "Scale must be nonzero");
+    if (rewardRate > Uint64(0)) {
+      assert(
+        maxEligibleDeposits <= MAX_UINT64 / rewardRate,
+        "Configuration can overflow",
+      );
+    }
+
+    this.maxEligibleDeposits.value = maxEligibleDeposits;
+    this.rewardRate.value = rewardRate;
+    this.rewardScale.value = rewardScale;
+  }
+
+  public calculatePayout(eligibleDeposits: uint64): uint64 {
+    assert(
+      eligibleDeposits <= this.maxEligibleDeposits.value,
+      "Exceeds configured limit",
+    );
+    return (eligibleDeposits * this.rewardRate.value) / this.rewardScale.value;
+  }
+}
+```
+
+Algorand Python — SAFE
+
+```python
+from algopy import ARC4Contract, Global, Txn, UInt64, arc4
+
+MAX_UINT64 = UInt64(18_446_744_073_709_551_615)
+
+class SafeRewardsConfigContract(ARC4Contract):
+    def __init__(self) -> None:
+        self.max_eligible_deposits = UInt64(0)
+        self.reward_rate = UInt64(0)
+        self.reward_scale = UInt64(1)
+
+    @arc4.abimethod
+    def configure(
+        self,
+        max_eligible_deposits: arc4.UInt64,
+        reward_rate: arc4.UInt64,
+        reward_scale: arc4.UInt64,
+    ) -> None:
+        max_value = max_eligible_deposits.native
+        rate = reward_rate.native
+        scale = reward_scale.native
+
+        assert Txn.sender == Global.creator_address, "Admin only"
+        assert scale > UInt64(0), "Scale must be nonzero"
+        if rate > UInt64(0):
+            assert max_value <= MAX_UINT64 // rate, "Configuration can overflow"
+
+        self.max_eligible_deposits = max_value
+        self.reward_rate = rate
+        self.reward_scale = scale
+
+    @arc4.abimethod
+    def calculate_payout(self, eligible_deposits: arc4.UInt64) -> arc4.UInt64:
+        value = eligible_deposits.native
+        assert value <= self.max_eligible_deposits, "Exceeds configured limit"
+        return arc4.UInt64((value * self.reward_rate) // self.reward_scale)
+```
+
+> **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/9-arithmetic-safety/config-validation.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/9-arithmetic-safety/config-validation.e2e.spec.ts)
+
+### Pattern: Validate numeric invariants at configuration time, then keep runtime guards cheap
+
+For arithmetic-heavy apps, combine two layers:
+
+1. **Configuration-time analysis**: reject impossible or unsafe parameter combinations before they reach state.
+2. **Runtime bounds**: keep operational inputs within the configuration envelope you already proved safe.
+
+For example, if your reward formula assumes `eligible_deposits * reward_rate` fits in `uint64`, validate that relationship when `reward_rate` and `max_eligible_deposits` are configured, then only allow runtime state to remain within that configured envelope.
+
+Algorand TypeScript
+
+```typescript
+import type { uint64 } from "@algorandfoundation/algorand-typescript";
+import {
+  Contract,
+  Global,
+  GlobalState,
+  Txn,
+  Uint64,
+  assert,
+} from "@algorandfoundation/algorand-typescript";
+
+const MAX_UINT64 = Uint64(18_446_744_073_709_551_615n);
+
+export class BoundedRewardsContract extends Contract {
+  maxEligibleDeposits = GlobalState<uint64>({ key: "max" });
+  rewardRate = GlobalState<uint64>({ key: "rate" });
+  rewardScale = GlobalState<uint64>({ key: "scale" });
+  eligibleDeposits = GlobalState<uint64>({ key: "total" });
+
+  public createApplication(): void {
+    this.maxEligibleDeposits.value = Uint64(0);
+    this.rewardRate.value = Uint64(0);
+    this.rewardScale.value = Uint64(1);
+    this.eligibleDeposits.value = Uint64(0);
+  }
+
+  public configure(
+    maxEligibleDeposits: uint64,
+    rewardRate: uint64,
+    rewardScale: uint64,
+  ): void {
+    assert(Txn.sender === Global.creatorAddress, "Admin only");
+    assert(rewardScale > Uint64(0), "Scale must be nonzero");
+    if (rewardRate > Uint64(0)) {
+      assert(
+        maxEligibleDeposits <= MAX_UINT64 / rewardRate,
+        "Configuration can overflow",
+      );
+    }
+
+    this.maxEligibleDeposits.value = maxEligibleDeposits;
+    this.rewardRate.value = rewardRate;
+    this.rewardScale.value = rewardScale;
+  }
+
+  public recordEligibleDeposits(amount: uint64): void {
+    assert(
+      this.eligibleDeposits.value <= this.maxEligibleDeposits.value - amount,
+      "Exceeds configured limit",
+    );
+    this.eligibleDeposits.value = this.eligibleDeposits.value + amount;
+  }
+
+  public calculatePayout(): uint64 {
+    return (this.eligibleDeposits.value * this.rewardRate.value) / this.rewardScale.value;
+  }
+}
+```
+
+Algorand Python
+
+```python
+from algopy import ARC4Contract, Global, Txn, UInt64, arc4
+
+MAX_UINT64 = UInt64(18_446_744_073_709_551_615)
+
+class BoundedRewardsContract(ARC4Contract):
+    def __init__(self) -> None:
+        self.max_eligible_deposits = UInt64(0)
+        self.reward_rate = UInt64(0)
+        self.reward_scale = UInt64(1)
+        self.eligible_deposits = UInt64(0)
+
+    @arc4.abimethod
+    def configure(
+        self,
+        max_eligible_deposits: arc4.UInt64,
+        reward_rate: arc4.UInt64,
+        reward_scale: arc4.UInt64,
+    ) -> None:
+        max_value = max_eligible_deposits.native
+        rate = reward_rate.native
+        scale = reward_scale.native
+
+        assert Txn.sender == Global.creator_address, "Admin only"
+        assert scale > UInt64(0), "Scale must be nonzero"
+        if rate > UInt64(0):
+            assert max_value <= MAX_UINT64 // rate, "Configuration can overflow"
+
+        self.max_eligible_deposits = max_value
+        self.reward_rate = rate
+        self.reward_scale = scale
+
+    @arc4.abimethod
+    def record_eligible_deposits(self, amount: arc4.UInt64) -> None:
+        value = amount.native
+        assert (
+            self.eligible_deposits <= self.max_eligible_deposits - value
+        ), "Exceeds configured limit"
+        self.eligible_deposits += value
+
+    @arc4.abimethod
+    def calculate_payout(self) -> arc4.UInt64:
+        return arc4.UInt64((self.eligible_deposits * self.reward_rate) // self.reward_scale)
+```
+
+> **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/9-arithmetic-safety/config-validation.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/9-arithmetic-safety/config-validation.e2e.spec.ts)
+
 ### Overflow
 
-On the AVM, `uint64` overflow causes the transaction to **fail** (the AVM panics on overflow rather than wrapping). This is safer than silent wrapping but can still be exploited to cause denial of service.
+On the AVM, `uint64` overflow causes the transaction to **fail** (the AVM panics on overflow rather than wrapping). That is already a safety feature of the AVM. The main reason to add an explicit guard is not that unchecked arithmetic silently corrupts state, but that explicit guards can document invariants, produce clearer error messages, and avoid panic-based denial of service on arithmetic-heavy or critical paths.
 
-### DON'T: Leave addition unguarded against overflow
+### Consider explicit addition bounds on critical paths
 
-Unguarded addition can panic if the result exceeds `2^64 - 1`, which an attacker could use to block a critical operation.
+Relying on the AVM panic is sometimes acceptable. Add an explicit bound when you want clearer control flow, a more specific error, or stronger protection against a caller repeatedly forcing a failure on an important path.
 
 Algorand TypeScript
 
@@ -2065,7 +2964,7 @@ class UnguardedOverflowContract(ARC4Contract):
         return arc4.UInt64(a.native + b.native)  # Panics on overflow
 ```
 
-### DO: Check bounds before addition
+### DO: Add explicit bounds when clearer errors or control flow matter
 
 Algorand TypeScript
 
@@ -2104,9 +3003,9 @@ class SafeOverflowContract(ARC4Contract):
 
 ### Underflow
 
-Subtracting a larger value from a smaller one panics on the AVM. Always check ordering before subtraction.
+Subtracting a larger value from a smaller one panics on the AVM. As with overflow, the runtime behavior is already safe by default. Explicit ordering checks are still recommended when they make invariants obvious, improve error messages, or reduce panic-based griefing on important paths.
 
-### DON'T: Leave subtraction unguarded against underflow
+### Consider explicit underflow guards on critical paths
 
 Algorand TypeScript
 
@@ -2128,7 +3027,7 @@ def unsafe_withdraw(self, amount: UInt64) -> None:
     self.user_balance[Txn.sender] = balance - amount  # Underflow!
 ```
 
-### DO: Check ordering before subtracting
+### DO: Add explicit ordering checks when invariants should be surfaced
 
 Algorand TypeScript
 
@@ -2209,8 +3108,10 @@ For any arithmetic-heavy contract (DEX, lending, staking), perform **semi-formal
 
 ### Key Takeaways
 
-- The AVM panics on overflow/underflow: safer than wrapping, but can still cause DoS.
-- Always check ordering before subtraction.
+- The AVM panics on overflow/underflow instead of wrapping, so unchecked arithmetic is already fail-safe by default.
+- Reject numerically unsafe configurations before they are stored on-chain.
+- Analyze configuration-time relationships such as `max_value * rate` and denominators, not just per-call arithmetic.
+- Add explicit runtime guards when they clarify invariants, improve errors, or help defend critical paths against panic-based DoS.
 - Use `biguint`/`BigUInt` for intermediate calculations that could exceed `uint64` range.
 - Perform invariant analysis on any contract with nontrivial arithmetic.
 
@@ -2649,6 +3550,8 @@ class PausableContract(ARC4Contract):
 - **Algorand TypeScript:** [dev.algorand.co/algokit/languages/typescript](https://dev.algorand.co/algokit/languages/typescript/)
 - **Algorand Python:** [dev.algorand.co/algokit/languages/python](https://dev.algorand.co/algokit/languages/python/)
 - **Smart Contract Concepts:** [dev.algorand.co/concepts/smart-contracts](https://dev.algorand.co/concepts/smart-contracts/)
+- **Smart Contract Guidelines:** [dev.algorand.co/docs/get-details/dapps/smart-contracts/guidelines](https://dev.algorand.co/docs/get-details/dapps/smart-contracts/guidelines/)
+- **ARC-4 ABI Specification:** [dev.algorand.co/arc-standards/arc-0004](https://dev.algorand.co/arc-standards/arc-0004/)
 - **Logic Signatures**: [https://dev.algorand.co/concepts/smart-contracts/logic-sigs/]
 - **Trail of Bits Algorand Vulnerabilities:** [github.com/crytic/building-secure-contracts](https://github.com/crytic/building-secure-contracts/tree/master/not-so-smart-contracts/algorand)
 - **Folks Finance Contract Library:** [github.com/Folks-Finance/algorand-smart-contract-library](https://github.com/Folks-Finance/algorand-smart-contract-library)

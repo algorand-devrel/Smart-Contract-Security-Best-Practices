@@ -1,0 +1,63 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    bytecblock "treasury"
+    // smart_contracts/2-access-control/method-authorization.algo.ts:5
+    // export class VulnerableTreasuryContract extends Contract {
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    bz main_create_NoOp@5
+    pushbytes 0xed73e6ce // method "setTreasury(address)void"
+    txna ApplicationArgs 0
+    match setTreasury
+    err
+
+main_create_NoOp@5:
+    // smart_contracts/2-access-control/method-authorization.algo.ts:5
+    // export class VulnerableTreasuryContract extends Contract {
+    pushbytes 0xb8447b36 // method "createApplication()void"
+    txna ApplicationArgs 0
+    match createApplication
+    err
+
+
+// smart_contracts/2-access-control/method-authorization.algo.ts::VulnerableTreasuryContract.createApplication[routing]() -> void:
+createApplication:
+    // smart_contracts/2-access-control/method-authorization.algo.ts:6
+    // public treasury = GlobalState<bytes>({ key: 'treasury' })
+    bytec_0 // "treasury"
+    // smart_contracts/2-access-control/method-authorization.algo.ts:9
+    // this.treasury.value = Global.creatorAddress.bytes
+    global CreatorAddress
+    app_global_put
+    // smart_contracts/2-access-control/method-authorization.algo.ts:8
+    // public createApplication(): void {
+    pushint 1 // 1
+    return
+
+
+// smart_contracts/2-access-control/method-authorization.algo.ts::VulnerableTreasuryContract.setTreasury[routing]() -> void:
+setTreasury:
+    // smart_contracts/2-access-control/method-authorization.algo.ts:12
+    // public setTreasury(newTreasury: Account): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 32 // 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    // smart_contracts/2-access-control/method-authorization.algo.ts:6
+    // public treasury = GlobalState<bytes>({ key: 'treasury' })
+    bytec_0 // "treasury"
+    // smart_contracts/2-access-control/method-authorization.algo.ts:13
+    // this.treasury.value = newTreasury.bytes
+    swap
+    app_global_put
+    // smart_contracts/2-access-control/method-authorization.algo.ts:12
+    // public setTreasury(newTreasury: Account): void {
+    pushint 1 // 1
+    return

@@ -1,0 +1,118 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 1 32
+    bytecblock "admin" "treasury"
+    // smart_contracts/2-access-control/method-authorization.algo.ts:18
+    // export class SafeTreasuryContract extends Contract {
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    bz main_create_NoOp@6
+    pushbytess 0xed73e6ce 0x4bd37752 // method "setTreasury(address)void", method "rotateAdmin(address)void"
+    txna ApplicationArgs 0
+    match setTreasury rotateAdmin
+    err
+
+main_create_NoOp@6:
+    // smart_contracts/2-access-control/method-authorization.algo.ts:18
+    // export class SafeTreasuryContract extends Contract {
+    pushbytes 0xb8447b36 // method "createApplication()void"
+    txna ApplicationArgs 0
+    match createApplication
+    err
+
+
+// smart_contracts/2-access-control/method-authorization.algo.ts::SafeTreasuryContract.createApplication[routing]() -> void:
+createApplication:
+    // smart_contracts/2-access-control/method-authorization.algo.ts:19
+    // public admin = GlobalState<bytes>({ key: 'admin' })
+    bytec_0 // "admin"
+    // smart_contracts/2-access-control/method-authorization.algo.ts:23
+    // this.admin.value = Global.creatorAddress.bytes
+    global CreatorAddress
+    app_global_put
+    // smart_contracts/2-access-control/method-authorization.algo.ts:20
+    // public treasury = GlobalState<bytes>({ key: 'treasury' })
+    bytec_1 // "treasury"
+    // smart_contracts/2-access-control/method-authorization.algo.ts:24
+    // this.treasury.value = Global.creatorAddress.bytes
+    global CreatorAddress
+    app_global_put
+    // smart_contracts/2-access-control/method-authorization.algo.ts:22
+    // public createApplication(): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/2-access-control/method-authorization.algo.ts::SafeTreasuryContract.setTreasury[routing]() -> void:
+setTreasury:
+    // smart_contracts/2-access-control/method-authorization.algo.ts:31
+    // public setTreasury(newTreasury: Account): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    intc_1 // 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    // smart_contracts/2-access-control/method-authorization.algo.ts:32
+    // this.requireAdmin()
+    callsub requireAdmin
+    // smart_contracts/2-access-control/method-authorization.algo.ts:20
+    // public treasury = GlobalState<bytes>({ key: 'treasury' })
+    bytec_1 // "treasury"
+    // smart_contracts/2-access-control/method-authorization.algo.ts:33
+    // this.treasury.value = newTreasury.bytes
+    swap
+    app_global_put
+    // smart_contracts/2-access-control/method-authorization.algo.ts:31
+    // public setTreasury(newTreasury: Account): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/2-access-control/method-authorization.algo.ts::SafeTreasuryContract.rotateAdmin[routing]() -> void:
+rotateAdmin:
+    // smart_contracts/2-access-control/method-authorization.algo.ts:36
+    // public rotateAdmin(newAdmin: Account): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    intc_1 // 32
+    ==
+    assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
+    // smart_contracts/2-access-control/method-authorization.algo.ts:37
+    // this.requireAdmin()
+    callsub requireAdmin
+    // smart_contracts/2-access-control/method-authorization.algo.ts:19
+    // public admin = GlobalState<bytes>({ key: 'admin' })
+    bytec_0 // "admin"
+    // smart_contracts/2-access-control/method-authorization.algo.ts:38
+    // this.admin.value = newAdmin.bytes
+    swap
+    app_global_put
+    // smart_contracts/2-access-control/method-authorization.algo.ts:36
+    // public rotateAdmin(newAdmin: Account): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/2-access-control/method-authorization.algo.ts::SafeTreasuryContract.requireAdmin() -> void:
+requireAdmin:
+    // smart_contracts/2-access-control/method-authorization.algo.ts:28
+    // assert(Txn.sender.bytes === this.admin.value, 'Admin only')
+    txn Sender
+    pushint 0 // 0
+    // smart_contracts/2-access-control/method-authorization.algo.ts:19
+    // public admin = GlobalState<bytes>({ key: 'admin' })
+    bytec_0 // "admin"
+    // smart_contracts/2-access-control/method-authorization.algo.ts:28
+    // assert(Txn.sender.bytes === this.admin.value, 'Admin only')
+    app_global_get_ex
+    assert // check GlobalState exists
+    ==
+    assert // Admin only
+    retsub

@@ -1,0 +1,600 @@
+{
+  "version": 3,
+  "sources": [
+    "../../4-transaction-input-validation/permissionless-args.algo.ts"
+  ],
+  "mappings": ";;;;;;AAwBA;;AAAA;AAAA;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AACE;AAAA;AAEA;;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AACS;AAA6B;;AAA7B;AAAP;AADF;AAAA;AAIA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAC+B;;;AAAtB;AAAP;AADF;AAAA;AAIA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACS;;;AAA0B;AAAS;AAAT;AAA1B;;;;AAAP;AADF;AAAA;;",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 1 0 8"
+    },
+    "6": {
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "8": {
+      "op": "!",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "9": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "10": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "12": {
+      "op": "bz main_create_NoOp@7",
+      "stack_out": []
+    },
+    "15": {
+      "op": "pushbytess 0x3252546d 0x2bb9a23b 0xcd94a30f // method \"submitCommitment(byte[])void\", method \"setSlippage(uint64)void\", method \"chooseMode(uint64)void\"",
+      "defined_out": [
+        "Method(chooseMode(uint64)void)",
+        "Method(setSlippage(uint64)void)",
+        "Method(submitCommitment(byte[])void)"
+      ],
+      "stack_out": [
+        "Method(submitCommitment(byte[])void)",
+        "Method(setSlippage(uint64)void)",
+        "Method(chooseMode(uint64)void)"
+      ]
+    },
+    "32": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(chooseMode(uint64)void)",
+        "Method(setSlippage(uint64)void)",
+        "Method(submitCommitment(byte[])void)",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "Method(submitCommitment(byte[])void)",
+        "Method(setSlippage(uint64)void)",
+        "Method(chooseMode(uint64)void)",
+        "tmp%4#0"
+      ]
+    },
+    "35": {
+      "op": "match submitCommitment setSlippage chooseMode",
+      "stack_out": []
+    },
+    "43": {
+      "op": "err"
+    },
+    "44": {
+      "block": "main_create_NoOp@7",
+      "stack_in": [],
+      "op": "pushbytes 0xb8447b36 // method \"createApplication()void\"",
+      "defined_out": [
+        "Method(createApplication()void)"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)"
+      ]
+    },
+    "50": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ]
+    },
+    "53": {
+      "op": "match main_createApplication_route@8",
+      "stack_out": []
+    },
+    "57": {
+      "op": "err"
+    },
+    "58": {
+      "block": "main_createApplication_route@8",
+      "stack_in": [],
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "59": {
+      "op": "return",
+      "stack_out": []
+    },
+    "60": {
+      "subroutine": "smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts::SafePermissionlessArgsContract.submitCommitment[routing]",
+      "params": {},
+      "block": "submitCommitment",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "63": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "64": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)",
+        "0"
+      ]
+    },
+    "65": {
+      "error": "invalid array length header",
+      "op": "extract_uint16 // on error: invalid array length header",
+      "defined_out": [
+        "aggregate%array_length%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "aggregate%array_length%0#0"
+      ]
+    },
+    "66": {
+      "op": "pushint 2 // 2",
+      "defined_out": [
+        "2",
+        "aggregate%array_length%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "aggregate%array_length%0#0",
+        "2"
+      ]
+    },
+    "68": {
+      "op": "+",
+      "defined_out": [
+        "add%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0"
+      ]
+    },
+    "69": {
+      "op": "dig 1",
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "71": {
+      "op": "len",
+      "defined_out": [
+        "add%0#0",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "add%0#0",
+        "len%0#0"
+      ]
+    },
+    "72": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "73": {
+      "error": "invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "op": "assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "74": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "commitment#0"
+      ],
+      "stack_out": [
+        "commitment#0"
+      ]
+    },
+    "77": {
+      "op": "len",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "78": {
+      "op": "pushint 32 // 32",
+      "defined_out": [
+        "32",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "32"
+      ]
+    },
+    "80": {
+      "op": "==",
+      "defined_out": [
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1"
+      ]
+    },
+    "81": {
+      "error": "Commitment must be 32 bytes",
+      "op": "assert // Commitment must be 32 bytes",
+      "stack_out": []
+    },
+    "82": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "83": {
+      "op": "return",
+      "stack_out": []
+    },
+    "84": {
+      "subroutine": "smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts::SafePermissionlessArgsContract.setSlippage[routing]",
+      "params": {},
+      "block": "setSlippage",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "87": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "88": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0"
+      ]
+    },
+    "89": {
+      "op": "intc_2 // 8",
+      "defined_out": [
+        "8",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "90": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "91": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "92": {
+      "op": "btoi",
+      "defined_out": [
+        "slippageBps#0"
+      ],
+      "stack_out": [
+        "slippageBps#0"
+      ]
+    },
+    "93": {
+      "op": "pushint 10000 // 10000",
+      "defined_out": [
+        "10000",
+        "slippageBps#0"
+      ],
+      "stack_out": [
+        "slippageBps#0",
+        "10000"
+      ]
+    },
+    "96": {
+      "op": "<=",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "97": {
+      "error": "Slippage out of range",
+      "op": "assert // Slippage out of range",
+      "stack_out": []
+    },
+    "98": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "99": {
+      "op": "return",
+      "stack_out": []
+    },
+    "100": {
+      "subroutine": "smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts::SafePermissionlessArgsContract.chooseMode[routing]",
+      "params": {},
+      "block": "chooseMode",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "103": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "104": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0"
+      ]
+    },
+    "105": {
+      "op": "intc_2 // 8",
+      "defined_out": [
+        "8",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "106": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "107": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "108": {
+      "op": "btoi",
+      "defined_out": [
+        "mode#0"
+      ],
+      "stack_out": [
+        "mode#0"
+      ]
+    },
+    "109": {
+      "op": "dup",
+      "defined_out": [
+        "mode#0"
+      ],
+      "stack_out": [
+        "mode#0",
+        "mode#0"
+      ]
+    },
+    "110": {
+      "op": "bz chooseMode_bool_true@3",
+      "stack_out": [
+        "mode#0"
+      ]
+    },
+    "113": {
+      "op": "dup",
+      "stack_out": [
+        "mode#0",
+        "mode#0"
+      ]
+    },
+    "114": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1",
+        "mode#0"
+      ],
+      "stack_out": [
+        "mode#0",
+        "mode#0",
+        "1"
+      ]
+    },
+    "115": {
+      "op": "==",
+      "defined_out": [
+        "mode#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "mode#0",
+        "tmp%1#1"
+      ]
+    },
+    "116": {
+      "op": "bz chooseMode_bool_false@4",
+      "stack_out": [
+        "mode#0"
+      ]
+    },
+    "119": {
+      "block": "chooseMode_bool_true@3",
+      "stack_in": [
+        "mode#0"
+      ],
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "or_result%0#0"
+      ],
+      "stack_out": [
+        "mode#0",
+        "or_result%0#0"
+      ]
+    },
+    "120": {
+      "error": "Invalid mode",
+      "block": "chooseMode_bool_merge@5",
+      "stack_in": [
+        "mode#0",
+        "or_result%0#0"
+      ],
+      "op": "assert // Invalid mode",
+      "defined_out": [],
+      "stack_out": [
+        "mode#0"
+      ]
+    },
+    "121": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "mode#0",
+        "1"
+      ]
+    },
+    "122": {
+      "op": "return",
+      "stack_out": [
+        "mode#0"
+      ]
+    },
+    "123": {
+      "block": "chooseMode_bool_false@4",
+      "stack_in": [
+        "mode#0"
+      ],
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "or_result%0#0"
+      ],
+      "stack_out": [
+        "mode#0",
+        "or_result%0#0"
+      ]
+    },
+    "124": {
+      "op": "b chooseMode_bool_merge@5"
+    }
+  }
+}

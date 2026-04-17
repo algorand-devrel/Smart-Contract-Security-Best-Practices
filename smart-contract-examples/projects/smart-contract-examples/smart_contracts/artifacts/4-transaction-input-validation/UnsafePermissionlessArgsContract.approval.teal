@@ -1,0 +1,75 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 1 8
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:8
+    // export class UnsafePermissionlessArgsContract extends Contract {
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    bz main_create_NoOp@7
+    pushbytess 0x3252546d 0x2bb9a23b 0xcd94a30f // method "submitCommitment(byte[])void", method "setSlippage(uint64)void", method "chooseMode(uint64)void"
+    txna ApplicationArgs 0
+    match submitCommitment setSlippage chooseMode
+    err
+
+main_create_NoOp@7:
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:8
+    // export class UnsafePermissionlessArgsContract extends Contract {
+    pushbytes 0xb8447b36 // method "createApplication()void"
+    txna ApplicationArgs 0
+    match main_createApplication_route@8
+    err
+
+main_createApplication_route@8:
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:9
+    // public createApplication(): void {}
+    intc_0 // 1
+    return
+
+
+// smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts::UnsafePermissionlessArgsContract.submitCommitment[routing]() -> void:
+submitCommitment:
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:11
+    // public submitCommitment(commitment: bytes): void {
+    txna ApplicationArgs 1
+    dup
+    pushint 0 // 0
+    extract_uint16 // on error: invalid array length header
+    pushint 2 // 2
+    +
+    swap
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    intc_0 // 1
+    return
+
+
+// smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts::UnsafePermissionlessArgsContract.setSlippage[routing]() -> void:
+setSlippage:
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:15
+    // public setSlippage(slippageBps: uint64): void {
+    txna ApplicationArgs 1
+    len
+    intc_1 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    intc_0 // 1
+    return
+
+
+// smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts::UnsafePermissionlessArgsContract.chooseMode[routing]() -> void:
+chooseMode:
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:19
+    // public chooseMode(mode: uint64): void {
+    txna ApplicationArgs 1
+    len
+    intc_1 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    intc_0 // 1
+    return

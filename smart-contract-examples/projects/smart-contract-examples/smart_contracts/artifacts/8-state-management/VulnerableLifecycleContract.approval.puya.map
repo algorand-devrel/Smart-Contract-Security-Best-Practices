@@ -1,0 +1,583 @@
+{
+  "version": 3,
+  "sources": [
+    "../../8-state-management/state-machine.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;AASA;;AAAA;AAAA;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;;;AAAA;AAE0B;AAgBa;AAAnC;AAHF;AAAA;AAdkB;AAWa;AAA7B;AADF;AAAA;AAXF;;;;;;AAAA;;;AAAA;;;;AAAA;AACoB;AAKa;AAA7B;AAJsB;AAKa;AAAnC;AAJmB;AAKa;AAAhC;AAHF;AAAA;AAgBA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACS;AArBS;AAqBT;AAAA;AAA+B;AAA/B;AAAP;AACyB;AApBN;AAoBM;AAAA;AAAA;AApBN;AAoBnB;AAAA;AAFF;AAAA;AAOS;AA1Be;AA0Bf;AAAA;AAAqC;AAArC;AAAP;AAFF;AAAA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 1 0"
+    },
+    "5": {
+      "op": "bytecblock \"settle\" \"sale\" \"orders\""
+    },
+    "26": {
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "28": {
+      "op": "!",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "29": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "30": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "32": {
+      "op": "bz main_create_NoOp@8",
+      "stack_out": []
+    },
+    "35": {
+      "op": "pushbytess 0x78f04798 0x9992e296 0x46ee50ff 0x7c3c2b0c // method \"openSale()void\", method \"openSettlement()void\", method \"buy(uint64)void\", method \"settle()void\"",
+      "defined_out": [
+        "Method(buy(uint64)void)",
+        "Method(openSale()void)",
+        "Method(openSettlement()void)",
+        "Method(settle()void)"
+      ],
+      "stack_out": [
+        "Method(openSale()void)",
+        "Method(openSettlement()void)",
+        "Method(buy(uint64)void)",
+        "Method(settle()void)"
+      ]
+    },
+    "57": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(buy(uint64)void)",
+        "Method(openSale()void)",
+        "Method(openSettlement()void)",
+        "Method(settle()void)",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "Method(openSale()void)",
+        "Method(openSettlement()void)",
+        "Method(buy(uint64)void)",
+        "Method(settle()void)",
+        "tmp%4#0"
+      ]
+    },
+    "60": {
+      "op": "match main_openSale_route@3 main_openSettlement_route@4 buy settle",
+      "stack_out": []
+    },
+    "70": {
+      "op": "err"
+    },
+    "71": {
+      "block": "main_openSettlement_route@4",
+      "stack_in": [],
+      "op": "bytec_0 // \"settle\"",
+      "defined_out": [
+        "\"settle\""
+      ],
+      "stack_out": [
+        "\"settle\""
+      ]
+    },
+    "72": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "\"settle\"",
+        "1"
+      ],
+      "stack_out": [
+        "\"settle\"",
+        "1"
+      ]
+    },
+    "73": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "74": {
+      "op": "intc_0 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "75": {
+      "op": "return",
+      "stack_out": []
+    },
+    "76": {
+      "block": "main_openSale_route@3",
+      "stack_in": [],
+      "op": "bytec_1 // \"sale\"",
+      "defined_out": [
+        "\"sale\""
+      ],
+      "stack_out": [
+        "\"sale\""
+      ]
+    },
+    "77": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "\"sale\"",
+        "1"
+      ],
+      "stack_out": [
+        "\"sale\"",
+        "1"
+      ]
+    },
+    "78": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "79": {
+      "op": "intc_0 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "80": {
+      "op": "return",
+      "stack_out": []
+    },
+    "81": {
+      "block": "main_create_NoOp@8",
+      "stack_in": [],
+      "op": "pushbytes 0xb8447b36 // method \"createApplication()void\"",
+      "defined_out": [
+        "Method(createApplication()void)"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)"
+      ]
+    },
+    "87": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ]
+    },
+    "90": {
+      "op": "match createApplication",
+      "stack_out": []
+    },
+    "94": {
+      "op": "err"
+    },
+    "95": {
+      "subroutine": "smart_contracts/8-state-management/state-machine.algo.ts::VulnerableLifecycleContract.createApplication[routing]",
+      "params": {},
+      "block": "createApplication",
+      "stack_in": [],
+      "op": "bytec_1 // \"sale\"",
+      "defined_out": [
+        "\"sale\""
+      ],
+      "stack_out": [
+        "\"sale\""
+      ]
+    },
+    "96": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "\"sale\"",
+        "0"
+      ],
+      "stack_out": [
+        "\"sale\"",
+        "0"
+      ]
+    },
+    "97": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "98": {
+      "op": "bytec_0 // \"settle\"",
+      "defined_out": [
+        "\"settle\""
+      ],
+      "stack_out": [
+        "\"settle\""
+      ]
+    },
+    "99": {
+      "op": "intc_1 // 0",
+      "stack_out": [
+        "\"settle\"",
+        "0"
+      ]
+    },
+    "100": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "101": {
+      "op": "bytec_2 // \"orders\"",
+      "defined_out": [
+        "\"orders\""
+      ],
+      "stack_out": [
+        "\"orders\""
+      ]
+    },
+    "102": {
+      "op": "intc_1 // 0",
+      "stack_out": [
+        "\"orders\"",
+        "0"
+      ]
+    },
+    "103": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "104": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "105": {
+      "op": "return",
+      "stack_out": []
+    },
+    "106": {
+      "subroutine": "smart_contracts/8-state-management/state-machine.algo.ts::VulnerableLifecycleContract.buy[routing]",
+      "params": {},
+      "block": "buy",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "109": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "110": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0"
+      ]
+    },
+    "111": {
+      "op": "pushint 8 // 8",
+      "defined_out": [
+        "8",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "113": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "114": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "115": {
+      "op": "btoi",
+      "defined_out": [
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0"
+      ]
+    },
+    "116": {
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0",
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "0"
+      ]
+    },
+    "117": {
+      "op": "bytec_1 // \"sale\"",
+      "defined_out": [
+        "\"sale\"",
+        "0",
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "0",
+        "\"sale\""
+      ]
+    },
+    "118": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "amount#0",
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "119": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "120": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1",
+        "amount#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "1"
+      ]
+    },
+    "121": {
+      "op": "==",
+      "defined_out": [
+        "amount#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "amount#0",
+        "tmp%0#1"
+      ]
+    },
+    "122": {
+      "error": "Sale closed",
+      "op": "assert // Sale closed",
+      "stack_out": [
+        "amount#0"
+      ]
+    },
+    "123": {
+      "op": "intc_1 // 0",
+      "stack_out": [
+        "amount#0",
+        "0"
+      ]
+    },
+    "124": {
+      "op": "bytec_2 // \"orders\"",
+      "defined_out": [
+        "\"orders\"",
+        "0",
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "0",
+        "\"orders\""
+      ]
+    },
+    "125": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "amount#0",
+        "maybe_exists%1#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "126": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "amount#0",
+        "maybe_value%1#0"
+      ]
+    },
+    "127": {
+      "op": "+",
+      "defined_out": [
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1"
+      ]
+    },
+    "128": {
+      "op": "bytec_2 // \"orders\"",
+      "stack_out": [
+        "tmp%1#1",
+        "\"orders\""
+      ]
+    },
+    "129": {
+      "op": "swap",
+      "stack_out": [
+        "\"orders\"",
+        "tmp%1#1"
+      ]
+    },
+    "130": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "131": {
+      "op": "intc_0 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "132": {
+      "op": "return",
+      "stack_out": []
+    },
+    "133": {
+      "subroutine": "smart_contracts/8-state-management/state-machine.algo.ts::VulnerableLifecycleContract.settle[routing]",
+      "params": {},
+      "block": "settle",
+      "stack_in": [],
+      "op": "intc_1 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "134": {
+      "op": "bytec_0 // \"settle\"",
+      "defined_out": [
+        "\"settle\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"settle\""
+      ]
+    },
+    "135": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "136": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "137": {
+      "op": "intc_0 // 1",
+      "defined_out": [
+        "1",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "1"
+      ]
+    },
+    "138": {
+      "op": "==",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "139": {
+      "error": "Settlement closed",
+      "op": "assert // Settlement closed",
+      "stack_out": []
+    },
+    "140": {
+      "op": "intc_0 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "141": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

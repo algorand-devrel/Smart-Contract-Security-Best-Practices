@@ -1,0 +1,251 @@
+{
+  "version": 3,
+  "sources": [
+    "../../2-access-control/method-authorization.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;AAIA;;AAAA;AAAA;AAAA;;AAAA;;;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AACoB;AAGM;;AAAtB;AADF;;AAAA;AAIA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AANkB;AAOhB;AAAA;AADF;;AAAA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "bytecblock \"treasury\""
+    },
+    "12": {
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "14": {
+      "op": "!",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "15": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "16": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "18": {
+      "op": "bz main_create_NoOp@5",
+      "stack_out": []
+    },
+    "21": {
+      "op": "pushbytes 0xed73e6ce // method \"setTreasury(address)void\"",
+      "defined_out": [
+        "Method(setTreasury(address)void)"
+      ],
+      "stack_out": [
+        "Method(setTreasury(address)void)"
+      ]
+    },
+    "27": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(setTreasury(address)void)",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "Method(setTreasury(address)void)",
+        "tmp%4#0"
+      ]
+    },
+    "30": {
+      "op": "match setTreasury",
+      "stack_out": []
+    },
+    "34": {
+      "op": "err"
+    },
+    "35": {
+      "block": "main_create_NoOp@5",
+      "stack_in": [],
+      "op": "pushbytes 0xb8447b36 // method \"createApplication()void\"",
+      "defined_out": [
+        "Method(createApplication()void)"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)"
+      ]
+    },
+    "41": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ]
+    },
+    "44": {
+      "op": "match createApplication",
+      "stack_out": []
+    },
+    "48": {
+      "op": "err"
+    },
+    "49": {
+      "subroutine": "smart_contracts/2-access-control/method-authorization.algo.ts::VulnerableTreasuryContract.createApplication[routing]",
+      "params": {},
+      "block": "createApplication",
+      "stack_in": [],
+      "op": "bytec_0 // \"treasury\"",
+      "defined_out": [
+        "\"treasury\""
+      ],
+      "stack_out": [
+        "\"treasury\""
+      ]
+    },
+    "50": {
+      "op": "global CreatorAddress",
+      "defined_out": [
+        "\"treasury\"",
+        "reinterpret_bytes[32]%0#0"
+      ],
+      "stack_out": [
+        "\"treasury\"",
+        "reinterpret_bytes[32]%0#0"
+      ]
+    },
+    "52": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "53": {
+      "op": "pushint 1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "55": {
+      "op": "return",
+      "stack_out": []
+    },
+    "56": {
+      "subroutine": "smart_contracts/2-access-control/method-authorization.algo.ts::VulnerableTreasuryContract.setTreasury[routing]",
+      "params": {},
+      "block": "setTreasury",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "newTreasury#0"
+      ],
+      "stack_out": [
+        "newTreasury#0"
+      ]
+    },
+    "59": {
+      "op": "dup",
+      "defined_out": [
+        "newTreasury#0",
+        "newTreasury#0 (copy)"
+      ],
+      "stack_out": [
+        "newTreasury#0",
+        "newTreasury#0 (copy)"
+      ]
+    },
+    "60": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "newTreasury#0"
+      ],
+      "stack_out": [
+        "newTreasury#0",
+        "len%0#0"
+      ]
+    },
+    "61": {
+      "op": "pushint 32 // 32",
+      "defined_out": [
+        "32",
+        "len%0#0",
+        "newTreasury#0"
+      ],
+      "stack_out": [
+        "newTreasury#0",
+        "len%0#0",
+        "32"
+      ]
+    },
+    "63": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "newTreasury#0"
+      ],
+      "stack_out": [
+        "newTreasury#0",
+        "eq%0#0"
+      ]
+    },
+    "64": {
+      "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
+      "stack_out": [
+        "newTreasury#0"
+      ]
+    },
+    "65": {
+      "op": "bytec_0 // \"treasury\"",
+      "defined_out": [
+        "\"treasury\"",
+        "newTreasury#0"
+      ],
+      "stack_out": [
+        "newTreasury#0",
+        "\"treasury\""
+      ]
+    },
+    "66": {
+      "op": "swap",
+      "stack_out": [
+        "\"treasury\"",
+        "newTreasury#0"
+      ]
+    },
+    "67": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "68": {
+      "op": "pushint 1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "70": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

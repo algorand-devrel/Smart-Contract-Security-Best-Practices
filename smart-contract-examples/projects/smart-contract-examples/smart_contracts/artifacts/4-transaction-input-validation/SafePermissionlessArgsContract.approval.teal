@@ -1,0 +1,117 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 1 0 8
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:25
+    // export class SafePermissionlessArgsContract extends Contract {
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    bz main_create_NoOp@7
+    pushbytess 0x3252546d 0x2bb9a23b 0xcd94a30f // method "submitCommitment(byte[])void", method "setSlippage(uint64)void", method "chooseMode(uint64)void"
+    txna ApplicationArgs 0
+    match submitCommitment setSlippage chooseMode
+    err
+
+main_create_NoOp@7:
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:25
+    // export class SafePermissionlessArgsContract extends Contract {
+    pushbytes 0xb8447b36 // method "createApplication()void"
+    txna ApplicationArgs 0
+    match main_createApplication_route@8
+    err
+
+main_createApplication_route@8:
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:26
+    // public createApplication(): void {}
+    intc_0 // 1
+    return
+
+
+// smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts::SafePermissionlessArgsContract.submitCommitment[routing]() -> void:
+submitCommitment:
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:28
+    // public submitCommitment(commitment: bytes): void {
+    txna ApplicationArgs 1
+    dup
+    intc_1 // 0
+    extract_uint16 // on error: invalid array length header
+    pushint 2 // 2
+    +
+    dig 1
+    len
+    ==
+    assert // invalid number of bytes for arc4.dynamic_array<arc4.uint8>
+    extract 2 0
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:29
+    // assert(commitment.length === Uint64(32), 'Commitment must be 32 bytes')
+    len
+    pushint 32 // 32
+    ==
+    assert // Commitment must be 32 bytes
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:28
+    // public submitCommitment(commitment: bytes): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts::SafePermissionlessArgsContract.setSlippage[routing]() -> void:
+setSlippage:
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:32
+    // public setSlippage(slippageBps: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    intc_2 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:33
+    // assert(slippageBps <= Uint64(10_000), 'Slippage out of range')
+    pushint 10000 // 10000
+    <=
+    assert // Slippage out of range
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:32
+    // public setSlippage(slippageBps: uint64): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts::SafePermissionlessArgsContract.chooseMode[routing]() -> void:
+chooseMode:
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:36
+    // public chooseMode(mode: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    intc_2 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    dup
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:37
+    // assert(mode === MODE_EXACT_IN || mode === MODE_EXACT_OUT, 'Invalid mode')
+    bz chooseMode_bool_true@3
+    dup
+    intc_0 // 1
+    ==
+    bz chooseMode_bool_false@4
+
+chooseMode_bool_true@3:
+    intc_0 // 1
+
+chooseMode_bool_merge@5:
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:37
+    // assert(mode === MODE_EXACT_IN || mode === MODE_EXACT_OUT, 'Invalid mode')
+    assert // Invalid mode
+    // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:36
+    // public chooseMode(mode: uint64): void {
+    intc_0 // 1
+    return
+
+chooseMode_bool_false@4:
+    intc_1 // 0
+    b chooseMode_bool_merge@5

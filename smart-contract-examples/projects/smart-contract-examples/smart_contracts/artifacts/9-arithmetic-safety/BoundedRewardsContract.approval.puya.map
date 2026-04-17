@@ -1,0 +1,1268 @@
+{
+  "version": 3,
+  "sources": [
+    "../../9-arithmetic-safety/config-validation.algo.ts"
+  ],
+  "mappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA+DA;;AAAA;AAAA;AAAA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AAC+B;AAMa;AAAxC;AALkB;AAMa;AAA/B;AALmB;AAMa;AAAhC;AALwB;AAMa;AAArC;AAJF;AAAA;AAOA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AACS;;AAAe;;AAAf;AAAP;AACA;AACA;;;AACgC;;;;;;;;;;;AAAA;;AAAA;AAAvB;;AAAA;AAAP;AAhByB;AAmB3B;;AAAA;AAlBkB;AAmBlB;;AAAA;AAlBmB;AAmBnB;;AAAA;AATF;AAAA;AAYA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACS;AAtBiB;AAsBjB;AAAA;AAA+B;AAzBX;AAyBW;AAAA;AAAA;;AAAA;AAA/B;;AAAA;AAAP;AAC8B;AAvBN;AAuBxB;AAAA;AAFF;AAAA;AAMU;AA3BgB;AA2BhB;AAAA;AAA8B;AA7BpB;AA6BoB;AAAA;AAA9B;AAAuD;AA5B5C;AA4B4C;AAAA;AAAxD;AADT;AAAA;;;;;;AAAA;AAAA;AAAA;AAAA;AAAA",
+  "op_pc_offset": 0,
+  "pc_events": {
+    "1": {
+      "subroutine": "@algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram",
+      "params": {},
+      "block": "main",
+      "stack_in": [],
+      "op": "intcblock 0 1 8"
+    },
+    "6": {
+      "op": "bytecblock \"total\" \"max\" \"rate\" \"scale\""
+    },
+    "29": {
+      "op": "txn OnCompletion",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "31": {
+      "op": "!",
+      "defined_out": [
+        "tmp%1#0"
+      ],
+      "stack_out": [
+        "tmp%1#0"
+      ]
+    },
+    "32": {
+      "error": "OnCompletion must be NoOp",
+      "op": "assert // OnCompletion must be NoOp",
+      "stack_out": []
+    },
+    "33": {
+      "op": "txn ApplicationID",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "35": {
+      "op": "bz main_create_NoOp@7",
+      "stack_out": []
+    },
+    "38": {
+      "op": "pushbytess 0x352d0f12 0x48b06bb6 0x2d4d0624 // method \"configure(uint64,uint64,uint64)void\", method \"recordEligibleDeposits(uint64)void\", method \"calculatePayout()uint64\"",
+      "defined_out": [
+        "Method(calculatePayout()uint64)",
+        "Method(configure(uint64,uint64,uint64)void)",
+        "Method(recordEligibleDeposits(uint64)void)"
+      ],
+      "stack_out": [
+        "Method(configure(uint64,uint64,uint64)void)",
+        "Method(recordEligibleDeposits(uint64)void)",
+        "Method(calculatePayout()uint64)"
+      ]
+    },
+    "55": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(calculatePayout()uint64)",
+        "Method(configure(uint64,uint64,uint64)void)",
+        "Method(recordEligibleDeposits(uint64)void)",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "Method(configure(uint64,uint64,uint64)void)",
+        "Method(recordEligibleDeposits(uint64)void)",
+        "Method(calculatePayout()uint64)",
+        "tmp%4#0"
+      ]
+    },
+    "58": {
+      "op": "match configure recordEligibleDeposits calculatePayout",
+      "stack_out": []
+    },
+    "66": {
+      "op": "err"
+    },
+    "67": {
+      "block": "main_create_NoOp@7",
+      "stack_in": [],
+      "op": "pushbytes 0xb8447b36 // method \"createApplication()void\"",
+      "defined_out": [
+        "Method(createApplication()void)"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)"
+      ]
+    },
+    "73": {
+      "op": "txna ApplicationArgs 0",
+      "defined_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ],
+      "stack_out": [
+        "Method(createApplication()void)",
+        "tmp%5#0"
+      ]
+    },
+    "76": {
+      "op": "match createApplication",
+      "stack_out": []
+    },
+    "80": {
+      "op": "err"
+    },
+    "81": {
+      "subroutine": "smart_contracts/9-arithmetic-safety/config-validation.algo.ts::BoundedRewardsContract.createApplication[routing]",
+      "params": {},
+      "block": "createApplication",
+      "stack_in": [],
+      "op": "bytec_1 // \"max\"",
+      "defined_out": [
+        "\"max\""
+      ],
+      "stack_out": [
+        "\"max\""
+      ]
+    },
+    "82": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "\"max\"",
+        "0"
+      ],
+      "stack_out": [
+        "\"max\"",
+        "0"
+      ]
+    },
+    "83": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "84": {
+      "op": "bytec_2 // \"rate\"",
+      "defined_out": [
+        "\"rate\""
+      ],
+      "stack_out": [
+        "\"rate\""
+      ]
+    },
+    "85": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"rate\"",
+        "0"
+      ]
+    },
+    "86": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "87": {
+      "op": "bytec_3 // \"scale\"",
+      "defined_out": [
+        "\"scale\""
+      ],
+      "stack_out": [
+        "\"scale\""
+      ]
+    },
+    "88": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "\"scale\"",
+        "1"
+      ],
+      "stack_out": [
+        "\"scale\"",
+        "1"
+      ]
+    },
+    "89": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "90": {
+      "op": "bytec_0 // \"total\"",
+      "defined_out": [
+        "\"total\""
+      ],
+      "stack_out": [
+        "\"total\""
+      ]
+    },
+    "91": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "\"total\"",
+        "0"
+      ]
+    },
+    "92": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "93": {
+      "op": "intc_1 // 1",
+      "stack_out": [
+        "1"
+      ]
+    },
+    "94": {
+      "op": "return",
+      "stack_out": []
+    },
+    "95": {
+      "subroutine": "smart_contracts/9-arithmetic-safety/config-validation.algo.ts::BoundedRewardsContract.configure[routing]",
+      "params": {},
+      "block": "configure",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "98": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "99": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0"
+      ]
+    },
+    "100": {
+      "op": "intc_2 // 8",
+      "defined_out": [
+        "8",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "101": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "102": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "103": {
+      "op": "btoi",
+      "defined_out": [
+        "maxEligibleDeposits#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0"
+      ]
+    },
+    "104": {
+      "op": "txna ApplicationArgs 2",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0"
+      ]
+    },
+    "107": {
+      "op": "dup",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0",
+        "tmp%2#0 (copy)"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0",
+        "tmp%2#0 (copy)"
+      ]
+    },
+    "108": {
+      "op": "len",
+      "defined_out": [
+        "len%1#0",
+        "maxEligibleDeposits#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0",
+        "len%1#0"
+      ]
+    },
+    "109": {
+      "op": "intc_2 // 8",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0",
+        "len%1#0",
+        "8"
+      ]
+    },
+    "110": {
+      "op": "==",
+      "defined_out": [
+        "eq%1#0",
+        "maxEligibleDeposits#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0",
+        "eq%1#0"
+      ]
+    },
+    "111": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "tmp%2#0"
+      ]
+    },
+    "112": {
+      "op": "btoi",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0"
+      ]
+    },
+    "113": {
+      "op": "dup",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardRate#0"
+      ]
+    },
+    "114": {
+      "op": "txna ApplicationArgs 3",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardRate#0",
+        "tmp%4#0"
+      ]
+    },
+    "117": {
+      "op": "dup",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0",
+        "tmp%4#0 (copy)"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardRate#0",
+        "tmp%4#0",
+        "tmp%4#0 (copy)"
+      ]
+    },
+    "118": {
+      "op": "len",
+      "defined_out": [
+        "len%2#0",
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardRate#0",
+        "tmp%4#0",
+        "len%2#0"
+      ]
+    },
+    "119": {
+      "op": "intc_2 // 8",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardRate#0",
+        "tmp%4#0",
+        "len%2#0",
+        "8"
+      ]
+    },
+    "120": {
+      "op": "==",
+      "defined_out": [
+        "eq%2#0",
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "tmp%4#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardRate#0",
+        "tmp%4#0",
+        "eq%2#0"
+      ]
+    },
+    "121": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardRate#0",
+        "tmp%4#0"
+      ]
+    },
+    "122": {
+      "op": "btoi",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "123": {
+      "op": "dup",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "rewardScale#0"
+      ]
+    },
+    "124": {
+      "op": "cover 2",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "126": {
+      "op": "txn Sender",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%0#1"
+      ]
+    },
+    "128": {
+      "op": "global CreatorAddress",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%0#1",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%0#1",
+        "tmp%1#1"
+      ]
+    },
+    "130": {
+      "op": "==",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%2#1"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%2#1"
+      ]
+    },
+    "131": {
+      "error": "Admin only",
+      "op": "assert // Admin only",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "132": {
+      "error": "Scale must be nonzero",
+      "op": "assert // Scale must be nonzero",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "rewardRate#0"
+      ]
+    },
+    "133": {
+      "op": "bz configure_after_if_else@3",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "136": {
+      "op": "pushint 18446744073709551615 // 18446744073709551615",
+      "defined_out": [
+        "18446744073709551615",
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "18446744073709551615"
+      ]
+    },
+    "147": {
+      "op": "dig 2",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "18446744073709551615",
+        "rewardRate#0"
+      ]
+    },
+    "149": {
+      "op": "/",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%5#1"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%5#1"
+      ]
+    },
+    "150": {
+      "op": "dig 3",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%5#1",
+        "maxEligibleDeposits#0"
+      ]
+    },
+    "152": {
+      "op": ">=",
+      "defined_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "tmp%6#0"
+      ]
+    },
+    "153": {
+      "error": "Configuration can overflow",
+      "op": "assert // Configuration can overflow",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "154": {
+      "block": "configure_after_if_else@3",
+      "stack_in": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ],
+      "op": "bytec_1 // \"max\"",
+      "defined_out": [
+        "\"max\""
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "\"max\""
+      ]
+    },
+    "155": {
+      "op": "dig 3",
+      "defined_out": [
+        "\"max\"",
+        "maxEligibleDeposits#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "\"max\"",
+        "maxEligibleDeposits#0"
+      ]
+    },
+    "157": {
+      "op": "app_global_put",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "158": {
+      "op": "bytec_2 // \"rate\"",
+      "defined_out": [
+        "\"rate\"",
+        "maxEligibleDeposits#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "\"rate\""
+      ]
+    },
+    "159": {
+      "op": "dig 2",
+      "defined_out": [
+        "\"rate\"",
+        "maxEligibleDeposits#0",
+        "rewardRate#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "\"rate\"",
+        "rewardRate#0"
+      ]
+    },
+    "161": {
+      "op": "app_global_put",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "162": {
+      "op": "bytec_3 // \"scale\"",
+      "defined_out": [
+        "\"scale\"",
+        "maxEligibleDeposits#0",
+        "rewardRate#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "\"scale\""
+      ]
+    },
+    "163": {
+      "op": "dig 1",
+      "defined_out": [
+        "\"scale\"",
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "\"scale\"",
+        "rewardScale#0"
+      ]
+    },
+    "165": {
+      "op": "app_global_put",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "166": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1",
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ],
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0",
+        "1"
+      ]
+    },
+    "167": {
+      "op": "return",
+      "stack_out": [
+        "maxEligibleDeposits#0",
+        "rewardRate#0",
+        "rewardScale#0"
+      ]
+    },
+    "168": {
+      "subroutine": "smart_contracts/9-arithmetic-safety/config-validation.algo.ts::BoundedRewardsContract.recordEligibleDeposits[routing]",
+      "params": {},
+      "block": "recordEligibleDeposits",
+      "stack_in": [],
+      "op": "txna ApplicationArgs 1",
+      "defined_out": [
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "171": {
+      "op": "dup",
+      "defined_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "172": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0"
+      ]
+    },
+    "173": {
+      "op": "intc_2 // 8",
+      "defined_out": [
+        "8",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "174": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "175": {
+      "error": "invalid number of bytes for arc4.uint64",
+      "op": "assert // invalid number of bytes for arc4.uint64",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "176": {
+      "op": "btoi",
+      "defined_out": [
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0"
+      ]
+    },
+    "177": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "0"
+      ]
+    },
+    "178": {
+      "op": "bytec_0 // \"total\"",
+      "defined_out": [
+        "\"total\"",
+        "0",
+        "amount#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "0",
+        "\"total\""
+      ]
+    },
+    "179": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "amount#0",
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "180": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "181": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "0"
+      ]
+    },
+    "182": {
+      "op": "bytec_1 // \"max\"",
+      "defined_out": [
+        "\"max\"",
+        "0",
+        "amount#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "0",
+        "\"max\""
+      ]
+    },
+    "183": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "amount#0",
+        "maybe_exists%1#0",
+        "maybe_value%0#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "184": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "maybe_value%1#0"
+      ]
+    },
+    "185": {
+      "op": "dig 2",
+      "defined_out": [
+        "amount#0",
+        "amount#0 (copy)",
+        "maybe_value%0#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "maybe_value%1#0",
+        "amount#0 (copy)"
+      ]
+    },
+    "187": {
+      "op": "-",
+      "defined_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "tmp%0#1"
+      ]
+    },
+    "188": {
+      "op": "dig 1",
+      "defined_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "maybe_value%0#0 (copy)",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "tmp%0#1",
+        "maybe_value%0#0 (copy)"
+      ]
+    },
+    "190": {
+      "op": ">=",
+      "defined_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0",
+        "tmp%1#1"
+      ]
+    },
+    "191": {
+      "error": "Exceeds configured limit",
+      "op": "assert // Exceeds configured limit",
+      "stack_out": [
+        "amount#0",
+        "maybe_value%0#0"
+      ]
+    },
+    "192": {
+      "op": "+",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "193": {
+      "op": "bytec_0 // \"total\"",
+      "stack_out": [
+        "tmp%2#0",
+        "\"total\""
+      ]
+    },
+    "194": {
+      "op": "swap",
+      "stack_out": [
+        "\"total\"",
+        "tmp%2#0"
+      ]
+    },
+    "195": {
+      "op": "app_global_put",
+      "stack_out": []
+    },
+    "196": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "197": {
+      "op": "return",
+      "stack_out": []
+    },
+    "198": {
+      "subroutine": "smart_contracts/9-arithmetic-safety/config-validation.algo.ts::BoundedRewardsContract.calculatePayout[routing]",
+      "params": {},
+      "block": "calculatePayout",
+      "stack_in": [],
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0"
+      ],
+      "stack_out": [
+        "0"
+      ]
+    },
+    "199": {
+      "op": "bytec_0 // \"total\"",
+      "defined_out": [
+        "\"total\"",
+        "0"
+      ],
+      "stack_out": [
+        "0",
+        "\"total\""
+      ]
+    },
+    "200": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%0#0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_exists%0#0"
+      ]
+    },
+    "201": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%0#0"
+      ]
+    },
+    "202": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "maybe_value%0#0",
+        "0"
+      ]
+    },
+    "203": {
+      "op": "bytec_2 // \"rate\"",
+      "defined_out": [
+        "\"rate\"",
+        "0",
+        "maybe_value%0#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "0",
+        "\"rate\""
+      ]
+    },
+    "204": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%1#0",
+        "maybe_value%0#0",
+        "maybe_value%1#0"
+      ],
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_value%1#0",
+        "maybe_exists%1#0"
+      ]
+    },
+    "205": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "maybe_value%0#0",
+        "maybe_value%1#0"
+      ]
+    },
+    "206": {
+      "op": "*",
+      "defined_out": [
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1"
+      ]
+    },
+    "207": {
+      "op": "intc_0 // 0",
+      "stack_out": [
+        "tmp%0#1",
+        "0"
+      ]
+    },
+    "208": {
+      "op": "bytec_3 // \"scale\"",
+      "defined_out": [
+        "\"scale\"",
+        "0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "0",
+        "\"scale\""
+      ]
+    },
+    "209": {
+      "op": "app_global_get_ex",
+      "defined_out": [
+        "maybe_exists%2#0",
+        "maybe_value%2#0",
+        "tmp%0#1"
+      ],
+      "stack_out": [
+        "tmp%0#1",
+        "maybe_value%2#0",
+        "maybe_exists%2#0"
+      ]
+    },
+    "210": {
+      "error": "check GlobalState exists",
+      "op": "assert // check GlobalState exists",
+      "stack_out": [
+        "tmp%0#1",
+        "maybe_value%2#0"
+      ]
+    },
+    "211": {
+      "op": "/",
+      "defined_out": [
+        "tmp%1#1"
+      ],
+      "stack_out": [
+        "tmp%1#1"
+      ]
+    },
+    "212": {
+      "op": "itob",
+      "defined_out": [
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "213": {
+      "op": "pushbytes 0x151f7c75",
+      "defined_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ],
+      "stack_out": [
+        "aggregate%val_as_bytes%0#0",
+        "0x151f7c75"
+      ]
+    },
+    "219": {
+      "op": "swap",
+      "stack_out": [
+        "0x151f7c75",
+        "aggregate%val_as_bytes%0#0"
+      ]
+    },
+    "220": {
+      "op": "concat",
+      "defined_out": [
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "tmp%2#0"
+      ]
+    },
+    "221": {
+      "op": "log",
+      "stack_out": []
+    },
+    "222": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "1"
+      ],
+      "stack_out": [
+        "1"
+      ]
+    },
+    "223": {
+      "op": "return",
+      "stack_out": []
+    }
+  }
+}

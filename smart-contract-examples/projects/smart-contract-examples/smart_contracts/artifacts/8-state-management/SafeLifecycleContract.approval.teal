@@ -1,0 +1,165 @@
+#pragma version 11
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 1 0 2
+    bytecblock "phase" "orders"
+    // smart_contracts/8-state-management/state-machine.algo.ts:43
+    // export class SafeLifecycleContract extends Contract {
+    txn OnCompletion
+    !
+    assert // OnCompletion must be NoOp
+    txn ApplicationID
+    bz main_create_NoOp@8
+    pushbytess 0x45cdbb64 0x9992e296 0x46ee50ff 0x7c3c2b0c // method "openTrading()void", method "openSettlement()void", method "buy(uint64)void", method "settle()void"
+    txna ApplicationArgs 0
+    match openTrading openSettlement buy settle
+    err
+
+main_create_NoOp@8:
+    // smart_contracts/8-state-management/state-machine.algo.ts:43
+    // export class SafeLifecycleContract extends Contract {
+    pushbytes 0xb8447b36 // method "createApplication()void"
+    txna ApplicationArgs 0
+    match createApplication
+    err
+
+
+// smart_contracts/8-state-management/state-machine.algo.ts::SafeLifecycleContract.createApplication[routing]() -> void:
+createApplication:
+    // smart_contracts/8-state-management/state-machine.algo.ts:44
+    // public phase = GlobalState<uint64>({ key: 'phase' })
+    bytec_0 // "phase"
+    // smart_contracts/8-state-management/state-machine.algo.ts:48
+    // this.phase.value = PHASE_FUNDING
+    intc_1 // 0
+    app_global_put
+    // smart_contracts/8-state-management/state-machine.algo.ts:45
+    // public totalOrders = GlobalState<uint64>({ key: 'orders' })
+    bytec_1 // "orders"
+    // smart_contracts/8-state-management/state-machine.algo.ts:49
+    // this.totalOrders.value = Uint64(0)
+    intc_1 // 0
+    app_global_put
+    // smart_contracts/8-state-management/state-machine.algo.ts:47
+    // public createApplication(): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/state-machine.algo.ts::SafeLifecycleContract.openTrading[routing]() -> void:
+openTrading:
+    // smart_contracts/8-state-management/state-machine.algo.ts:57
+    // this.requirePhase(PHASE_FUNDING)
+    intc_1 // 0
+    callsub requirePhase
+    // smart_contracts/8-state-management/state-machine.algo.ts:44
+    // public phase = GlobalState<uint64>({ key: 'phase' })
+    bytec_0 // "phase"
+    // smart_contracts/8-state-management/state-machine.algo.ts:58
+    // this.phase.value = PHASE_TRADING
+    intc_0 // 1
+    app_global_put
+    // smart_contracts/8-state-management/state-machine.algo.ts:56
+    // public openTrading(): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/state-machine.algo.ts::SafeLifecycleContract.openSettlement[routing]() -> void:
+openSettlement:
+    // smart_contracts/8-state-management/state-machine.algo.ts:62
+    // this.requirePhase(PHASE_TRADING)
+    intc_0 // 1
+    callsub requirePhase
+    // smart_contracts/8-state-management/state-machine.algo.ts:44
+    // public phase = GlobalState<uint64>({ key: 'phase' })
+    bytec_0 // "phase"
+    // smart_contracts/8-state-management/state-machine.algo.ts:63
+    // this.phase.value = PHASE_SETTLEMENT
+    intc_2 // 2
+    app_global_put
+    // smart_contracts/8-state-management/state-machine.algo.ts:61
+    // public openSettlement(): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/state-machine.algo.ts::SafeLifecycleContract.buy[routing]() -> void:
+buy:
+    // smart_contracts/8-state-management/state-machine.algo.ts:66
+    // public buy(amount: uint64): void {
+    txna ApplicationArgs 1
+    dup
+    len
+    pushint 8 // 8
+    ==
+    assert // invalid number of bytes for arc4.uint64
+    btoi
+    // smart_contracts/8-state-management/state-machine.algo.ts:67
+    // this.requirePhase(PHASE_TRADING)
+    intc_0 // 1
+    callsub requirePhase
+    // smart_contracts/8-state-management/state-machine.algo.ts:68
+    // this.totalOrders.value = this.totalOrders.value + amount
+    intc_1 // 0
+    // smart_contracts/8-state-management/state-machine.algo.ts:45
+    // public totalOrders = GlobalState<uint64>({ key: 'orders' })
+    bytec_1 // "orders"
+    // smart_contracts/8-state-management/state-machine.algo.ts:68
+    // this.totalOrders.value = this.totalOrders.value + amount
+    app_global_get_ex
+    assert // check GlobalState exists
+    +
+    // smart_contracts/8-state-management/state-machine.algo.ts:45
+    // public totalOrders = GlobalState<uint64>({ key: 'orders' })
+    bytec_1 // "orders"
+    // smart_contracts/8-state-management/state-machine.algo.ts:68
+    // this.totalOrders.value = this.totalOrders.value + amount
+    swap
+    app_global_put
+    // smart_contracts/8-state-management/state-machine.algo.ts:66
+    // public buy(amount: uint64): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/state-machine.algo.ts::SafeLifecycleContract.settle[routing]() -> void:
+settle:
+    // smart_contracts/8-state-management/state-machine.algo.ts:72
+    // this.requirePhase(PHASE_SETTLEMENT)
+    intc_2 // 2
+    callsub requirePhase
+    // smart_contracts/8-state-management/state-machine.algo.ts:44
+    // public phase = GlobalState<uint64>({ key: 'phase' })
+    bytec_0 // "phase"
+    // smart_contracts/8-state-management/state-machine.algo.ts:73
+    // this.phase.value = PHASE_CLOSED
+    pushint 3 // 3
+    app_global_put
+    // smart_contracts/8-state-management/state-machine.algo.ts:71
+    // public settle(): void {
+    intc_0 // 1
+    return
+
+
+// smart_contracts/8-state-management/state-machine.algo.ts::SafeLifecycleContract.requirePhase(expected: uint64) -> void:
+requirePhase:
+    // smart_contracts/8-state-management/state-machine.algo.ts:52
+    // private requirePhase(expected: uint64): void {
+    proto 1 0
+    // smart_contracts/8-state-management/state-machine.algo.ts:53
+    // assert(this.phase.value === expected, 'Wrong state')
+    intc_1 // 0
+    // smart_contracts/8-state-management/state-machine.algo.ts:44
+    // public phase = GlobalState<uint64>({ key: 'phase' })
+    bytec_0 // "phase"
+    // smart_contracts/8-state-management/state-machine.algo.ts:53
+    // assert(this.phase.value === expected, 'Wrong state')
+    app_global_get_ex
+    assert // check GlobalState exists
+    frame_dig -1
+    ==
+    assert // Wrong state
+    retsub
