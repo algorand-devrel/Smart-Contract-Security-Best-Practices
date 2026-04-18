@@ -75,24 +75,26 @@ Every LogicSig — whether Contract Account or Delegated — must consider **all
 5. **Transaction type restricted:** Only allow the intended type (e.g., `Payment`)
 6. **Use `txn`, not `gtxn`, for self-validation:** If using `gtxn`, also check `txn GroupIndex` to pin the LogicSig to a specific position. Otherwise an attacker can reuse the same LogicSig on multiple transactions in a group, where only the first is checked and the rest are unconstrained.
 7. **`GenesisHash` checked:** Network restriction (if the LogicSig should only work on one network)
-8. **Replay protection**: Depending on the use case, the logic sig should not be arbitrarily replayable. Secure examples include logic signatures that pin `FirstValid`, `LastValid`, and `Lease` to exact template values (ensuring at most one execution per validity window), or logic sigs that pair with a smart contract call that performs stateful checks.
-9. **`LastValid` bounded:** Expiration (if the authorization should not last forever)
+8. **If you use LogicSig args, validate them as raw bytes:** There is no ARC-4 decoding or signature coverage for `op.arg(...)`. Check count, length, and semantics explicitly, and never use args as secrets or authorization gates.
+9. **Replay protection**: Depending on the use case, the logic sig should not be arbitrarily replayable. Secure examples include logic signatures that pin `FirstValid`, `LastValid`, and `Lease` to exact template values (ensuring at most one execution per validity window), or logic sigs that pair with a smart contract call that performs stateful checks.
+10. **`LastValid` bounded:** Expiration (if the authorization should not last forever)
 
 See sections [3 (Fee Management)](#3-fee-management) and [6 (Rekeying)](#6-rekeying--account-draining) for in-depth coverage. [Replay protection](#do-use-lease--pinned-firstvalidlastvalid-for-replay-protection), unsigned arguments, and cross-network reuse are covered below in this section.
 
 ### Vulnerable: Delegated LogicSig without safety checks
 
-A delegated LogicSig that only checks the amount. Everything else is unvalidated. If Alice signs this program, anyone who obtains it can transact from Alice's account.
+A delegated LogicSig that reads its amount cap from a caller-supplied LogicSig arg and only checks the amount. Everything else is unvalidated. If Alice signs this program, anyone who obtains it can transact from Alice's account.
 
 Algorand TypeScript — VULNERABLE
 
 ```typescript
-import { LogicSig, Txn, Uint64 } from "@algorandfoundation/algorand-typescript";
+import { LogicSig, Txn, op } from "@algorandfoundation/algorand-typescript";
 
-// VULNERABLE: Only checks amount — allows rekeying, closing, and replay
+// VULNERABLE: Caller controls the max amount via op.arg(0) and the program
+// still allows rekeying, closing, and replay
 class UnsafePaymentSig extends LogicSig {
   public program(): boolean {
-    return Txn.amount <= Uint64(1_000_000);
+    return Txn.amount <= op.btoi(op.arg(0));
   }
 }
 ```
@@ -100,27 +102,26 @@ class UnsafePaymentSig extends LogicSig {
 Algorand Python — VULNERABLE
 
 ```python
-from algopy import logicsig, Txn, UInt64
+from algopy import logicsig, Txn, op
 
-# VULNERABLE: Allows rekeying, closing, and replay
+# VULNERABLE: Caller controls the max amount via op.arg(0) and the program
+# still allows rekeying, closing, and replay
 @logicsig
 def unsafe_payment_sig() -> bool:
-    # Only checks amount — everything else is unvalidated
-    return Txn.amount <= UInt64(1_000_000)
+    return Txn.amount <= op.btoi(op.arg(0))
 ```
 
 **An attacker with the signed program can:**
 
-1. Set `RekeyTo` to their own address and **permanently steal Alice's account**
-2. Set `CloseRemainderTo` to drain **all ALGO** in a single transaction
-3. Replay the same transaction repeatedly (no lease required)
-4. Send to any receiver (no recipient restriction)
+1. Supply a huge `op.arg(0)` value and bypass the intended amount cap
+2. Set `RekeyTo` to their own address and **permanently steal Alice's account**
+3. Set `CloseRemainderTo` to drain **all ALGO** in a single transaction
+4. Replay the same transaction repeatedly (no lease required)
+5. Send to any receiver (no recipient restriction)
 
 ### Fixed: Delegated LogicSig with full safety checks
 
-The safe version locks down every dangerous field. Alice delegates to Bob. Bob can pull up to 1 ALGO per transaction, but only to a pre-specified receiver, with replay protection:
-
-TODO - With the exception of a "safe" delegated payment, I would change most logic sig examples here to be application calls with templated app ID, selector + oncomplete=noop
+The safe version locks down every dangerous field. Alice delegates to Bob. Bob can pull up to 1 ALGO per transaction, but only to a pre-specified receiver, with replay protection. If you need caller-supplied LogicSig args, treat them as unsigned raw bytes and validate them explicitly; keep authorization-critical values in checked transaction fields or template values instead.
 
 Algorand TypeScript — SAFE
 
@@ -482,6 +483,7 @@ The application account can't be closed, can't be rekeyed, and inner transaction
 - **Understand which mode you're using:** Contract Account (no key, deterministic address) vs Delegated (signed program, someone else's account) and its implications.
 - **Follow the [security checklist](#do-follow-the-logicsig-security-checklist)** for every LogicSig: `RekeyTo`, `CloseRemainderTo`, `AssetCloseTo`, `Fee`, type, `Lease`, `FirstValid`, `LastValid`, `GenesisHash`.
 - **Never trust LogicSig arguments for access control:** they are not signed and anyone can supply arbitrary values.
+- **Treat LogicSig args as raw unsigned bytes:** validate their count, length, and meaning yourself, and keep authorization-critical values out of them.
 - **Check `Global.genesisHash`** in network-specific LogicSigs to prevent cross-network reuse.
 - **Default to smart contracts** unless you have a specific reason not to. They give you access control, state, and composability for free.
 
@@ -848,7 +850,9 @@ def delete(self) -> None:
 
 ### Pattern: Role-Based Access Control
 
-For complex protocols, a single creator check is insufficient. Use a role-based pattern with a `BoxMap` to manage multiple admin roles (inspired by the [Folks Finance AccessControl pattern](https://github.com/Folks-Finance/algorand-smart-contract-library)).
+For complex protocols, a single creator check is insufficient. Use a role-based pattern with a `BoxMap` to manage multiple admin roles (inspired by the [Folks Finance AccessControl pattern](https://github.com/Folks-Finance/algorand-smart-contract-library)). For very small and stable role sets, fixed global-state slots can be simpler. This example keeps `BoxMap` because it scales to arbitrary memberships without depending on per-user opt-in state.
+
+> **Note:** If you only have a limited, fixed set of roles or addresses, `GlobalState` fields can be simpler than a `BoxMap`. Reach for `BoxMap` when membership needs to grow, rotate, or become more dynamic over time.
 
 Algorand TypeScript
 
@@ -980,7 +984,7 @@ class RoleBasedContract(ARC4Contract):
 - If the authorization policy can change, protect the change itself and avoid one-step lock-in.
 - Guard deletion: ensure the application account's funds have been withdrawn before allowing `deleteApplication()`, otherwise ALGO and ASAs can be permanently locked.
 - Start with creator-only checks. Graduate to role-based access when your protocol requires multiple admins or operators.
-- Use `BoxMap` for role storage. It doesn't require user opt-in and persists until explicitly deleted.
+- Use `BoxMap` for growing or frequently changing role membership. For very small fixed role sets, fixed global-state slots can be simpler.
 
 ---
 
@@ -1258,6 +1262,8 @@ The **Puya** (Python) and **PuyaTs** (TypeScript) compilers automatically valida
 
 > **Note:** If you disable per-method validation via `validate_encoding="unsafe_disabled"`, you must validate inputs manually.
 
+> **Note:** LogicSig args are different from ARC-4 method arguments. `op.arg(...)` returns raw bytes, not ABI-decoded values, so there is no ARC-4 encoding check to rely on. If you intentionally use LogicSig args, validate their count, byte length, and semantics yourself.
+
 If you are writing **raw TEAL**, you must manually validate all ABI-decoded inputs. See [Validating ABI Values](https://dev.algorand.co/concepts/smart-contracts/abi/#validating-abi-values) for details.
 
 ### DO: Validate dynamic input lengths
@@ -1429,6 +1435,7 @@ class EnumeratedInputContract(ARC4Contract):
 
 - Always check `xferAsset` when receiving asset transfers.
 - For permissionless methods, treat every ABI argument as part of the security boundary.
+- Typed ABI parameters get ARC-4 encoding validation from the compiler; raw LogicSig args do not.
 - Validate fixed-length arguments with an exact byte-length check.
 - Validate bounded arguments against their full safe range, not just the happy path.
 - Validate enumerated arguments against the allowed set and reject everything else.
@@ -1448,6 +1455,8 @@ When creating or reconfiguring an [Algorand Standard Asset (ASA)](https://dev.al
 Setting any control address to empty **permanently and irreversibly** disables that capability. There is no way to restore it. If the manager address is compromised, an attacker gains full reconfiguration power, including granting themselves freeze and clawback.
 
 The most dangerous mistake is during **reconfiguration**: an asset config transaction must re-specify **all** existing addresses you want to keep. Any address field omitted from the transaction is permanently cleared. For example, if you only set `manager` in a config transaction, the `freeze`, `clawback`, and `reserve` addresses are all permanently removed, even if they were previously set.
+
+Also remember that reconfiguration only applies to the control addresses. Core asset parameters such as supply and metadata choices are creation-time decisions. Treat ASA creation as the point where you lock in both your immutable fields and your future control model.
 
 ### DON'T: Reconfigure ASAs without preserving all control addresses
 
@@ -1618,6 +1627,7 @@ class TokenFactory(ARC4Contract):
 - Explicitly set ASA control addresses for your use case. Omitting an address in a config transaction permanently clears it.
 - Understand the role of each control address (manager, freeze, clawback, reserve) and remove those not needed.
 - Reconfiguration transactions must re-specify all addresses you want to keep. Omitted fields are permanently cleared.
+- Decide immutable ASA parameters at creation time. Reconfiguration does not let you revisit the asset's core definition later.
 
 ---
 
@@ -2621,7 +2631,7 @@ def withdraw(self, amount: UInt64) -> None:
 
 ### Risk
 
-The AVM uses **unsigned 64-bit integers** (`uint64`). Arithmetic operations can overflow (exceed 2^64 - 1) or underflow (go below 0), causing unexpected behavior or exploitable bugs.
+The AVM uses **unsigned 64-bit integers** (`uint64`). Arithmetic operations can overflow (exceed 2^64 - 1) or underflow (go below 0), and the AVM responds by failing the transaction. That fail-safe behavior prevents silent corruption, but arithmetic mistakes can still create denial-of-service conditions, brittle invariants, and broken configurations.
 
 Arithmetic review should start at **configuration time**, not just at the line that eventually panics. If an admin or creator can store a zero denominator, an overflow-prone multiplier, or a bound that makes later arithmetic impossible, then the contract can be left in an invalid numeric configuration where later methods deterministically fail when they use that state.
 
@@ -2934,7 +2944,7 @@ class BoundedRewardsContract(ARC4Contract):
 
 On the AVM, `uint64` overflow causes the transaction to **fail** (the AVM panics on overflow rather than wrapping). That is already a safety feature of the AVM. The main reason to add an explicit guard is not that unchecked arithmetic silently corrupts state, but that explicit guards can document invariants, produce clearer error messages, and avoid panic-based denial of service on arithmetic-heavy or critical paths.
 
-### Consider explicit addition bounds on critical paths
+### DO: Consider explicit addition bounds on critical paths
 
 Relying on the AVM panic is sometimes acceptable. Add an explicit bound when you want clearer control flow, a more specific error, or stronger protection against a caller repeatedly forcing a failure on an important path.
 
@@ -3005,7 +3015,7 @@ class SafeOverflowContract(ARC4Contract):
 
 Subtracting a larger value from a smaller one panics on the AVM. As with overflow, the runtime behavior is already safe by default. Explicit ordering checks are still recommended when they make invariants obvious, improve error messages, or reduce panic-based griefing on important paths.
 
-### Consider explicit underflow guards on critical paths
+### DO: Consider explicit underflow guards on critical paths
 
 Algorand TypeScript
 
@@ -3111,7 +3121,7 @@ For any arithmetic-heavy contract (DEX, lending, staking), perform **semi-formal
 - The AVM panics on overflow/underflow instead of wrapping, so unchecked arithmetic is already fail-safe by default.
 - Reject numerically unsafe configurations before they are stored on-chain.
 - Analyze configuration-time relationships such as `max_value * rate` and denominators, not just per-call arithmetic.
-- Add explicit runtime guards when they clarify invariants, improve errors, or help defend critical paths against panic-based DoS.
+- Add explicit runtime guards when they clarify invariants, improve errors, or help defend arithmetic-heavy critical paths against panic-based DoS.
 - Use `biguint`/`BigUInt` for intermediate calculations that could exceed `uint64` range.
 - Perform invariant analysis on any contract with nontrivial arithmetic.
 
@@ -3132,6 +3142,18 @@ An `UpdateApplication` transaction replaces the approval and clear state program
 **Upgradeable contracts**: Allow patching and protocol evolution, but require users to trust whoever can satisfy the update conditions. An approved update can remove all prior restrictions.
 
 Document your choice clearly so users can make informed trust decisions.
+
+### DO: Plan storage migration when updating
+
+`UpdateApplication` replaces code, not storage. Existing global state, local state, and boxes remain in place after the new program is installed. That means an upgrade can inherit keys the new code no longer defines, stale flags with outdated meanings, or boxes whose contents no longer satisfy the new invariants.
+
+Before shipping an upgrade:
+
+1. Inventory the keys and boxes the previous version may have created.
+2. Decide which values must be migrated, cleared, or explicitly ignored.
+3. Ensure the new program cannot accidentally reinterpret an old key under a new meaning.
+
+Treat storage layout as part of your upgrade surface, not just the TEAL source.
 
 ### Pattern: Upgradeable contract with timelock
 
@@ -3248,6 +3270,7 @@ If a contract's application address holds ALGO or assets, deleting the contract 
 
 - Choose immutable or upgradeable: document the choice for users.
 - If upgradeable, use a timelock with program hash pre-announcement.
+- Upgrades replace code, not storage. Migrate or retire stale keys and boxes deliberately.
 - Never delete a contract that holds funds.
 - For immutable contracts, consider rekeying the creator to zero address for provable immutability.
 
@@ -3405,6 +3428,21 @@ Like any compiler, Puya can have security-relevant bugs. Always:
 - **Update promptly** when security fixes are released.
 - **Re-compile and re-deploy** if you were using an affected version.
 
+### DO: Test with `-O0` and your deployment optimization level
+
+Compiler optimization bugs are rare, but they are security-relevant when they happen. Run your contract tests at both:
+
+- **`-O0`**: the most direct, least optimized code generation path
+- **Your deployment target**: typically `-O1` or `-O2`
+
+If behavior diverges between optimization levels, or the compiler crashes on valid source, treat that as a compiler bug rather than ordinary test flakiness. Stop the release, preserve the reproducer, and report it through the Algorand security channels referenced in the security bulletins.
+
+> **Note:** This guidance is not only about optimization soundness. It also applies when a contract compiles at one level but crashes, fails, or behaves differently at another. That discrepancy is itself security-relevant.
+
+### DO: Run static analysis in CI
+
+Use maintained static-analysis tooling in CI alongside tests. Prefer detectors that understand PuyaTs/PuyaPy patterns or the generated TEAL so guide-level mistakes can be caught before review or deployment.
+
 ### DO: Get a professional audit before mainnet
 
 Before deploying a contract that will hold significant value, engage a professional audit firm with Algorand experience. Some firms that have audited Algorand contracts:
@@ -3426,6 +3464,8 @@ If your protocol manages user funds, establish a bug bounty program. This create
 ### Key Takeaways
 
 - Pin and monitor your Puya compiler version.
+- Test with `-O0` and the optimization level you plan to deploy.
+- Use static analysis in CI in addition to tests and audits.
 - Get a professional audit before mainnet deployment with real value.
 - Run a bug bounty program for protocols managing user funds.
 
