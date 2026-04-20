@@ -6,6 +6,8 @@ This guide is a practical security reference for Algorand developers using **Alg
 
 Whether you're building your first contract or preparing for a mainnet launch, use this as a resource to harden your application before it holds real assets.
 
+In this guide, **smart contract** is the umbrella term for AVM programs. When contrasting Algorand's two main contract models, this guide uses **application** for a stateful app and **LogicSig** for a stateless smart signature.
+
 > [!WARNING]
 > This is a work in progress at an early stage. It is not definitive or complete.
 
@@ -25,7 +27,7 @@ Each section highlights risks with concrete code examples. Headings are categori
 
 ## Table of Contents
 
-1. [Smart Contracts vs Logic Signatures](#1-smart-contracts-vs-logic-signatures)
+1. [Applications vs Logic Signatures](#1-applications-vs-logic-signatures)
 2. [Access Control](#2-access-control)
 3. [Fee Management](#3-fee-management)
 4. [Transaction & Input Validation](#4-transaction--input-validation)
@@ -44,18 +46,18 @@ Each section highlights risks with concrete code examples. Headings are categori
 
 ---
 
-## 1. Smart Contracts vs Logic Signatures
+## 1. Applications vs Logic Signatures
 
 [Logic Signatures](https://dev.algorand.co/concepts/smart-contracts/logic-sigs/) (LogicSigs) are programs that authorize transactions. If the program returns non-zero, the transaction is approved. They operate in two modes:
 
 1. **Contract Account** - the compiled program hash becomes an escrow address with no private key
 2. **Delegated** - an account owner signs the program, letting anyone with the signed program transact on their behalf.
 
-LogicSigs are powerful but dangerous, especially in delegated mode, where a single missing check can permanently compromise the signer's account. **Prefer smart contracts** where possible.
+LogicSigs are powerful but dangerous, especially in delegated mode, where a single missing check can permanently compromise the signer's account. **Prefer applications** where possible.
 
 ### Risk
 
-Regardless of mode, LogicSigs are more dangerous than smart contracts because:
+Regardless of mode, LogicSigs are more dangerous than applications because:
 
 - **No state:** A LogicSig cannot track whether it has already approved a transaction, making replay attacks possible unless explicitly prevented by pinning the `Lease`, `FirstValid`, and `LastValid` fields to exact values (see [replay protection](#do-use-lease--pinned-firstvalidlastvalid-for-replay-protection)).
 - **Public bytecode:** After the first transaction, the bytecode of a LogicSig account is on-chain. Anyone can reconstruct it and submit new transactions using the LogicSig.
@@ -76,7 +78,7 @@ Every LogicSig — whether Contract Account or Delegated — must consider **all
 6. **Use `txn`, not `gtxn`, for self-validation:** If using `gtxn`, also check `txn GroupIndex` to pin the LogicSig to a specific position. Otherwise an attacker can reuse the same LogicSig on multiple transactions in a group, where only the first is checked and the rest are unconstrained.
 7. **`GenesisHash` checked:** Network restriction (if the LogicSig should only work on one network)
 8. **If you use LogicSig args, validate them as raw bytes:** There is no ARC-4 decoding or signature coverage for `op.arg(...)`. Check count, length, and semantics explicitly, and never use args as secrets or authorization gates.
-9. **Replay protection**: Depending on the use case, the logic sig should not be arbitrarily replayable. Secure examples include logic signatures that pin `FirstValid`, `LastValid`, and `Lease` to exact template values (ensuring at most one execution per validity window), or logic sigs that pair with a smart contract call that performs stateful checks.
+9. **Replay protection**: Depending on the use case, the logic sig should not be arbitrarily replayable. Secure examples include logic signatures that pin `FirstValid`, `LastValid`, and `Lease` to exact template values (ensuring at most one execution per validity window), or logic sigs that pair with an application call that performs stateful checks.
 10. **`LastValid` bounded:** Expiration (if the authorization should not last forever)
 
 See sections [3 (Fee Management)](#3-fee-management) and [6 (Rekeying)](#6-rekeying--account-draining) for in-depth coverage. [Replay protection](#do-use-lease--pinned-firstvalidlastvalid-for-replay-protection), unsigned arguments, and cross-network reuse are covered below in this section.
@@ -424,9 +426,9 @@ def network_restricted_sig() -> bool:
     )
 ```
 
-### DO: Prefer Smart Contracts
+### DO: Prefer Applications
 
-Both LogicSig examples above are fragile. Compare with the smart contract equivalent, which gets most of these protections for free:
+Both LogicSig examples above are fragile. Compare with the application equivalent, which gets most of these protections for free:
 
 Algorand TypeScript
 
@@ -485,7 +487,7 @@ The application account can't be closed, can't be rekeyed, and inner transaction
 - **Never trust LogicSig arguments for access control:** they are not signed and anyone can supply arbitrary values.
 - **Treat LogicSig args as raw unsigned bytes:** validate their count, length, and meaning yourself, and keep authorization-critical values out of them.
 - **Check `Global.genesisHash`** in network-specific LogicSigs to prevent cross-network reuse.
-- **Default to smart contracts** unless you have a specific reason not to. They give you access control, state, and composability for free.
+- **Default to applications** unless you have a specific reason not to. They give you access control, state, and composability for free.
 
 ### DON'T: Assume delegated LogicSigs can be revoked
 
