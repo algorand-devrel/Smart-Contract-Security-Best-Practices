@@ -73,7 +73,7 @@ Every LogicSig — whether Contract Account or Delegated — must consider **all
 1. **`RekeyTo == ZeroAddress`:** Prevent permanent account takeover
 2. **`CloseRemainderTo == ZeroAddress`:** Prevent draining all ALGO
 3. **`AssetCloseTo == ZeroAddress`:** Prevent draining all units of an asset (if applicable)
-4. **`Fee` bounded:** Prevent fee extraction (use `Txn.fee <= Global.minTxnFee`)
+4. **`Fee` bounded:** Prevent fee extraction (often `Txn.fee <= Global.minTxnFee`, or another deliberate upper bound if congestion or composability require it)
 5. **Transaction type restricted:** Only allow the intended type (e.g., `Payment`)
 6. **Use `txn`, not `gtxn`, for self-validation:** If using `gtxn`, also check `txn GroupIndex` to pin the LogicSig to a specific position. Otherwise an attacker can reuse the same LogicSig on multiple transactions in a group, where only the first is checked and the rest are unconstrained.
 7. **`GenesisHash` checked:** Network restriction (if the LogicSig should only work on one network)
@@ -1004,9 +1004,9 @@ Never hard-code fee values like `1000` microALGO. If you need to reference the m
 
 ### DO: Bound LogicSig fees
 
-If you must use a LogicSig, bound the fee with `Txn.fee <= Global.minTxnFee` to prevent the account from being drained through excessive fees. This applies to both modes: in **Contract Account** mode, excessive fees drain the escrow; in **Delegated** mode, they drain the delegator's personal account.
+If you must use a LogicSig, bound the fee to prevent the account from being drained through excessive fees. In the simplest case, use `Txn.fee <= Global.minTxnFee`. This applies to both modes: in **Contract Account** mode, excessive fees drain the escrow; in **Delegated** mode, they drain the delegator's personal account.
 
-A LogicSig that checks everything _except_ the fee is still vulnerable. An attacker submits valid transactions with inflated fees to siphon ALGO. See the [LogicSig Security Checklist](#do-follow-the-logicsig-security-checklist) in section 1 for the full list of required checks.
+A LogicSig that checks everything _except_ the fee is still vulnerable. An attacker submits valid transactions with inflated fees to siphon ALGO. A tight `Global.minTxnFee` cap is the safest default, but it can be operationally brittle during congestion and may reduce composability if your design cannot rely on fee pooling. If you relax the cap, do so deliberately and keep it narrow. See the [LogicSig Security Checklist](#do-follow-the-logicsig-security-checklist) in section 1 for the full list of required checks.
 
 ### Vulnerable: LogicSig without fee bound
 
@@ -1121,7 +1121,7 @@ def bounded_fee_sig() -> bool:
 
 ### DO: Handle network congestion
 
-During network congestion, the minimum fee may not be sufficient for timely inclusion. Off-chain code should:
+During network congestion, the minimum fee may not be sufficient for timely inclusion. A LogicSig that hard-caps fees at `Global.minTxnFee` may become temporarily unusable. Off-chain code should:
 
 - Monitor the suggested fee from the algod node (`/v2/transactions/params`)
 - Set a maximum acceptable fee multiplier (e.g., 10x the minimum)
@@ -1131,7 +1131,7 @@ During network congestion, the minimum fee may not be sufficient for timely incl
 
 - Inner transaction fees default to `0` in PuyaTs/PuyaPy. Don't override this with a non-zero fee.
 - Use `Global.minTxnFee` when referencing the fee. Never hard-code `1000`.
-- Bound `Txn.fee <= Global.minTxnFee` in LogicSigs to prevent fee draining.
+- Bound LogicSig fees to prevent fee draining. `Txn.fee <= Global.minTxnFee` is the safest default, but tighter bounds trade off against congestion tolerance and composability.
 - Callers must include enough fee to cover all inner transactions via fee pooling.
 
 ---
