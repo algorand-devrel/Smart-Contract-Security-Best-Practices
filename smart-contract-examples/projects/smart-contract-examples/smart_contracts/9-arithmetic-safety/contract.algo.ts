@@ -15,7 +15,7 @@ export class ArithmeticContract extends Contract {
     return a + b // Panics if result > 2^64 - 1
   }
 
-  // FIXED: Check before operating
+  // SAFE: Explicit guard gives clearer errors and control flow on critical paths
   public safeAdd(a: uint64, b: uint64): uint64 {
     assert(a <= MAX_UINT64 - b, 'Overflow')
     return a + b
@@ -26,7 +26,7 @@ export class ArithmeticContract extends Contract {
     this.userBalance.value = this.userBalance.value - amount
   }
 
-  // FIXED: Check before subtracting
+  // SAFE: Explicit guard surfaces the invariant before the AVM would panic
   public safeWithdraw(amount: uint64): void {
     assert(this.userBalance.value >= amount, 'Insufficient balance')
     this.userBalance.value = this.userBalance.value - amount

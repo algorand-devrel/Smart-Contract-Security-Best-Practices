@@ -2591,7 +2591,7 @@ def withdraw(self, amount: UInt64) -> None:
 
 ### DO: Prefer dynamic minimum balance checks
 
-Using `app.minBalance` is recommended because it makes the invariant explicit, avoids stale assumptions, and gives callers a clear application error instead of silently relying on a later runtime failure.
+Using `app.minBalance` is recommended because it makes the invariant explicit, avoids stale assumptions, and gives callers a clear application error instead of relying on a later AVM failure.
 
 Algorand TypeScript
 
