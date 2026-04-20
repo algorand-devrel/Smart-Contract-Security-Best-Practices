@@ -2617,6 +2617,78 @@ def withdraw(self, amount: UInt64) -> None:
 
 > **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/8-state-management/min-balance-check.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/8-state-management/min-balance-check.e2e.spec.ts)
 
+### Pattern: Refund released MBR by measuring before and after storage changes
+
+If a method deletes boxes or other storage and should return the released ALGO to the caller, do not hard-code the refund amount. Measure `app.minBalance` before and after the storage change, then refund the exact delta that was released.
+
+Algorand TypeScript
+
+```typescript
+import type { bytes, uint64 } from "@algorandfoundation/algorand-typescript";
+import {
+  BoxMap,
+  Contract,
+  Global,
+  Txn,
+  Uint64,
+  assert,
+  itxn,
+} from "@algorandfoundation/algorand-typescript";
+
+export class StorageRefundContract extends Contract {
+  entries = BoxMap<bytes, uint64>({ keyPrefix: "entry" });
+
+  public deleteEntry(key: bytes): void {
+    assert(this.entries(key).exists, "Entry not found");
+
+    const app = Global.currentApplicationAddress;
+    const preMbr: uint64 = app.minBalance;
+    this.entries(key).delete();
+    const postMbr: uint64 = app.minBalance;
+    const released: uint64 = preMbr - postMbr;
+
+    if (released > Uint64(0)) {
+      itxn
+        .payment({
+          receiver: Txn.sender,
+          amount: released,
+          fee: Uint64(0),
+        })
+        .submit();
+    }
+  }
+}
+```
+
+Algorand Python
+
+```python
+from algopy import ARC4Contract, BoxMap, Bytes, Global, Txn, UInt64, arc4, itxn
+
+class StorageRefundContract(ARC4Contract):
+    def __init__(self) -> None:
+        self.entries = BoxMap(Bytes, UInt64, key_prefix=b"entry")
+
+    @arc4.abimethod
+    def delete_entry(self, key: Bytes) -> None:
+        assert key in self.entries, "Entry not found"
+
+        app = Global.current_application_address
+        pre_mbr = app.min_balance
+        del self.entries[key]
+        post_mbr = app.min_balance
+        released = pre_mbr - post_mbr
+
+        if released > UInt64(0):
+            itxn.Payment(
+                receiver=Txn.sender,
+                amount=released,
+                fee=0,
+            ).submit()
+```
+
+> **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/8-state-management/mbr-refund.algo.ts) | [E2E Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/8-state-management/mbr-refund.e2e.spec.ts)
+
 ### Key Takeaways
 
 - Use `BoxMap` instead of `LocalState` for data that must persist regardless of user action.
@@ -2625,7 +2697,7 @@ def withdraw(self, amount: UInt64) -> None:
 - Restrict methods to explicit states and make those states mutually exclusive unless concurrency is deliberate.
 - Use the **pull pattern** (users withdraw their own funds) instead of the push pattern (contract distributes to users).
 - Delete all boxes before deleting a contract.
-- Never hard-code minimum balance values.
+- Never hard-code minimum balance values or storage-release refunds.
 
 ---
 
