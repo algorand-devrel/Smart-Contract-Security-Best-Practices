@@ -8,15 +8,16 @@ describe('Delegated Logic Signatures', () => {
   afterEach(() => ctx.reset())
 
   const LEASE = Bytes('aaaabbbbccccddddeeeeffffgggghhhh', { length: 32 })
+  const MAX_AMOUNT = Uint64(1_000_000)
 
   /** Helper: run a LogicSig against a payment transaction */
-  function evalPayment(lsig: UnsafePaymentSig | SafePaymentSig, overrides: Record<string, unknown> = {}) {
+  function evalPayment(lsig: UnsafePaymentSig | SafePaymentSig, overrides: Record<string, unknown> = {}, ...args: unknown[]) {
     let result: boolean | uint64
 
     const paymentTxn = ctx.any.txn.payment({ amount: 500_000, fee: 1_000, ...overrides })
 
     ctx.txn.createScope([paymentTxn]).execute(() => {
-      result = ctx.executeLogicSig(lsig)
+      result = ctx.executeLogicSig(lsig, ...args)
     })
 
     return result!
@@ -26,29 +27,33 @@ describe('Delegated Logic Signatures', () => {
     const lsig = () => new UnsafePaymentSig()
 
     test('approves valid payment', () => {
-      expect(evalPayment(lsig())).toBe(true)
+      expect(evalPayment(lsig(), {}, MAX_AMOUNT)).toBe(true)
     })
 
     test('rejects amount over limit', () => {
-      expect(evalPayment(lsig(), { amount: 2_000_000 })).toBe(false)
+      expect(evalPayment(lsig(), { amount: 2_000_000 }, MAX_AMOUNT)).toBe(false)
+    })
+
+    test('VULN: caller can raise maxAmount and bypass the intended cap', () => {
+      expect(evalPayment(lsig(), { amount: 2_000_000 }, Uint64(10_000_000))).toBe(true)
     })
 
     // --- Every test below demonstrates a vulnerability ---
 
     test('VULN: approves RekeyTo (permanent account takeover)', () => {
-      expect(evalPayment(lsig(), { rekeyTo: ctx.any.account() })).toBe(true)
+      expect(evalPayment(lsig(), { rekeyTo: ctx.any.account() }, MAX_AMOUNT)).toBe(true)
     })
 
     test('VULN: approves CloseRemainderTo (drain all ALGO)', () => {
-      expect(evalPayment(lsig(), { closeRemainderTo: ctx.any.account() })).toBe(true)
+      expect(evalPayment(lsig(), { closeRemainderTo: ctx.any.account() }, MAX_AMOUNT)).toBe(true)
     })
 
     test('VULN: approves any receiver (no recipient restriction)', () => {
-      expect(evalPayment(lsig(), { receiver: ctx.any.account() })).toBe(true)
+      expect(evalPayment(lsig(), { receiver: ctx.any.account() }, MAX_AMOUNT)).toBe(true)
     })
 
     test('VULN: approves without lease (no replay protection)', () => {
-      expect(evalPayment(lsig())).toBe(true) // no lease set, still approved
+      expect(evalPayment(lsig(), {}, MAX_AMOUNT)).toBe(true) // no lease set, still approved
     })
   })
 

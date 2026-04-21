@@ -4,8 +4,16 @@
 // smart_contracts/1-smart-contracts-vs-logic-signatures/delegated-logic-sig.algo.ts::program() -> uint64:
 main:
     // smart_contracts/1-smart-contracts-vs-logic-signatures/delegated-logic-sig.algo.ts:16
-    // return Txn.amount <= Uint64(1_000_000)
+    // public program(maxAmount: uint64): boolean {
+    arg_0
+    dup
+    len
+    pushint 8
+    ==
+    assert // invalid number of bytes for uint64
+    btoi
+    // smart_contracts/1-smart-contracts-vs-logic-signatures/delegated-logic-sig.algo.ts:17
+    // return Txn.amount <= maxAmount
     txn Amount
-    pushint 1000000 // 1000000
-    <=
+    >=
     return

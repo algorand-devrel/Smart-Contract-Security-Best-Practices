@@ -4,15 +4,25 @@ import { join } from 'path'
 import { beforeEach, describe, expect, test } from 'vitest'
 
 const ARTIFACTS = join(__dirname, '..', 'artifacts', '7-group-transaction-security')
+const textEncoder = new TextEncoder()
+
+function encodeLogicSigBytesArg(value: string): Uint8Array {
+  const raw = textEncoder.encode(value)
+  const encoded = new Uint8Array(2 + raw.length)
+  encoded[0] = (raw.length >> 8) & 0xff
+  encoded[1] = raw.length & 0xff
+  encoded.set(raw, 2)
+  return encoded
+}
 
 describe('UnsafeArgSig — unsigned arguments vulnerability (e2e)', () => {
   const localnet = algorandFixture()
   beforeEach(localnet.newScope, 10_000)
 
-  /** Compile UnsafeArgSig with the given args baked into the LogicSigAccount */
+  /** Compile UnsafeArgSig with the given typed LogicSig args baked into the LogicSigAccount */
   async function setupEscrow(
     algorand: ReturnType<typeof algorandFixture>['algorand'],
-    args: Uint8Array[] = [new TextEncoder().encode('s3cret')],
+    args: Uint8Array[] = [encodeLogicSigBytesArg('s3cret')],
   ) {
     const teal = await readFile(join(ARTIFACTS, 'UnsafeArgSig.teal'), 'utf-8')
     const compiled = await algorand.app.compileTealTemplate(teal, {})
@@ -34,7 +44,7 @@ describe('UnsafeArgSig — unsigned arguments vulnerability (e2e)', () => {
 
     const balanceBefore = (await algorand.account.getInformation(escrow.addr)).balance
 
-    // Payment with correct arg succeeds
+    // Payment with correct typed arg succeeds
     await algorand.send.payment({
       sender: escrow.addr,
       receiver: receiver.addr,
@@ -62,7 +72,7 @@ describe('UnsafeArgSig — unsigned arguments vulnerability (e2e)', () => {
     // Attacker sees the password "s3cret" in the TEAL bytecode (or on-chain args)
     // and constructs their own LogicSigAccount with the same program + args.
     // The args are NOT signed, so the attacker's copy is equally valid.
-    const attackerEscrow = await setupEscrow(algorand, [new TextEncoder().encode('s3cret')])
+    const attackerEscrow = await setupEscrow(algorand, [encodeLogicSigBytesArg('s3cret')])
 
     // Both escrow addresses are identical — same program + same args = same address
     expect(attackerEscrow.addr.toString()).toBe(escrow.addr.toString())
@@ -85,7 +95,7 @@ describe('UnsafeArgSig — unsigned arguments vulnerability (e2e)', () => {
 
     // Note: wrong args produce a DIFFERENT address (different LogicSigAccount)
     // but even if the escrow was funded, the LogicSig check would fail
-    const escrow = await setupEscrow(algorand, [new TextEncoder().encode('wrong')])
+    const escrow = await setupEscrow(algorand, [encodeLogicSigBytesArg('wrong')])
 
     await algorand.send.payment({
       sender: testAccount,

@@ -3,10 +3,24 @@
 
 // smart_contracts/7-group-transaction-security/unsigned-args.algo.ts::program() -> uint64:
 main:
+    intcblock 0 1
+    // smart_contracts/7-group-transaction-security/unsigned-args.algo.ts:6
+    // public program(password: bytes): boolean {
+    arg_0
+    dup
+    intc_0 // 0
+    extract_uint16 // on error: invalid array length header
+    pushint 2
+    +
+    dig 1
+    len
+    ==
+    assert // invalid number of bytes for bytes
+    extract 2 0
     // smart_contracts/7-group-transaction-security/unsigned-args.algo.ts:8
     // Txn.typeEnum === TransactionType.Payment &&
     txn TypeEnum
-    pushint 1 // 1
+    intc_1 // 1
     ==
     // smart_contracts/7-group-transaction-security/unsigned-args.algo.ts:8-9
     // Txn.typeEnum === TransactionType.Payment &&
@@ -43,8 +57,8 @@ main:
     // Txn.closeRemainderTo === Global.zeroAddress &&
     bz main_bool_false@6
     // smart_contracts/7-group-transaction-security/unsigned-args.algo.ts:13
-    // op.arg(0) === Bytes('s3cret')
-    arg_0
+    // password === Bytes('s3cret')
+    dup
     pushbytes "s3cret"
     ==
     // smart_contracts/7-group-transaction-security/unsigned-args.algo.ts:8-13
@@ -53,9 +67,9 @@ main:
     // Txn.rekeyTo === Global.zeroAddress &&
     // Txn.closeRemainderTo === Global.zeroAddress &&
     // // "Secret" password — provides zero security because args are public
-    // op.arg(0) === Bytes('s3cret')
+    // password === Bytes('s3cret')
     bz main_bool_false@6
-    pushint 1 // 1
+    intc_1 // 1
     // smart_contracts/7-group-transaction-security/unsigned-args.algo.ts:7-14
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&
@@ -63,12 +77,12 @@ main:
     //   Txn.rekeyTo === Global.zeroAddress &&
     //   Txn.closeRemainderTo === Global.zeroAddress &&
     //   // "Secret" password — provides zero security because args are public
-    //   op.arg(0) === Bytes('s3cret')
+    //   password === Bytes('s3cret')
     // )
     return
 
 main_bool_false@6:
-    pushint 0 // 0
+    intc_0 // 0
     // smart_contracts/7-group-transaction-security/unsigned-args.algo.ts:7-14
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&
@@ -76,6 +90,6 @@ main_bool_false@6:
     //   Txn.rekeyTo === Global.zeroAddress &&
     //   Txn.closeRemainderTo === Global.zeroAddress &&
     //   // "Secret" password — provides zero security because args are public
-    //   op.arg(0) === Bytes('s3cret')
+    //   password === Bytes('s3cret')
     // )
     return

@@ -3,7 +3,7 @@
   "sources": [
     "../../7-group-transaction-security/unsigned-args.algo.ts"
   ],
-  "mappings": ";AAOM;;AAAiB;;AAAjB;AAAA;;;AACA;;AAAW;;AAAX;AADA;;;AAEA;;AAAgB;;AAAhB;AAFA;;;AAGA;;AAAyB;;AAAzB;AAHA;;;AAKA;AAAoB;;;;;;;;AAApB;AALA;;;;;AADF;;;AAAA",
+  "mappings": ";;;;;AAKiB;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;;AAEX;;AAAiB;AAAjB;AAAA;;;AACA;;AAAW;;AAAX;AADA;;;AAEA;;AAAgB;;AAAhB;AAFA;;;AAGA;;AAAyB;;AAAzB;AAHA;;;AAKA;AAAmB;;;;;;;;AAAnB;AALA;;;;AADF;;AAAA",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -11,7 +11,10 @@
       "params": {},
       "block": "main",
       "stack_in": [],
-      "op": "txn TypeEnum",
+      "op": "intcblock 0 1"
+    },
+    "5": {
+      "op": "arg_0",
       "defined_out": [
         "tmp%0#0"
       ],
@@ -19,189 +22,350 @@
         "tmp%0#0"
       ]
     },
-    "3": {
-      "op": "pushint 1 // 1",
+    "6": {
+      "op": "dup",
       "defined_out": [
-        "1",
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "7": {
+      "op": "intc_0 // 0",
+      "defined_out": [
+        "0",
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)",
+        "0"
+      ]
+    },
+    "8": {
+      "error": "invalid array length header",
+      "op": "extract_uint16 // on error: invalid array length header",
+      "defined_out": [
+        "aggregate%array_length%0#0",
         "tmp%0#0"
       ],
       "stack_out": [
         "tmp%0#0",
-        "1"
+        "aggregate%array_length%0#0"
       ]
-    },
-    "5": {
-      "op": "==",
-      "defined_out": [
-        "tmp%1#0"
-      ],
-      "stack_out": [
-        "tmp%1#0"
-      ]
-    },
-    "6": {
-      "op": "bz main_bool_false@6",
-      "stack_out": []
     },
     "9": {
-      "op": "txn Fee",
+      "op": "pushint 2",
       "defined_out": [
-        "tmp%2#0"
+        "2",
+        "aggregate%array_length%0#0",
+        "tmp%0#0"
       ],
       "stack_out": [
-        "tmp%2#0"
+        "tmp%0#0",
+        "aggregate%array_length%0#0",
+        "2"
       ]
     },
     "11": {
-      "op": "global MinTxnFee",
+      "op": "+",
       "defined_out": [
-        "tmp%2#0",
-        "tmp%3#0"
+        "add%0#0",
+        "tmp%0#0"
       ],
       "stack_out": [
-        "tmp%2#0",
-        "tmp%3#0"
+        "tmp%0#0",
+        "add%0#0"
       ]
     },
-    "13": {
-      "op": "<=",
-      "defined_out": [
-        "tmp%4#0"
-      ],
+    "12": {
+      "op": "dig 1",
       "stack_out": [
-        "tmp%4#0"
+        "tmp%0#0",
+        "add%0#0",
+        "tmp%0#0 (copy)"
       ]
     },
     "14": {
-      "op": "bz main_bool_false@6",
-      "stack_out": []
-    },
-    "17": {
-      "op": "txn RekeyTo",
+      "op": "len",
       "defined_out": [
-        "tmp%5#0"
+        "add%0#0",
+        "len%0#0",
+        "tmp%0#0"
       ],
       "stack_out": [
-        "tmp%5#0"
+        "tmp%0#0",
+        "add%0#0",
+        "len%0#0"
       ]
     },
-    "19": {
-      "op": "global ZeroAddress",
-      "defined_out": [
-        "tmp%5#0",
-        "tmp%6#0"
-      ],
-      "stack_out": [
-        "tmp%5#0",
-        "tmp%6#0"
-      ]
-    },
-    "21": {
+    "15": {
       "op": "==",
       "defined_out": [
-        "tmp%7#0"
+        "eq%0#0",
+        "tmp%0#0"
       ],
       "stack_out": [
-        "tmp%7#0"
+        "tmp%0#0",
+        "eq%0#0"
+      ]
+    },
+    "16": {
+      "error": "invalid number of bytes for bytes",
+      "op": "assert // invalid number of bytes for bytes",
+      "stack_out": [
+        "tmp%0#0"
+      ]
+    },
+    "17": {
+      "op": "extract 2 0",
+      "defined_out": [
+        "password#0"
+      ],
+      "stack_out": [
+        "password#0"
+      ]
+    },
+    "20": {
+      "op": "txn TypeEnum",
+      "defined_out": [
+        "password#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "password#0",
+        "tmp%2#0"
       ]
     },
     "22": {
-      "op": "bz main_bool_false@6",
-      "stack_out": []
-    },
-    "25": {
-      "op": "txn CloseRemainderTo",
+      "op": "intc_1 // 1",
       "defined_out": [
-        "tmp%8#0"
+        "1",
+        "password#0",
+        "tmp%2#0"
       ],
       "stack_out": [
-        "tmp%8#0"
+        "password#0",
+        "tmp%2#0",
+        "1"
+      ]
+    },
+    "23": {
+      "op": "==",
+      "defined_out": [
+        "password#0",
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "password#0",
+        "tmp%3#0"
+      ]
+    },
+    "24": {
+      "op": "bz main_bool_false@6",
+      "stack_out": [
+        "password#0"
       ]
     },
     "27": {
-      "op": "global ZeroAddress",
+      "op": "txn Fee",
       "defined_out": [
-        "tmp%8#0",
-        "tmp%9#0"
+        "password#0",
+        "tmp%4#0"
       ],
       "stack_out": [
-        "tmp%8#0",
-        "tmp%9#0"
+        "password#0",
+        "tmp%4#0"
       ]
     },
     "29": {
-      "op": "==",
+      "op": "global MinTxnFee",
       "defined_out": [
-        "tmp%10#0"
+        "password#0",
+        "tmp%4#0",
+        "tmp%5#0"
       ],
       "stack_out": [
-        "tmp%10#0"
+        "password#0",
+        "tmp%4#0",
+        "tmp%5#0"
       ]
     },
-    "30": {
+    "31": {
+      "op": "<=",
+      "defined_out": [
+        "password#0",
+        "tmp%6#0"
+      ],
+      "stack_out": [
+        "password#0",
+        "tmp%6#0"
+      ]
+    },
+    "32": {
       "op": "bz main_bool_false@6",
-      "stack_out": []
-    },
-    "33": {
-      "op": "arg_0",
-      "defined_out": [
-        "tmp%11#0"
-      ],
       "stack_out": [
-        "tmp%11#0"
+        "password#0"
       ]
     },
-    "34": {
-      "op": "pushbytes \"s3cret\"",
+    "35": {
+      "op": "txn RekeyTo",
       "defined_out": [
-        "\"s3cret\"",
-        "tmp%11#0"
+        "password#0",
+        "tmp%7#0"
       ],
       "stack_out": [
-        "tmp%11#0",
-        "\"s3cret\""
+        "password#0",
+        "tmp%7#0"
       ]
     },
-    "42": {
+    "37": {
+      "op": "global ZeroAddress",
+      "defined_out": [
+        "password#0",
+        "tmp%7#0",
+        "tmp%8#0"
+      ],
+      "stack_out": [
+        "password#0",
+        "tmp%7#0",
+        "tmp%8#0"
+      ]
+    },
+    "39": {
       "op": "==",
       "defined_out": [
-        "tmp%12#0"
+        "password#0",
+        "tmp%9#0"
       ],
       "stack_out": [
-        "tmp%12#0"
+        "password#0",
+        "tmp%9#0"
+      ]
+    },
+    "40": {
+      "op": "bz main_bool_false@6",
+      "stack_out": [
+        "password#0"
       ]
     },
     "43": {
-      "op": "bz main_bool_false@6",
-      "stack_out": []
-    },
-    "46": {
-      "op": "pushint 1 // 1",
+      "op": "txn CloseRemainderTo",
       "defined_out": [
-        "and_result%0#0"
+        "password#0",
+        "tmp%10#0"
       ],
       "stack_out": [
-        "and_result%0#0"
+        "password#0",
+        "tmp%10#0"
+      ]
+    },
+    "45": {
+      "op": "global ZeroAddress",
+      "defined_out": [
+        "password#0",
+        "tmp%10#0",
+        "tmp%11#0"
+      ],
+      "stack_out": [
+        "password#0",
+        "tmp%10#0",
+        "tmp%11#0"
+      ]
+    },
+    "47": {
+      "op": "==",
+      "defined_out": [
+        "password#0",
+        "tmp%12#0"
+      ],
+      "stack_out": [
+        "password#0",
+        "tmp%12#0"
       ]
     },
     "48": {
-      "op": "return",
-      "stack_out": []
+      "op": "bz main_bool_false@6",
+      "stack_out": [
+        "password#0"
+      ]
     },
-    "49": {
+    "51": {
+      "op": "dup",
+      "stack_out": [
+        "password#0",
+        "password#0"
+      ]
+    },
+    "52": {
+      "op": "pushbytes \"s3cret\"",
+      "defined_out": [
+        "\"s3cret\"",
+        "password#0"
+      ],
+      "stack_out": [
+        "password#0",
+        "password#0",
+        "\"s3cret\""
+      ]
+    },
+    "60": {
+      "op": "==",
+      "defined_out": [
+        "password#0",
+        "tmp%13#0"
+      ],
+      "stack_out": [
+        "password#0",
+        "tmp%13#0"
+      ]
+    },
+    "61": {
+      "op": "bz main_bool_false@6",
+      "stack_out": [
+        "password#0"
+      ]
+    },
+    "64": {
+      "op": "intc_1 // 1",
+      "defined_out": [
+        "and_result%0#0",
+        "password#0"
+      ],
+      "stack_out": [
+        "password#0",
+        "and_result%0#0"
+      ]
+    },
+    "65": {
+      "op": "return",
+      "stack_out": [
+        "password#0"
+      ]
+    },
+    "66": {
       "block": "main_bool_false@6",
-      "stack_in": [],
-      "op": "pushint 0 // 0",
+      "stack_in": [
+        "password#0"
+      ],
+      "op": "intc_0 // 0",
       "defined_out": [
         "and_result%0#0"
       ],
       "stack_out": [
+        "password#0",
         "and_result%0#0"
       ]
     },
-    "51": {
+    "67": {
       "op": "return",
-      "stack_out": []
+      "stack_out": [
+        "password#0"
+      ]
     }
   }
 }

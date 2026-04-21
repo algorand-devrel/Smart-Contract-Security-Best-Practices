@@ -10,10 +10,11 @@ import {
   type uint64,
 } from '@algorandfoundation/algorand-typescript'
 
-// VULNERABLE: Only checks amount — allows rekeying, closing, and replay
+// VULNERABLE: Caller controls maxAmount, and the program still allows
+// rekeying, closing, and replay.
 export class UnsafePaymentSig extends LogicSig {
-  public program(): boolean {
-    return Txn.amount <= Uint64(1_000_000)
+  public program(maxAmount: uint64): boolean {
+    return Txn.amount <= maxAmount
   }
 }
 

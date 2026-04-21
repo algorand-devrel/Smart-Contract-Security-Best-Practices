@@ -3,7 +3,7 @@
   "sources": [
     "../../1-smart-contracts-vs-logic-signatures/delegated-logic-sig.algo.ts"
   ],
-  "mappings": ";AAeW;;AAAqB;;;;AAArB;AAAP",
+  "mappings": ";AAeiB;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACN;;AAAA;AAAP",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -11,7 +11,7 @@
       "params": {},
       "block": "main",
       "stack_in": [],
-      "op": "txn Amount",
+      "op": "arg_0",
       "defined_out": [
         "tmp%0#0"
       ],
@@ -19,27 +19,89 @@
         "tmp%0#0"
       ]
     },
-    "3": {
-      "op": "pushint 1000000 // 1000000",
+    "2": {
+      "op": "dup",
       "defined_out": [
-        "1000000",
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "tmp%0#0 (copy)"
+      ]
+    },
+    "3": {
+      "op": "len",
+      "defined_out": [
+        "len%0#0",
         "tmp%0#0"
       ],
       "stack_out": [
         "tmp%0#0",
-        "1000000"
+        "len%0#0"
+      ]
+    },
+    "4": {
+      "op": "pushint 8",
+      "defined_out": [
+        "8",
+        "len%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "len%0#0",
+        "8"
+      ]
+    },
+    "6": {
+      "op": "==",
+      "defined_out": [
+        "eq%0#0",
+        "tmp%0#0"
+      ],
+      "stack_out": [
+        "tmp%0#0",
+        "eq%0#0"
       ]
     },
     "7": {
-      "op": "<=",
-      "defined_out": [
-        "tmp%1#0"
-      ],
+      "error": "invalid number of bytes for uint64",
+      "op": "assert // invalid number of bytes for uint64",
       "stack_out": [
-        "tmp%1#0"
+        "tmp%0#0"
       ]
     },
     "8": {
+      "op": "btoi",
+      "defined_out": [
+        "maxAmount#0"
+      ],
+      "stack_out": [
+        "maxAmount#0"
+      ]
+    },
+    "9": {
+      "op": "txn Amount",
+      "defined_out": [
+        "maxAmount#0",
+        "tmp%2#0"
+      ],
+      "stack_out": [
+        "maxAmount#0",
+        "tmp%2#0"
+      ]
+    },
+    "11": {
+      "op": ">=",
+      "defined_out": [
+        "tmp%3#0"
+      ],
+      "stack_out": [
+        "tmp%3#0"
+      ]
+    },
+    "12": {
       "op": "return",
       "stack_out": []
     }

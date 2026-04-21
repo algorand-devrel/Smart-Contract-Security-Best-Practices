@@ -1,6 +1,7 @@
 import { AlgorandClient } from '@algorandfoundation/algokit-utils'
 import { algorandFixture } from '@algorandfoundation/algokit-utils/testing'
 import { TealTemplateParams } from '@algorandfoundation/algokit-utils/types/app'
+import { encodeUint64 } from 'algosdk'
 import { readFile } from 'fs/promises'
 import { join } from 'path'
 import { beforeEach, describe, expect, test } from 'vitest'
@@ -8,10 +9,15 @@ import { beforeEach, describe, expect, test } from 'vitest'
 const ARTIFACTS = join(__dirname, '..', 'artifacts', '1-smart-contracts-vs-logic-signatures')
 
 /** Read a TEAL file, substitute template vars, compile, and return a LogicSigAccount */
-async function compileLogicSig(algorand: AlgorandClient, tealFile: string, templateParams?: TealTemplateParams) {
+async function compileLogicSig(
+  algorand: AlgorandClient,
+  tealFile: string,
+  templateParams?: TealTemplateParams,
+  args?: Uint8Array[],
+) {
   const teal = await readFile(join(ARTIFACTS, tealFile), 'utf-8')
   const compiled = await algorand.app.compileTealTemplate(teal, templateParams)
-  return algorand.account.logicsig(compiled.compiledBase64ToBytes)
+  return algorand.account.logicsig(compiled.compiledBase64ToBytes, args)
 }
 
 /** Compile a LogicSig, sign it with the delegator's secret key, and register it as the signer */
@@ -20,8 +26,9 @@ async function makeDelegatedLsig(
   delegatorSk: Uint8Array,
   tealFile: string,
   templateParams?: TealTemplateParams,
+  args?: Uint8Array[],
 ) {
-  const lsig = await compileLogicSig(algorand, tealFile, templateParams)
+  const lsig = await compileLogicSig(algorand, tealFile, templateParams, args)
   lsig.account.sign(delegatorSk)
   algorand.account.setSignerFromAccount(lsig.account)
   return lsig
@@ -30,6 +37,8 @@ async function makeDelegatedLsig(
 describe('Delegated Logic Signatures — e2e on localnet', () => {
   const localnet = algorandFixture()
   beforeEach(localnet.newScope, 10_000)
+  const MAX_AMOUNT = encodeUint64(1_000_000)
+  const ATTACKER_MAX_AMOUNT = encodeUint64(10_000_000)
 
   describe('UnsafePaymentSig — delegated mode (VULN)', () => {
     test('VULN: rekeyTo succeeds — attacker takes over delegator account', async () => {
@@ -45,7 +54,7 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
       })
 
       // Create delegated lsig signed by the delegator
-      await makeDelegatedLsig(algorand, delegator.account.sk, 'UnsafePaymentSig.teal')
+      await makeDelegatedLsig(algorand, delegator.account.sk, 'UnsafePaymentSig.teal', undefined, [MAX_AMOUNT])
 
       // UnsafePaymentSig doesn't check rekeyTo — attacker can take over the account
       await algorand.send.payment({
@@ -73,7 +82,7 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
         amount: (5).algo(),
       })
 
-      await makeDelegatedLsig(algorand, delegator.account.sk, 'UnsafePaymentSig.teal')
+      await makeDelegatedLsig(algorand, delegator.account.sk, 'UnsafePaymentSig.teal', undefined, [MAX_AMOUNT])
 
       // UnsafePaymentSig doesn't check closeRemainderTo — attacker drains all funds
       await algorand.send.payment({
@@ -91,6 +100,30 @@ describe('Delegated Logic Signatures — e2e on localnet', () => {
       // Attacker received the funds (5 ALGO minus fee)
       const attackerBalance = (await algorand.account.getInformation(attacker.addr)).balance
       expect(attackerBalance.microAlgo).toBe(5_000_000n - 1_000n)
+    })
+
+    test('VULN: attacker can supply a larger maxAmount arg and bypass the intended cap', async () => {
+      const { testAccount, algorand } = localnet.context
+      const delegator = algorand.account.random()
+      const attacker = algorand.account.random()
+
+      await algorand.send.payment({
+        sender: testAccount,
+        receiver: delegator.addr,
+        amount: (5).algo(),
+      })
+
+      await makeDelegatedLsig(algorand, delegator.account.sk, 'UnsafePaymentSig.teal', undefined, [ATTACKER_MAX_AMOUNT])
+
+      await algorand.send.payment({
+        sender: delegator.addr,
+        receiver: attacker.addr,
+        amount: (2_000_000).microAlgo(),
+        staticFee: (1_000).microAlgo(),
+      })
+
+      const attackerBalance = (await algorand.account.getInformation(attacker.addr)).balance
+      expect(attackerBalance.microAlgo).toBe(2_000_000n)
     })
   })
 

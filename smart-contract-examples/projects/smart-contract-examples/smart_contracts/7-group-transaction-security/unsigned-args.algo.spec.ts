@@ -8,7 +8,7 @@ describe('UnsafeArgSig — unsigned LogicSig arguments', () => {
   afterEach(() => ctx.reset())
 
   /** Helper: run the LogicSig against a payment transaction with the given args */
-  function evalPayment(lsig: UnsafeArgSig, args: Parameters<typeof ctx.executeLogicSig>[1][] = [Bytes('s3cret')]) {
+  function evalPayment(lsig: UnsafeArgSig, ...args: unknown[]) {
     let result: boolean | uint64
     ctx.txn.createScope([ctx.any.txn.payment({ amount: 500_000, fee: 1_000 })]).execute(() => {
       result = ctx.executeLogicSig(lsig, ...args)
@@ -18,17 +18,12 @@ describe('UnsafeArgSig — unsigned LogicSig arguments', () => {
 
   test('approves payment with correct password arg', () => {
     const lsig = new UnsafeArgSig()
-    expect(evalPayment(lsig)).toBe(true)
+    expect(evalPayment(lsig, Bytes('s3cret'))).toBe(true)
   })
 
   test('rejects payment with wrong password arg', () => {
     const lsig = new UnsafeArgSig()
-    expect(evalPayment(lsig, [Bytes('wrong')])).toBe(false)
-  })
-
-  test('rejects payment with no args', () => {
-    const lsig = new UnsafeArgSig()
-    expect(evalPayment(lsig, [])).toBe(false)
+    expect(evalPayment(lsig, Bytes('wrong'))).toBe(false)
   })
 
   test('rejects non-payment transaction', () => {

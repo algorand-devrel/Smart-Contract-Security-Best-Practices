@@ -55,6 +55,8 @@ Each section highlights risks with concrete code examples. Headings are categori
 
 LogicSigs are powerful but dangerous, especially in delegated mode, where a single missing check can permanently compromise the signer's account. **Prefer applications** where possible.
 
+> **Note:** As of **April 21, 2026**, when publishing this guide, typed LogicSig arguments are available in the **`1.2.0-beta`** PuyaTs / Algorand TypeScript release line. Support first appeared in **`v1.2.0-beta.19`** on **March 18, 2026**. If you are on an older stable toolchain, you may still only have the older raw-`op.arg(...)` workflow.
+
 ### Risk
 
 Regardless of mode, LogicSigs are more dangerous than applications because:
@@ -62,7 +64,7 @@ Regardless of mode, LogicSigs are more dangerous than applications because:
 - **No state:** A LogicSig cannot track whether it has already approved a transaction, making replay attacks possible unless explicitly prevented by pinning the `Lease`, `FirstValid`, and `LastValid` fields to exact values (see [replay protection](#do-use-lease--pinned-firstvalidlastvalid-for-replay-protection)).
 - **Public bytecode:** After the first transaction, the bytecode of a LogicSig account is on-chain. Anyone can reconstruct it and submit new transactions using the LogicSig.
 - **Delegated authority:** Anyone who obtains the signed program of a delegated account can transact from the signer's personal account. The only way to revoke this delegation is to **permanently** change the account authorizer via rekeying.
-- **Arguments are not signed:** LogicSig arguments are public and they are **not** covered by the delegation signature, **not** part of the transaction ID, and **not** part of the group ID. Anyone constructing a transaction with the LogicSig can supply arbitrary arguments. The program must not rely on arguments for security-critical checks.
+- **Arguments are caller-controlled:** LogicSig arguments are public and they are **not** covered by the delegation signature, **not** part of the transaction ID, and **not** part of the group ID. PuyaPy / PuyaTs can now expose them as typed LogicSig parameters with default encoding validation, but the caller still chooses their values. The program must not rely on them for security-critical checks.
 - **Dangerous fields unchecked by default:** If the program doesn't explicitly check `RekeyTo`, `CloseRemainderTo`, and `AssetCloseTo`, an attacker can drain the account or take permanent control.
 - **Cross-network reuse:** The same compiled program works on mainnet, testnet, and betanet unless `Global.genesisHash` is checked.
 
@@ -77,7 +79,7 @@ Every LogicSig — whether Contract Account or Delegated — must consider **all
 5. **Transaction type restricted:** Only allow the intended type (e.g., `Payment`)
 6. **Use `txn`, not `gtxn`, for self-validation:** If using `gtxn`, also check `txn GroupIndex` to pin the LogicSig to a specific position. Otherwise an attacker can reuse the same LogicSig on multiple transactions in a group, where only the first is checked and the rest are unconstrained.
 7. **`GenesisHash` checked:** Network restriction (if the LogicSig should only work on one network)
-8. **If you use LogicSig args, validate them as raw bytes:** There is no ARC-4 decoding or signature coverage for `op.arg(...)`. Check count, length, and semantics explicitly, and never use args as secrets or authorization gates.
+8. **Prefer typed LogicSig parameters, and validate raw access paths yourself:** In PuyaPy / PuyaTs, typed LogicSig parameters are extracted from `op.arg(...)` and validated by default. If you disable validation or read raw `op.arg(...)` directly, validate count, length, and semantics yourself. In every case, never use LogicSig args as secrets or authorization gates.
 9. **Replay protection**: Depending on the use case, the logic sig should not be arbitrarily replayable. Secure examples include logic signatures that pin `FirstValid`, `LastValid`, and `Lease` to exact template values (ensuring at most one execution per validity window), or logic sigs that pair with an application call that performs stateful checks.
 10. **`LastValid` bounded:** Expiration (if the authorization should not last forever)
 
@@ -85,18 +87,18 @@ See sections [3 (Fee Management)](#3-fee-management) and [6 (Rekeying)](#6-rekey
 
 ### Vulnerable: Delegated LogicSig without safety checks
 
-A delegated LogicSig that reads its amount cap from a caller-supplied LogicSig arg and only checks the amount. Everything else is unvalidated. If Alice signs this program, anyone who obtains it can transact from Alice's account.
+A delegated LogicSig that reads its amount cap from a caller-supplied typed LogicSig parameter and only checks the amount. Everything else is unvalidated. If Alice signs this program, anyone who obtains it can transact from Alice's account.
 
 Algorand TypeScript — VULNERABLE
 
 ```typescript
-import { LogicSig, Txn, op } from "@algorandfoundation/algorand-typescript";
+import { LogicSig, Txn, type uint64 } from "@algorandfoundation/algorand-typescript";
 
-// VULNERABLE: Caller controls the max amount via op.arg(0) and the program
+// VULNERABLE: Caller controls the maxAmount LogicSig parameter and the program
 // still allows rekeying, closing, and replay
 class UnsafePaymentSig extends LogicSig {
-  public program(): boolean {
-    return Txn.amount <= op.btoi(op.arg(0));
+  public program(maxAmount: uint64): boolean {
+    return Txn.amount <= maxAmount;
   }
 }
 ```
@@ -104,18 +106,18 @@ class UnsafePaymentSig extends LogicSig {
 Algorand Python — VULNERABLE
 
 ```python
-from algopy import logicsig, Txn, op
+from algopy import logicsig, Txn, UInt64
 
-# VULNERABLE: Caller controls the max amount via op.arg(0) and the program
+# VULNERABLE: Caller controls the max_amount LogicSig parameter and the program
 # still allows rekeying, closing, and replay
 @logicsig
-def unsafe_payment_sig() -> bool:
-    return Txn.amount <= op.btoi(op.arg(0))
+def unsafe_payment_sig(max_amount: UInt64) -> bool:
+    return Txn.amount <= max_amount
 ```
 
 **An attacker with the signed program can:**
 
-1. Supply a huge `op.arg(0)` value and bypass the intended amount cap
+1. Supply a huge `maxAmount` LogicSig arg value and bypass the intended amount cap
 2. Set `RekeyTo` to their own address and **permanently steal Alice's account**
 3. Set `CloseRemainderTo` to drain **all ALGO** in a single transaction
 4. Replay the same transaction repeatedly (no lease required)
@@ -123,7 +125,7 @@ def unsafe_payment_sig() -> bool:
 
 ### Fixed: Delegated LogicSig with full safety checks
 
-The safe version locks down every dangerous field. Alice delegates to Bob. Bob can pull up to 1 ALGO per transaction, but only to a pre-specified receiver, with replay protection. If you need caller-supplied LogicSig args, treat them as unsigned raw bytes and validate them explicitly; keep authorization-critical values in checked transaction fields or template values instead.
+The safe version locks down every dangerous field. Alice delegates to Bob. Bob can pull up to 1 ALGO per transaction, but only to a pre-specified receiver, with replay protection. If you need LogicSig args, prefer typed parameters in PuyaPy / PuyaTs. Their encoding is validated by default, but the caller still controls the values, so keep authorization-critical decisions in checked transaction fields or template values instead. If you disable validation or drop to raw `op.arg(...)`, validation becomes your responsibility.
 
 Algorand TypeScript — SAFE
 
@@ -251,7 +253,7 @@ def escrow_sig() -> bool:
 
 LogicSig arguments are **not covered by the transaction signature**. In delegated mode, the signer's signature covers only the program bytecode — not the arguments. In contract account mode, there is no signature at all; the program hash is the address. In both cases, anyone constructing a transaction can supply whatever arguments they want.
 
-This means arguments must never be used for access control or to restrict who can use a LogicSig. Consider a LogicSig that uses an argument as a "password":
+Typed LogicSig parameters do not change that trust model. They improve decoding ergonomics, not authorization. This means arguments must never be used for access control or to restrict who can use a LogicSig. Consider a LogicSig that uses a typed parameter as a "password":
 
 ### Vulnerable: LogicSig using arguments for access control
 
@@ -264,20 +266,20 @@ import {
   Txn,
   Global,
   TransactionType,
-  op,
+  type bytes,
 } from "@algorandfoundation/algorand-typescript";
 
-// VULNERABLE: LogicSig arguments are NOT signed — anyone who sees one valid
-// transaction can copy the "password" argument and reuse it to drain the escrow.
+// VULNERABLE: Typed LogicSig parameters are still NOT signed — anyone who sees
+// one valid transaction can copy the password argument and reuse it.
 export class UnsafeArgSig extends LogicSig {
-  public program(): boolean {
+  public program(password: bytes): boolean {
     return (
       Txn.typeEnum === TransactionType.Payment &&
       Txn.fee <= Global.minTxnFee &&
       Txn.rekeyTo === Global.zeroAddress &&
       Txn.closeRemainderTo === Global.zeroAddress &&
       // "Secret" password — provides zero security because args are public
-      op.arg(0) === Bytes("s3cret")
+      password === Bytes("s3cret")
     );
   }
 }
@@ -286,25 +288,25 @@ export class UnsafeArgSig extends LogicSig {
 Algorand Python — VULNERABLE
 
 ```python
-from algopy import logicsig, Txn, Global, Bytes, TransactionType, op
+from algopy import logicsig, Txn, Global, Bytes, TransactionType
 
-# VULNERABLE: LogicSig arguments are NOT signed — anyone who sees one valid
-# transaction can copy the "password" argument and reuse it to drain the escrow.
+# VULNERABLE: Typed LogicSig parameters are still NOT signed — anyone who sees
+# one valid transaction can copy the password argument and reuse it.
 @logicsig
-def unsafe_arg_sig() -> bool:
+def unsafe_arg_sig(password: Bytes) -> bool:
     return (
         Txn.type_enum == TransactionType.Payment
         and Txn.fee <= Global.min_txn_fee
         and Txn.rekey_to == Global.zero_address
         and Txn.close_remainder_to == Global.zero_address
         # "Secret" password — provides zero security because args are public
-        and op.arg(0) == Bytes(b"s3cret")
+        and password == Bytes(b"s3cret")
     )
 ```
 
 The developer's intent is that only someone who knows the password can trigger payments from this escrow. This fails for multiple reasons:
 
-1. **The password is the only gate.** The receiver is not constrained, so an attacker who knows the password can send funds to any address. Even if you checked the receiver against a second argument (e.g., `Txn.receiver == op.arg(1)`), the attacker controls all arguments and can set both the password and the receiver to whatever they want.
+1. **The password is the only gate.** The receiver is not constrained, so an attacker who knows the password can send funds to any address. Even if you checked the receiver against a second typed LogicSig parameter, the attacker controls all arguments and can set both the password and the receiver to whatever they want.
 
 2. **The password is plainly visible.** The compiled TEAL contains `pushbytes "s3cret"` in plain text. Anyone who reads the bytecode discovers it immediately. The argument values are also visible in the transaction history of every transaction that uses the LogicSig.
 
@@ -485,7 +487,8 @@ The application account can't be closed, can't be rekeyed, and inner transaction
 - **Understand which mode you're using:** Contract Account (no key, deterministic address) vs Delegated (signed program, someone else's account) and its implications.
 - **Follow the [security checklist](#do-follow-the-logicsig-security-checklist)** for every LogicSig: `RekeyTo`, `CloseRemainderTo`, `AssetCloseTo`, `Fee`, type, `Lease`, `FirstValid`, `LastValid`, `GenesisHash`.
 - **Never trust LogicSig arguments for access control:** they are not signed and anyone can supply arbitrary values.
-- **Treat LogicSig args as raw unsigned bytes:** validate their count, length, and meaning yourself, and keep authorization-critical values out of them.
+- **Prefer typed LogicSig parameters in PuyaPy / PuyaTs:** they get default encoding validation, but the caller still controls the values.
+- **If you disable LogicSig-arg validation or use raw `op.arg(...)`:** validate count, length, and meaning yourself, and keep authorization-critical values out of them.
 - **Check `Global.genesisHash`** in network-specific LogicSigs to prevent cross-network reuse.
 - **Default to applications** unless you have a specific reason not to. They give you access control, state, and composability for free.
 
@@ -1264,7 +1267,7 @@ The **Puya** (Python) and **PuyaTs** (TypeScript) compilers automatically valida
 
 > **Note:** If you disable per-method validation via `validate_encoding="unsafe_disabled"`, you must validate inputs manually.
 
-> **Note:** LogicSig args are different from ARC-4 method arguments. `op.arg(...)` returns raw bytes, not ABI-decoded values, so there is no ARC-4 encoding check to rely on. If you intentionally use LogicSig args, validate their count, byte length, and semantics yourself.
+> **Note:** Typed LogicSig parameters in PuyaPy / PuyaTs now follow the same default encoding-validation model as typed ABI parameters. If you disable LogicSig validation, or if you intentionally read raw `op.arg(...)` values, manual validation becomes your responsibility.
 
 If you are writing **raw TEAL**, you must manually validate all ABI-decoded inputs. See [Validating ABI Values](https://dev.algorand.co/concepts/smart-contracts/abi/#validating-abi-values) for details.
 
@@ -1437,7 +1440,7 @@ class EnumeratedInputContract(ARC4Contract):
 
 - Always check `xferAsset` when receiving asset transfers.
 - For permissionless methods, treat every ABI argument as part of the security boundary.
-- Typed ABI parameters get ARC-4 encoding validation from the compiler; raw LogicSig args do not.
+- Typed ABI parameters and typed LogicSig parameters get compiler encoding validation by default; raw `op.arg(...)` access does not.
 - Validate fixed-length arguments with an exact byte-length check.
 - Validate bounded arguments against their full safe range, not just the happy path.
 - Validate enumerated arguments against the allowed set and reject everything else.
