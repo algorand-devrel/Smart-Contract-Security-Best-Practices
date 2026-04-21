@@ -1945,6 +1945,84 @@ class SecureGroupContract(ARC4Contract):
 
 > **Runnable examples:** [Source](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/7-group-transaction-security/group-validation.algo.ts) | [Tests](./smart-contract-examples/projects/smart-contract-examples/smart_contracts/7-group-transaction-security/group-validation.e2e.spec.ts)
 
+### DON'T: Use one-step password reveal for application authorization
+
+If an application authorizes a payout by checking a secret or hash preimage in the same call that performs the action, anyone watching the mempool can copy that reveal transaction and front-run it. Hashing the secret does not help: the secret becomes public the moment it is revealed on the wire.
+
+Algorand TypeScript — VULNERABLE
+
+```typescript
+import type { bytes, uint64 } from "@algorandfoundation/algorand-typescript";
+import {
+  Account,
+  Contract,
+  GlobalState,
+  Uint64,
+  assert,
+  itxn,
+  op,
+} from "@algorandfoundation/algorand-typescript";
+
+// VULNERABLE: Revealing the secret and performing the payout in the same
+// call lets a mempool observer copy the secret and front-run the withdrawal.
+export class VulnerablePasswordContract extends Contract {
+  passwordHash = GlobalState<bytes>({ key: "pw" });
+
+  public createApplication(passwordHash: bytes): void {
+    this.passwordHash.value = passwordHash;
+  }
+
+  public withdrawWithPassword(
+    secret: bytes,
+    receiver: Account,
+    amount: uint64,
+  ): void {
+    assert(op.sha256(secret) === this.passwordHash.value, "Wrong password");
+
+    itxn
+      .payment({
+        receiver: receiver,
+        amount: amount,
+        fee: Uint64(0),
+      })
+      .submit();
+  }
+}
+```
+
+Algorand Python — VULNERABLE
+
+```python
+from algopy import ARC4Contract, Account, Bytes, arc4, itxn, op
+
+# VULNERABLE: Revealing the secret and performing the payout in the same
+# call lets a mempool observer copy the secret and front-run the withdrawal.
+class VulnerablePasswordContract(ARC4Contract):
+    def __init__(self) -> None:
+        self.password_hash = Bytes()
+
+    @arc4.abimethod
+    def create_application(self, password_hash: Bytes) -> None:
+        self.password_hash = password_hash
+
+    @arc4.abimethod
+    def withdraw_with_password(
+        self,
+        secret: Bytes,
+        receiver: Account,
+        amount: arc4.UInt64,
+    ) -> None:
+        assert op.sha256(secret) == self.password_hash, "Wrong password"
+
+        itxn.Payment(
+            receiver=receiver,
+            amount=amount.native,
+            fee=0,
+        ).submit()
+```
+
+An attacker can copy the same `secret` from the mempool, submit the same call with a higher fee, and change the `receiver` to their own address. If you truly need secret-based authorization, use a two-step commit-reveal flow across separate confirmed rounds, bind the commitment to the intended action (`receiver`, `amount`, and so on), and include timeout or cancellation logic so stale commits cannot block the app indefinitely.
+
 ### DO: Design methods to be replay-safe
 
 Nothing prevents a user (or attacker) from calling the same contract method multiple times with the same arguments. If the method is not designed for this, the result can be double-spending, duplicate reward claims, or repeated votes.
@@ -1968,6 +2046,7 @@ The [Folks Finance RateLimiter](https://github.com/Folks-Finance/algorand-smart-
 ### Key Takeaways
 
 - Use ABI method parameters for group transaction references instead of hard-coded indexes.
+- Never authorize an application action by revealing a password or preimage in the same transaction that performs it.
 - Design methods to be either idempotent or guarded against re-execution.
 - Implement rate limiting for contracts exposed to flash-loan risk.
 
