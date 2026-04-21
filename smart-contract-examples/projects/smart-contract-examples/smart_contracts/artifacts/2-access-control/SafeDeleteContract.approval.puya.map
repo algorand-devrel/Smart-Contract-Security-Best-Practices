@@ -3,7 +3,7 @@
   "sources": [
     "../../2-access-control/access-control.algo.ts"
   ],
-  "mappings": ";AAgCA;;AAAA;;;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;AASE;;AAAA;AAAA;;AAAA;AAAA;AAAA;;AAAA;AARA;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AADF;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAEW;;AAAe;;AAAf;AAAP;AAEE;;AAAA;;AAAA;AAA6C;;AAAA;;AAAA;AAA7C;AADF;AAFF;;AAAA",
+  "mappings": ";AAgCA;;AAAA;;;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;AASE;;AAAA;AAAA;;AAAA;AAAA;AARA;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AADF;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAEW;;AAAe;;AAAf;AAAP;AAEE;;AAAA;;AAAA;AAA6C;;AAAA;;AAAA;AAA7C;AADF;AAFF;;AAAA",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -95,24 +95,11 @@
       ]
     },
     "34": {
-      "error": "OnCompletion must be NoOp && can only call when not creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when not creating",
+      "op": "return",
+      "defined_out": [],
       "stack_out": []
     },
     "35": {
-      "op": "pushint 1 // 1",
-      "defined_out": [
-        "1"
-      ],
-      "stack_out": [
-        "1"
-      ]
-    },
-    "37": {
-      "op": "return",
-      "stack_out": []
-    },
-    "38": {
       "block": "main_deleteApplication_route@3",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -123,7 +110,7 @@
         "tmp%3#0"
       ]
     },
-    "40": {
+    "37": {
       "op": "pushint 5 // DeleteApplication",
       "defined_out": [
         "DeleteApplication",
@@ -134,7 +121,7 @@
         "DeleteApplication"
       ]
     },
-    "42": {
+    "39": {
       "op": "==",
       "defined_out": [
         "tmp%4#0"
@@ -143,7 +130,7 @@
         "tmp%4#0"
       ]
     },
-    "43": {
+    "40": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%4#0",
@@ -154,7 +141,7 @@
         "tmp%5#0"
       ]
     },
-    "45": {
+    "42": {
       "op": "&&",
       "defined_out": [
         "tmp%7#0"
@@ -163,15 +150,14 @@
         "tmp%7#0"
       ]
     },
-    "46": {
-      "error": "OnCompletion must be DeleteApplication && can only call when not creating",
-      "op": "assert // OnCompletion must be DeleteApplication && can only call when not creating",
+    "43": {
+      "op": "assert",
       "stack_out": []
     },
-    "47": {
+    "44": {
       "op": "b deleteApplication"
     },
-    "50": {
+    "47": {
       "block": "main___algots__.defaultCreate@6",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -182,7 +168,7 @@
         "tmp%13#0"
       ]
     },
-    "52": {
+    "49": {
       "op": "!",
       "defined_out": [
         "tmp%14#0"
@@ -191,7 +177,7 @@
         "tmp%14#0"
       ]
     },
-    "53": {
+    "50": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%14#0",
@@ -202,7 +188,7 @@
         "tmp%15#0"
       ]
     },
-    "55": {
+    "52": {
       "op": "!",
       "defined_out": [
         "tmp%14#0",
@@ -213,7 +199,7 @@
         "tmp%16#0"
       ]
     },
-    "56": {
+    "53": {
       "op": "&&",
       "defined_out": [
         "tmp%17#0"
@@ -222,25 +208,12 @@
         "tmp%17#0"
       ]
     },
-    "57": {
-      "error": "OnCompletion must be NoOp && can only call when creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when creating",
-      "stack_out": []
-    },
-    "58": {
-      "op": "pushint 1 // 1",
-      "defined_out": [
-        "1"
-      ],
-      "stack_out": [
-        "1"
-      ]
-    },
-    "60": {
+    "54": {
       "op": "return",
+      "defined_out": [],
       "stack_out": []
     },
-    "61": {
+    "55": {
       "subroutine": "smart_contracts/2-access-control/access-control.algo.ts::SafeDeleteContract.deleteApplication[routing]",
       "params": {},
       "block": "deleteApplication",
@@ -253,7 +226,7 @@
         "tmp%0#0"
       ]
     },
-    "63": {
+    "57": {
       "op": "global CreatorAddress",
       "defined_out": [
         "tmp%0#0",
@@ -264,7 +237,7 @@
         "tmp%1#0"
       ]
     },
-    "65": {
+    "59": {
       "op": "==",
       "defined_out": [
         "tmp%2#0"
@@ -273,12 +246,12 @@
         "tmp%2#0"
       ]
     },
-    "66": {
+    "60": {
       "error": "Only creator can delete",
       "op": "assert // Only creator can delete",
       "stack_out": []
     },
-    "67": {
+    "61": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "tmp%3#0"
@@ -287,7 +260,7 @@
         "tmp%3#0"
       ]
     },
-    "69": {
+    "63": {
       "op": "acct_params_get AcctBalance",
       "defined_out": [
         "check%0#0",
@@ -298,14 +271,14 @@
         "check%0#0"
       ]
     },
-    "71": {
+    "65": {
       "error": "account funded",
       "op": "assert // account funded",
       "stack_out": [
         "value%0#0"
       ]
     },
-    "72": {
+    "66": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "tmp%4#0",
@@ -316,7 +289,7 @@
         "tmp%4#0"
       ]
     },
-    "74": {
+    "68": {
       "op": "acct_params_get AcctMinBalance",
       "defined_out": [
         "check%1#0",
@@ -329,7 +302,7 @@
         "check%1#0"
       ]
     },
-    "76": {
+    "70": {
       "error": "account funded",
       "op": "assert // account funded",
       "stack_out": [
@@ -337,7 +310,7 @@
         "value%1#0"
       ]
     },
-    "77": {
+    "71": {
       "op": "==",
       "defined_out": [
         "tmp%5#0"
@@ -346,13 +319,13 @@
         "tmp%5#0"
       ]
     },
-    "78": {
+    "72": {
       "error": "Drain funds before deleting",
       "op": "assert // Drain funds before deleting",
       "stack_out": []
     },
-    "79": {
-      "op": "pushint 1 // 1",
+    "73": {
+      "op": "pushint 1",
       "defined_out": [
         "1"
       ],
@@ -360,7 +333,7 @@
         "1"
       ]
     },
-    "81": {
+    "75": {
       "op": "return",
       "stack_out": []
     }

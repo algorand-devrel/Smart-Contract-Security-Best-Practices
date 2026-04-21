@@ -9,7 +9,7 @@ main:
     // export class PhaseGuardContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@7
     pushbytess 0xf88ba0a6 0x1847c86a 0x23d8b7ce // method "activate()void", method "pauseForSettlement()void", method "finalize()void"
@@ -70,7 +70,7 @@ finalize:
     // smart_contracts/8-state-management/state-machine.algo.ts:103
     // this.transitionTo(PHASE_SETTLEMENT, PHASE_CLOSED)
     intc_2 // 2
-    pushint 3 // 3
+    pushint 3
     callsub transitionTo
     // smart_contracts/8-state-management/state-machine.algo.ts:102
     // public finalize(): void {

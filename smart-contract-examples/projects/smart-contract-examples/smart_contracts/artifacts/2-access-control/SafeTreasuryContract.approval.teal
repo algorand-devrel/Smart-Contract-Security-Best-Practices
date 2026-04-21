@@ -9,7 +9,7 @@ main:
     // export class SafeTreasuryContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@6
     pushbytess 0xed73e6ce 0x4bd37752 // method "setTreasury(address)void", method "rotateAdmin(address)void"
@@ -105,7 +105,7 @@ requireAdmin:
     // smart_contracts/2-access-control/method-authorization.algo.ts:28
     // assert(Txn.sender.bytes === this.admin.value, 'Admin only')
     txn Sender
-    pushint 0 // 0
+    pushint 0
     // smart_contracts/2-access-control/method-authorization.algo.ts:19
     // public admin = GlobalState<bytes>({ key: 'admin' })
     bytec_0 // "admin"

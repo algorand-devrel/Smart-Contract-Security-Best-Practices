@@ -61,8 +61,7 @@
       ]
     },
     "45": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+      "op": "assert",
       "stack_out": []
     },
     "46": {
@@ -198,8 +197,7 @@
       ]
     },
     "109": {
-      "error": "OnCompletion must be UpdateApplication && can only call when not creating",
-      "op": "assert // OnCompletion must be UpdateApplication && can only call when not creating",
+      "op": "assert",
       "stack_out": []
     },
     "110": {
@@ -337,7 +335,7 @@
       ]
     },
     "130": {
-      "op": "pushint 2 // 2",
+      "op": "pushint 2",
       "defined_out": [
         "2",
         "aggregate%array_length%0#0",
@@ -691,7 +689,7 @@
       ]
     },
     "185": {
-      "op": "pushint 86400 // 86400",
+      "op": "pushint 86400",
       "defined_out": [
         "86400",
         "elapsed#0"

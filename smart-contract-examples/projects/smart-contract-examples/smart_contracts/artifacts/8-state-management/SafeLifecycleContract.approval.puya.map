@@ -35,8 +35,7 @@
       ]
     },
     "24": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+      "op": "assert",
       "stack_out": []
     },
     "25": {
@@ -321,7 +320,7 @@
       ]
     },
     "111": {
-      "op": "pushint 8 // 8",
+      "op": "pushint 8",
       "defined_out": [
         "8",
         "len%0#0",
@@ -488,7 +487,7 @@
       ]
     },
     "135": {
-      "op": "pushint 3 // 3",
+      "op": "pushint 3",
       "defined_out": [
         "\"phase\"",
         "3"

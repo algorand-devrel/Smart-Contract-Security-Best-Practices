@@ -16,7 +16,7 @@ main_switch_case_next@3:
     // export class UpgradeableContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@10
     pushbytess 0xced93276 0x36602577 0xbbe928b7 0x5488e773 // method "scheduleUpgrade(byte[])void", method "cancelUpgrade()void", method "getVersion()uint64", method "isUpgradeScheduled()uint64"
@@ -40,7 +40,7 @@ main_updateApplication_route@2:
     ==
     txn ApplicationID
     &&
-    assert // OnCompletion must be UpdateApplication && can only call when not creating
+    assert
     b updateApplication
 
 
@@ -81,7 +81,7 @@ scheduleUpgrade:
     dup
     intc_0 // 0
     extract_uint16 // on error: invalid array length header
-    pushint 2 // 2
+    pushint 2
     +
     dig 1
     len
@@ -156,7 +156,7 @@ updateApplication:
     -
     // smart_contracts/10-updatability-deletability/contract.algo.ts:33
     // assert(elapsed >= UPGRADE_DELAY, 'Timelock not expired')
-    pushint 86400 // 86400
+    pushint 86400
     >=
     assert // Timelock not expired
     // smart_contracts/10-updatability-deletability/contract.algo.ts:9

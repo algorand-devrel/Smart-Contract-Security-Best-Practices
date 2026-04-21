@@ -8,7 +8,7 @@ main:
     // export class SafePermissionlessArgsContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@7
     pushbytess 0x3252546d 0x2bb9a23b 0xcd94a30f // method "submitCommitment(byte[])void", method "setSlippage(uint64)void", method "chooseMode(uint64)void"
@@ -39,7 +39,7 @@ submitCommitment:
     dup
     intc_1 // 0
     extract_uint16 // on error: invalid array length header
-    pushint 2 // 2
+    pushint 2
     +
     dig 1
     len
@@ -49,7 +49,7 @@ submitCommitment:
     // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:29
     // assert(commitment.length === Uint64(32), 'Commitment must be 32 bytes')
     len
-    pushint 32 // 32
+    pushint 32
     ==
     assert // Commitment must be 32 bytes
     // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:28
@@ -71,7 +71,7 @@ setSlippage:
     btoi
     // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:33
     // assert(slippageBps <= Uint64(10_000), 'Slippage out of range')
-    pushint 10000 // 10000
+    pushint 10000
     <=
     assert // Slippage out of range
     // smart_contracts/4-transaction-input-validation/permissionless-args.algo.ts:32

@@ -3,7 +3,7 @@
   "sources": [
     "../../8-state-management/pull-pattern.algo.ts"
   ],
-  "mappings": ";;;;;;;;AAYA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAKE;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AAJ0B;AAAA;;AAAA;AAK1B;AAAA;AAAA;AAFF;AAAA;AAH4B;AAUK;;AAVL;AAUnB;AAAA;;AAAP;AAV0B;AAWa;;AAXb;AAWX;AAAA;AAAA;AAEf;AAEc;;;;;;AAFd;;;AAIgB;;;;AAJhB;AAb0B;AAqBF;;AArBE;AAqB1B;;AAZF;AAAA",
+  "mappings": ";;;;;AAYA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAKE;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AAJ0B;AAAA;;AAAA;AAK1B;AAAA;AAAA;AAFF;;AAAA;AAH4B;AAUK;;AAVL;AAUnB;AAAA;;AAAP;AAV0B;AAWa;;AAXb;AAWX;AAAA;AAAA;AAEf;AAEc;;;;;;AAFd;;;;AAIgB;;;;AAJhB;AAb0B;AAqBF;;AArBE;AAqB1B;;AAZF;;AAAA",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -11,12 +11,9 @@
       "params": {},
       "block": "main",
       "stack_in": [],
-      "op": "intcblock 1"
-    },
-    "4": {
       "op": "bytecblock \"w\""
     },
-    "8": {
+    "5": {
       "op": "txn NumAppArgs",
       "defined_out": [
         "tmp%0#1"
@@ -25,11 +22,11 @@
         "tmp%0#1"
       ]
     },
-    "10": {
+    "7": {
       "op": "bz main___algots__.defaultCreate@9",
       "stack_out": []
     },
-    "13": {
+    "10": {
       "op": "txn OnCompletion",
       "defined_out": [
         "tmp%2#0"
@@ -38,7 +35,7 @@
         "tmp%2#0"
       ]
     },
-    "15": {
+    "12": {
       "op": "!",
       "defined_out": [
         "tmp%3#0"
@@ -47,12 +44,11 @@
         "tmp%3#0"
       ]
     },
-    "16": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+    "13": {
+      "op": "assert",
       "stack_out": []
     },
-    "17": {
+    "14": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%4#0"
@@ -61,11 +57,11 @@
         "tmp%4#0"
       ]
     },
-    "19": {
+    "16": {
       "op": "assert",
       "stack_out": []
     },
-    "20": {
+    "17": {
       "op": "pushbytess 0x9ade7842 0xb7355fd1 // method \"queueWithdrawal(address,uint64)void\", method \"withdraw()void\"",
       "defined_out": [
         "Method(queueWithdrawal(address,uint64)void)",
@@ -76,7 +72,7 @@
         "Method(withdraw()void)"
       ]
     },
-    "32": {
+    "29": {
       "op": "txna ApplicationArgs 0",
       "defined_out": [
         "Method(queueWithdrawal(address,uint64)void)",
@@ -89,14 +85,14 @@
         "tmp%6#0"
       ]
     },
-    "35": {
+    "32": {
       "op": "match queueWithdrawal withdraw",
       "stack_out": []
     },
-    "41": {
+    "38": {
       "op": "err"
     },
-    "42": {
+    "39": {
       "block": "main___algots__.defaultCreate@9",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -107,7 +103,7 @@
         "tmp%7#0"
       ]
     },
-    "44": {
+    "41": {
       "op": "!",
       "defined_out": [
         "tmp%8#0"
@@ -116,7 +112,7 @@
         "tmp%8#0"
       ]
     },
-    "45": {
+    "42": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%8#0",
@@ -127,7 +123,7 @@
         "tmp%9#0"
       ]
     },
-    "47": {
+    "44": {
       "op": "!",
       "defined_out": [
         "tmp%10#0",
@@ -138,7 +134,7 @@
         "tmp%10#0"
       ]
     },
-    "48": {
+    "45": {
       "op": "&&",
       "defined_out": [
         "tmp%11#0"
@@ -147,25 +143,12 @@
         "tmp%11#0"
       ]
     },
-    "49": {
-      "error": "OnCompletion must be NoOp && can only call when creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when creating",
-      "stack_out": []
-    },
-    "50": {
-      "op": "intc_0 // 1",
-      "defined_out": [
-        "1"
-      ],
-      "stack_out": [
-        "1"
-      ]
-    },
-    "51": {
+    "46": {
       "op": "return",
+      "defined_out": [],
       "stack_out": []
     },
-    "52": {
+    "47": {
       "subroutine": "smart_contracts/8-state-management/pull-pattern.algo.ts::PullPatternContract.queueWithdrawal[routing]",
       "params": {},
       "block": "queueWithdrawal",
@@ -178,7 +161,7 @@
         "recipient#0"
       ]
     },
-    "55": {
+    "50": {
       "op": "dup",
       "defined_out": [
         "recipient#0",
@@ -189,7 +172,7 @@
         "recipient#0 (copy)"
       ]
     },
-    "56": {
+    "51": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -200,8 +183,8 @@
         "len%0#0"
       ]
     },
-    "57": {
-      "op": "pushint 32 // 32",
+    "52": {
+      "op": "pushint 32",
       "defined_out": [
         "32",
         "len%0#0",
@@ -213,7 +196,7 @@
         "32"
       ]
     },
-    "59": {
+    "54": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -224,14 +207,14 @@
         "eq%0#0"
       ]
     },
-    "60": {
+    "55": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
         "recipient#0"
       ]
     },
-    "61": {
+    "56": {
       "op": "txna ApplicationArgs 2",
       "defined_out": [
         "recipient#0",
@@ -242,7 +225,7 @@
         "tmp%2#0"
       ]
     },
-    "64": {
+    "59": {
       "op": "dup",
       "defined_out": [
         "recipient#0",
@@ -255,7 +238,7 @@
         "tmp%2#0 (copy)"
       ]
     },
-    "65": {
+    "60": {
       "op": "len",
       "defined_out": [
         "len%1#0",
@@ -268,8 +251,8 @@
         "len%1#0"
       ]
     },
-    "66": {
-      "op": "pushint 8 // 8",
+    "61": {
+      "op": "pushint 8",
       "defined_out": [
         "8",
         "len%1#0",
@@ -283,7 +266,7 @@
         "8"
       ]
     },
-    "68": {
+    "63": {
       "op": "==",
       "defined_out": [
         "eq%1#0",
@@ -296,7 +279,7 @@
         "eq%1#0"
       ]
     },
-    "69": {
+    "64": {
       "error": "invalid number of bytes for arc4.uint64",
       "op": "assert // invalid number of bytes for arc4.uint64",
       "stack_out": [
@@ -304,7 +287,7 @@
         "tmp%2#0"
       ]
     },
-    "70": {
+    "65": {
       "op": "btoi",
       "defined_out": [
         "amount#0",
@@ -315,7 +298,7 @@
         "amount#0"
       ]
     },
-    "71": {
+    "66": {
       "op": "txn Sender",
       "defined_out": [
         "amount#0",
@@ -328,7 +311,7 @@
         "tmp%0#1"
       ]
     },
-    "73": {
+    "68": {
       "op": "global CreatorAddress",
       "defined_out": [
         "amount#0",
@@ -343,7 +326,7 @@
         "tmp%1#1"
       ]
     },
-    "75": {
+    "70": {
       "op": "==",
       "defined_out": [
         "amount#0",
@@ -356,14 +339,14 @@
         "tmp%2#1"
       ]
     },
-    "76": {
+    "71": {
       "op": "assert",
       "stack_out": [
         "recipient#0",
         "amount#0"
       ]
     },
-    "77": {
+    "72": {
       "op": "bytec_0 // \"w\"",
       "defined_out": [
         "\"w\"",
@@ -376,7 +359,7 @@
         "\"w\""
       ]
     },
-    "78": {
+    "73": {
       "op": "uncover 2",
       "stack_out": [
         "amount#0",
@@ -384,41 +367,41 @@
         "recipient#0"
       ]
     },
-    "80": {
+    "75": {
       "op": "concat",
       "defined_out": [
         "amount#0",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
         "amount#0",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
-    "81": {
+    "76": {
       "op": "swap",
       "stack_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "amount#0"
       ]
     },
-    "82": {
+    "77": {
       "op": "itob",
       "defined_out": [
-        "box_prefixed_key%0#0",
-        "encoded_value%0#0"
+        "encoded_value%0#0",
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "encoded_value%0#0"
       ]
     },
-    "83": {
+    "78": {
       "op": "box_put",
       "stack_out": []
     },
-    "84": {
-      "op": "intc_0 // 1",
+    "79": {
+      "op": "pushint 1",
       "defined_out": [
         "1"
       ],
@@ -426,11 +409,11 @@
         "1"
       ]
     },
-    "85": {
+    "81": {
       "op": "return",
       "stack_out": []
     },
-    "86": {
+    "82": {
       "subroutine": "smart_contracts/8-state-management/pull-pattern.algo.ts::PullPatternContract.withdraw[routing]",
       "params": {},
       "block": "withdraw",
@@ -443,7 +426,7 @@
         "\"w\""
       ]
     },
-    "87": {
+    "83": {
       "op": "txn Sender",
       "defined_out": [
         "\"w\"",
@@ -454,16 +437,16 @@
         "materialized_values%0#0"
       ]
     },
-    "89": {
+    "85": {
       "op": "concat",
       "defined_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
-    "90": {
+    "86": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
@@ -474,24 +457,24 @@
         "maybe_exists%0#0"
       ]
     },
-    "91": {
+    "87": {
       "op": "bury 1",
       "stack_out": [
         "maybe_exists%0#0"
       ]
     },
-    "93": {
+    "89": {
       "error": "No pending withdrawal",
       "op": "assert // No pending withdrawal",
       "stack_out": []
     },
-    "94": {
+    "90": {
       "op": "bytec_0 // \"w\"",
       "stack_out": [
         "\"w\""
       ]
     },
-    "95": {
+    "91": {
       "op": "txn Sender",
       "defined_out": [
         "\"w\"",
@@ -502,16 +485,16 @@
         "materialized_values%1#0"
       ]
     },
-    "97": {
+    "93": {
       "op": "concat",
       "defined_out": [
-        "box_prefixed_key%1#0"
+        "map_prefixed_key%1#0"
       ],
       "stack_out": [
-        "box_prefixed_key%1#0"
+        "map_prefixed_key%1#0"
       ]
     },
-    "98": {
+    "94": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%0#0",
@@ -522,14 +505,14 @@
         "aggregate%box_get%1#0"
       ]
     },
-    "99": {
+    "95": {
       "error": "Box must have value",
       "op": "assert // Box must have value",
       "stack_out": [
         "aggregate%box_get%0#0"
       ]
     },
-    "100": {
+    "96": {
       "op": "btoi",
       "defined_out": [
         "amount#0"
@@ -538,10 +521,10 @@
         "amount#0"
       ]
     },
-    "101": {
+    "97": {
       "op": "itxn_begin"
     },
-    "102": {
+    "98": {
       "op": "txn Sender",
       "defined_out": [
         "amount#0",
@@ -552,15 +535,15 @@
         "inner_txn_params%0%%param_Receiver_idx_0#0"
       ]
     },
-    "104": {
+    "100": {
       "op": "itxn_field Receiver"
     },
-    "106": {
+    "102": {
       "op": "itxn_field Amount",
       "stack_out": []
     },
-    "108": {
-      "op": "intc_0 // 1",
+    "104": {
+      "op": "pushint 1",
       "defined_out": [
         "1"
       ],
@@ -568,12 +551,12 @@
         "1"
       ]
     },
-    "109": {
+    "106": {
       "op": "itxn_field TypeEnum",
       "stack_out": []
     },
-    "111": {
-      "op": "pushint 0 // 0",
+    "108": {
+      "op": "pushint 0",
       "defined_out": [
         "0"
       ],
@@ -581,20 +564,20 @@
         "0"
       ]
     },
-    "113": {
+    "110": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "115": {
+    "112": {
       "op": "itxn_submit"
     },
-    "116": {
+    "113": {
       "op": "bytec_0 // \"w\"",
       "stack_out": [
         "\"w\""
       ]
     },
-    "117": {
+    "114": {
       "op": "txn Sender",
       "defined_out": [
         "\"w\"",
@@ -605,16 +588,16 @@
         "materialized_values%2#0"
       ]
     },
-    "119": {
+    "116": {
       "op": "concat",
       "defined_out": [
-        "box_prefixed_key%2#0"
+        "map_prefixed_key%2#0"
       ],
       "stack_out": [
-        "box_prefixed_key%2#0"
+        "map_prefixed_key%2#0"
       ]
     },
-    "120": {
+    "117": {
       "op": "box_del",
       "defined_out": [
         "{box_del}"
@@ -623,17 +606,17 @@
         "{box_del}"
       ]
     },
-    "121": {
+    "118": {
       "op": "pop",
       "stack_out": []
     },
-    "122": {
-      "op": "intc_0 // 1",
+    "119": {
+      "op": "pushint 1",
       "stack_out": [
         "1"
       ]
     },
-    "123": {
+    "121": {
       "op": "return",
       "stack_out": []
     }

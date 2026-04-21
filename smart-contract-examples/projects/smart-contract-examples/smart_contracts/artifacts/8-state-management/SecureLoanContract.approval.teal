@@ -3,7 +3,6 @@
 
 // @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
 main:
-    intcblock 1
     bytecblock "debt" "col"
     // smart_contracts/8-state-management/boxmap-loan.algo.ts:12
     // export class SecureLoanContract extends Contract {
@@ -11,7 +10,7 @@ main:
     bz main___algots__.defaultCreate@10
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     assert
     pushbytess 0x597fc7c0 0xdbd7b9dd 0xf4b15b57 // method "register()void", method "borrow(uint64)void", method "liquidate(address)void"
@@ -27,8 +26,6 @@ main___algots__.defaultCreate@10:
     txn ApplicationID
     !
     &&
-    assert // OnCompletion must be NoOp && can only call when creating
-    intc_0 // 1
     return
 
 
@@ -45,7 +42,7 @@ register:
     concat
     // smart_contracts/8-state-management/boxmap-loan.algo.ts:17
     // this.debt(Txn.sender).value = Uint64(0);
-    pushint 0 // 0
+    pushint 0
     itob
     swap
     dig 1
@@ -65,7 +62,7 @@ register:
     box_put
     // smart_contracts/8-state-management/boxmap-loan.algo.ts:16
     // public register(): void {
-    intc_0 // 1
+    pushint 1
     return
 
 
@@ -76,7 +73,7 @@ borrow:
     txna ApplicationArgs 1
     dup
     len
-    pushint 8 // 8
+    pushint 8
     ==
     assert // invalid number of bytes for arc4.uint64
     btoi
@@ -111,7 +108,7 @@ borrow:
     box_put
     // smart_contracts/8-state-management/boxmap-loan.algo.ts:21
     // public borrow(amount: uint64): void {
-    intc_0 // 1
+    pushint 1
     return
 
 
@@ -122,7 +119,7 @@ liquidate:
     txna ApplicationArgs 1
     dup
     len
-    pushint 32 // 32
+    pushint 32
     ==
     assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
     // smart_contracts/8-state-management/boxmap-loan.algo.ts:13
@@ -149,5 +146,5 @@ liquidate:
     assert // Not undercollateralized
     // smart_contracts/8-state-management/boxmap-loan.algo.ts:26
     // public liquidate(user: Account): void {
-    intc_0 // 1
+    pushint 1
     return

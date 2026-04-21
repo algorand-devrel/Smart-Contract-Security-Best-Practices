@@ -19,7 +19,7 @@ main_createApplication_route@3:
     txn ApplicationID
     !
     &&
-    assert // OnCompletion must be NoOp && can only call when creating
+    assert
     // smart_contracts/8-state-management/safe-clear-state.algo.ts:12
     // public unclaimedFunds = GlobalState<uint64>({ key: "unclaimed" });
     pushbytes "unclaimed"
@@ -40,7 +40,7 @@ main_optInToApplication_route@2:
     ==
     txn ApplicationID
     &&
-    assert // OnCompletion must be OptIn && can only call when not creating
+    assert
     b optInToApplication
 
 

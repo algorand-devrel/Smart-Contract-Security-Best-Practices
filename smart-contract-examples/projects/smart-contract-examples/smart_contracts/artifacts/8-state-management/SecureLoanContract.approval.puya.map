@@ -3,7 +3,7 @@
   "sources": [
     "../../8-state-management/boxmap-loan.algo.ts"
   ],
-  "mappings": ";;;;;;;;;;;;;;;AAWA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AACgB;AAIF;;AAJE;AAIyB;;AAArC;AAAA;AAAA;;AAAA;AAHkB;AAIF;;AAJE;AAIlB;AAAA;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AARc;AAU4B;;AAV5B;AAUkB;AAAA;AAAA;AAAA;AAVlB;AAUF;;AAVE;AAUZ;AAAA;AAAA;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAbc;AAAA;;AAAA;AAeL;AAAA;AAAA;AAdW;AAAA;;AAAA;AAca;AAAA;AAAA;AAAxB;AAAP;AAFF;AAAA",
+  "mappings": ";;;;;;;;;;;;AAWA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AACgB;AAIF;;AAJE;AAIyB;;AAArC;AAAA;AAAA;;AAAA;AAHkB;AAIF;;AAJE;AAIlB;AAAA;AAFF;;AAAA;AAKA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AARc;AAU4B;;AAV5B;AAUkB;AAAA;AAAA;AAAA;AAVlB;AAUF;;AAVE;AAUZ;AAAA;AAAA;AAFF;;AAAA;AAKA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAbc;AAAA;;AAAA;AAeL;AAAA;AAAA;AAdW;AAAA;;AAAA;AAca;AAAA;AAAA;AAAxB;AAAP;AAFF;;AAAA",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -11,12 +11,9 @@
       "params": {},
       "block": "main",
       "stack_in": [],
-      "op": "intcblock 1"
-    },
-    "4": {
       "op": "bytecblock \"debt\" \"col\""
     },
-    "15": {
+    "12": {
       "op": "txn NumAppArgs",
       "defined_out": [
         "tmp%0#1"
@@ -25,11 +22,11 @@
         "tmp%0#1"
       ]
     },
-    "17": {
+    "14": {
       "op": "bz main___algots__.defaultCreate@10",
       "stack_out": []
     },
-    "20": {
+    "17": {
       "op": "txn OnCompletion",
       "defined_out": [
         "tmp%2#0"
@@ -38,7 +35,7 @@
         "tmp%2#0"
       ]
     },
-    "22": {
+    "19": {
       "op": "!",
       "defined_out": [
         "tmp%3#0"
@@ -47,12 +44,11 @@
         "tmp%3#0"
       ]
     },
-    "23": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+    "20": {
+      "op": "assert",
       "stack_out": []
     },
-    "24": {
+    "21": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%4#0"
@@ -61,11 +57,11 @@
         "tmp%4#0"
       ]
     },
-    "26": {
+    "23": {
       "op": "assert",
       "stack_out": []
     },
-    "27": {
+    "24": {
       "op": "pushbytess 0x597fc7c0 0xdbd7b9dd 0xf4b15b57 // method \"register()void\", method \"borrow(uint64)void\", method \"liquidate(address)void\"",
       "defined_out": [
         "Method(borrow(uint64)void)",
@@ -78,7 +74,7 @@
         "Method(liquidate(address)void)"
       ]
     },
-    "44": {
+    "41": {
       "op": "txna ApplicationArgs 0",
       "defined_out": [
         "Method(borrow(uint64)void)",
@@ -93,14 +89,14 @@
         "tmp%6#0"
       ]
     },
-    "47": {
+    "44": {
       "op": "match register borrow liquidate",
       "stack_out": []
     },
-    "55": {
+    "52": {
       "op": "err"
     },
-    "56": {
+    "53": {
       "block": "main___algots__.defaultCreate@10",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -111,7 +107,7 @@
         "tmp%7#0"
       ]
     },
-    "58": {
+    "55": {
       "op": "!",
       "defined_out": [
         "tmp%8#0"
@@ -120,7 +116,7 @@
         "tmp%8#0"
       ]
     },
-    "59": {
+    "56": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%8#0",
@@ -131,7 +127,7 @@
         "tmp%9#0"
       ]
     },
-    "61": {
+    "58": {
       "op": "!",
       "defined_out": [
         "tmp%10#0",
@@ -142,7 +138,7 @@
         "tmp%10#0"
       ]
     },
-    "62": {
+    "59": {
       "op": "&&",
       "defined_out": [
         "tmp%11#0"
@@ -151,25 +147,12 @@
         "tmp%11#0"
       ]
     },
-    "63": {
-      "error": "OnCompletion must be NoOp && can only call when creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when creating",
-      "stack_out": []
-    },
-    "64": {
-      "op": "intc_0 // 1",
-      "defined_out": [
-        "1"
-      ],
-      "stack_out": [
-        "1"
-      ]
-    },
-    "65": {
+    "60": {
       "op": "return",
+      "defined_out": [],
       "stack_out": []
     },
-    "66": {
+    "61": {
       "subroutine": "smart_contracts/8-state-management/boxmap-loan.algo.ts::SecureLoanContract.register[routing]",
       "params": {},
       "block": "register",
@@ -182,7 +165,7 @@
         "\"debt\""
       ]
     },
-    "67": {
+    "62": {
       "op": "txn Sender",
       "defined_out": [
         "\"debt\"",
@@ -193,64 +176,64 @@
         "materialized_values%0#0"
       ]
     },
-    "69": {
+    "64": {
       "op": "concat",
       "defined_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
-    "70": {
-      "op": "pushint 0 // 0",
+    "65": {
+      "op": "pushint 0",
       "defined_out": [
         "0",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "0"
       ]
     },
-    "72": {
+    "67": {
       "op": "itob",
       "defined_out": [
-        "box_prefixed_key%0#0",
-        "encoded_value%0#0"
+        "encoded_value%0#0",
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "encoded_value%0#0"
       ]
     },
-    "73": {
+    "68": {
       "op": "swap",
       "stack_out": [
         "encoded_value%0#0",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
-    "74": {
+    "69": {
       "op": "dig 1",
       "defined_out": [
-        "box_prefixed_key%0#0",
         "encoded_value%0#0",
-        "encoded_value%0#0 (copy)"
+        "encoded_value%0#0 (copy)",
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
         "encoded_value%0#0",
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "encoded_value%0#0 (copy)"
       ]
     },
-    "76": {
+    "71": {
       "op": "box_put",
       "stack_out": [
         "encoded_value%0#0"
       ]
     },
-    "77": {
+    "72": {
       "op": "bytec_1 // \"col\"",
       "defined_out": [
         "\"col\"",
@@ -261,7 +244,7 @@
         "\"col\""
       ]
     },
-    "78": {
+    "73": {
       "op": "txn Sender",
       "defined_out": [
         "\"col\"",
@@ -274,30 +257,30 @@
         "materialized_values%1#0"
       ]
     },
-    "80": {
+    "75": {
       "op": "concat",
       "defined_out": [
-        "box_prefixed_key%1#0",
-        "encoded_value%0#0"
+        "encoded_value%0#0",
+        "map_prefixed_key%1#0"
       ],
       "stack_out": [
         "encoded_value%0#0",
-        "box_prefixed_key%1#0"
+        "map_prefixed_key%1#0"
       ]
     },
-    "81": {
+    "76": {
       "op": "swap",
       "stack_out": [
-        "box_prefixed_key%1#0",
+        "map_prefixed_key%1#0",
         "encoded_value%0#0"
       ]
     },
-    "82": {
+    "77": {
       "op": "box_put",
       "stack_out": []
     },
-    "83": {
-      "op": "intc_0 // 1",
+    "78": {
+      "op": "pushint 1",
       "defined_out": [
         "1"
       ],
@@ -305,11 +288,11 @@
         "1"
       ]
     },
-    "84": {
+    "80": {
       "op": "return",
       "stack_out": []
     },
-    "85": {
+    "81": {
       "subroutine": "smart_contracts/8-state-management/boxmap-loan.algo.ts::SecureLoanContract.borrow[routing]",
       "params": {},
       "block": "borrow",
@@ -322,7 +305,7 @@
         "tmp%0#0"
       ]
     },
-    "88": {
+    "84": {
       "op": "dup",
       "defined_out": [
         "tmp%0#0",
@@ -333,7 +316,7 @@
         "tmp%0#0 (copy)"
       ]
     },
-    "89": {
+    "85": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -344,8 +327,8 @@
         "len%0#0"
       ]
     },
-    "90": {
-      "op": "pushint 8 // 8",
+    "86": {
+      "op": "pushint 8",
       "defined_out": [
         "8",
         "len%0#0",
@@ -357,7 +340,7 @@
         "8"
       ]
     },
-    "92": {
+    "88": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -368,14 +351,14 @@
         "eq%0#0"
       ]
     },
-    "93": {
+    "89": {
       "error": "invalid number of bytes for arc4.uint64",
       "op": "assert // invalid number of bytes for arc4.uint64",
       "stack_out": [
         "tmp%0#0"
       ]
     },
-    "94": {
+    "90": {
       "op": "btoi",
       "defined_out": [
         "amount#0"
@@ -384,7 +367,7 @@
         "amount#0"
       ]
     },
-    "95": {
+    "91": {
       "op": "bytec_0 // \"debt\"",
       "defined_out": [
         "\"debt\"",
@@ -395,7 +378,7 @@
         "\"debt\""
       ]
     },
-    "96": {
+    "92": {
       "op": "txn Sender",
       "defined_out": [
         "\"debt\"",
@@ -408,18 +391,18 @@
         "materialized_values%0#0"
       ]
     },
-    "98": {
+    "94": {
       "op": "concat",
       "defined_out": [
         "amount#0",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
         "amount#0",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
-    "99": {
+    "95": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%0#0",
@@ -432,7 +415,7 @@
         "aggregate%box_get%1#0"
       ]
     },
-    "100": {
+    "96": {
       "error": "Box must have value",
       "op": "assert // Box must have value",
       "stack_out": [
@@ -440,7 +423,7 @@
         "aggregate%box_get%0#0"
       ]
     },
-    "101": {
+    "97": {
       "op": "btoi",
       "defined_out": [
         "amount#0",
@@ -451,7 +434,7 @@
         "maybe_value_converted%0#0"
       ]
     },
-    "102": {
+    "98": {
       "op": "+",
       "defined_out": [
         "tmp%0#1"
@@ -460,14 +443,14 @@
         "tmp%0#1"
       ]
     },
-    "103": {
+    "99": {
       "op": "bytec_0 // \"debt\"",
       "stack_out": [
         "tmp%0#1",
         "\"debt\""
       ]
     },
-    "104": {
+    "100": {
       "op": "txn Sender",
       "defined_out": [
         "\"debt\"",
@@ -480,41 +463,41 @@
         "materialized_values%1#0"
       ]
     },
-    "106": {
+    "102": {
       "op": "concat",
       "defined_out": [
-        "box_prefixed_key%1#0",
+        "map_prefixed_key%1#0",
         "tmp%0#1"
       ],
       "stack_out": [
         "tmp%0#1",
-        "box_prefixed_key%1#0"
+        "map_prefixed_key%1#0"
       ]
     },
-    "107": {
+    "103": {
       "op": "swap",
       "stack_out": [
-        "box_prefixed_key%1#0",
+        "map_prefixed_key%1#0",
         "tmp%0#1"
       ]
     },
-    "108": {
+    "104": {
       "op": "itob",
       "defined_out": [
-        "box_prefixed_key%1#0",
-        "encoded_value%0#0"
+        "encoded_value%0#0",
+        "map_prefixed_key%1#0"
       ],
       "stack_out": [
-        "box_prefixed_key%1#0",
+        "map_prefixed_key%1#0",
         "encoded_value%0#0"
       ]
     },
-    "109": {
+    "105": {
       "op": "box_put",
       "stack_out": []
     },
-    "110": {
-      "op": "intc_0 // 1",
+    "106": {
+      "op": "pushint 1",
       "defined_out": [
         "1"
       ],
@@ -522,11 +505,11 @@
         "1"
       ]
     },
-    "111": {
+    "108": {
       "op": "return",
       "stack_out": []
     },
-    "112": {
+    "109": {
       "subroutine": "smart_contracts/8-state-management/boxmap-loan.algo.ts::SecureLoanContract.liquidate[routing]",
       "params": {},
       "block": "liquidate",
@@ -539,7 +522,7 @@
         "user#0"
       ]
     },
-    "115": {
+    "112": {
       "op": "dup",
       "defined_out": [
         "user#0",
@@ -550,7 +533,7 @@
         "user#0 (copy)"
       ]
     },
-    "116": {
+    "113": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -561,8 +544,8 @@
         "len%0#0"
       ]
     },
-    "117": {
-      "op": "pushint 32 // 32",
+    "114": {
+      "op": "pushint 32",
       "defined_out": [
         "32",
         "len%0#0",
@@ -574,7 +557,7 @@
         "32"
       ]
     },
-    "119": {
+    "116": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -585,14 +568,14 @@
         "eq%0#0"
       ]
     },
-    "120": {
+    "117": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
         "user#0"
       ]
     },
-    "121": {
+    "118": {
       "op": "bytec_0 // \"debt\"",
       "defined_out": [
         "\"debt\"",
@@ -603,7 +586,7 @@
         "\"debt\""
       ]
     },
-    "122": {
+    "119": {
       "op": "dig 1",
       "stack_out": [
         "user#0",
@@ -611,18 +594,18 @@
         "user#0 (copy)"
       ]
     },
-    "124": {
+    "121": {
       "op": "concat",
       "defined_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "user#0"
       ],
       "stack_out": [
         "user#0",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
-    "125": {
+    "122": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%0#0",
@@ -635,7 +618,7 @@
         "aggregate%box_get%1#0"
       ]
     },
-    "126": {
+    "123": {
       "error": "Box must have value",
       "op": "assert // Box must have value",
       "stack_out": [
@@ -643,7 +626,7 @@
         "aggregate%box_get%0#0"
       ]
     },
-    "127": {
+    "124": {
       "op": "btoi",
       "defined_out": [
         "maybe_value_converted%0#0",
@@ -654,7 +637,7 @@
         "maybe_value_converted%0#0"
       ]
     },
-    "128": {
+    "125": {
       "op": "bytec_1 // \"col\"",
       "defined_out": [
         "\"col\"",
@@ -667,7 +650,7 @@
         "\"col\""
       ]
     },
-    "129": {
+    "126": {
       "op": "uncover 2",
       "stack_out": [
         "maybe_value_converted%0#0",
@@ -675,18 +658,18 @@
         "user#0"
       ]
     },
-    "131": {
+    "128": {
       "op": "concat",
       "defined_out": [
-        "box_prefixed_key%1#0",
+        "map_prefixed_key%1#0",
         "maybe_value_converted%0#0"
       ],
       "stack_out": [
         "maybe_value_converted%0#0",
-        "box_prefixed_key%1#0"
+        "map_prefixed_key%1#0"
       ]
     },
-    "132": {
+    "129": {
       "op": "box_get",
       "defined_out": [
         "aggregate%box_get%2#0",
@@ -699,7 +682,7 @@
         "aggregate%box_get%3#0"
       ]
     },
-    "133": {
+    "130": {
       "error": "Box must have value",
       "op": "assert // Box must have value",
       "stack_out": [
@@ -707,7 +690,7 @@
         "aggregate%box_get%2#0"
       ]
     },
-    "134": {
+    "131": {
       "op": "btoi",
       "defined_out": [
         "maybe_value_converted%0#0",
@@ -718,7 +701,7 @@
         "maybe_value_converted%1#0"
       ]
     },
-    "135": {
+    "132": {
       "op": ">",
       "defined_out": [
         "tmp%0#1"
@@ -727,13 +710,13 @@
         "tmp%0#1"
       ]
     },
-    "136": {
+    "133": {
       "error": "Not undercollateralized",
       "op": "assert // Not undercollateralized",
       "stack_out": []
     },
-    "137": {
-      "op": "intc_0 // 1",
+    "134": {
+      "op": "pushint 1",
       "defined_out": [
         "1"
       ],
@@ -741,7 +724,7 @@
         "1"
       ]
     },
-    "138": {
+    "136": {
       "op": "return",
       "stack_out": []
     }

@@ -17,7 +17,7 @@ main:
     // smart_contracts/3-fee-management/fee-bounding.algo.ts:24
     // Txn.amount <= Uint64(1_000_000) &&
     txn Amount
-    pushint 1000000 // 1000000
+    pushint 1000000
     <=
     // smart_contracts/3-fee-management/fee-bounding.algo.ts:23-24
     // Txn.typeEnum === TransactionType.Payment &&
@@ -134,7 +134,7 @@ main:
     return
 
 main_bool_false@10:
-    pushint 0 // 0
+    pushint 0
     // smart_contracts/3-fee-management/fee-bounding.algo.ts:22-33
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&

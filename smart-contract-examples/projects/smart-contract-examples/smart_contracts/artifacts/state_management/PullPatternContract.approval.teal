@@ -11,7 +11,7 @@ main:
     bz main___algots__.defaultCreate@10
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     assert
     pushbytess 0x9ade7842 0xb7355fd1 0x084b2dfb // method "queueWithdrawal(address,uint64)void", method "withdraw()void", method "hasPending(address)bool"
@@ -27,8 +27,6 @@ main___algots__.defaultCreate@10:
     txn ApplicationID
     !
     &&
-    assert // OnCompletion must be NoOp && can only call when creating
-    intc_0 // 1
     return
 
 
@@ -45,7 +43,7 @@ queueWithdrawal:
     txna ApplicationArgs 2
     dup
     len
-    pushint 8 // 8
+    pushint 8
     ==
     assert // invalid number of bytes for arc4.uint64
     btoi

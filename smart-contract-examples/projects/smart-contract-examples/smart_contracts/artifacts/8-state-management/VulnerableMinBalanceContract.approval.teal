@@ -19,7 +19,7 @@ main_withdraw_route@3:
     !
     txn ApplicationID
     &&
-    assert // OnCompletion must be NoOp && can only call when not creating
+    assert
     b withdraw
 
 main___algots__.defaultCreate@5:
@@ -30,8 +30,6 @@ main___algots__.defaultCreate@5:
     txn ApplicationID
     !
     &&
-    assert // OnCompletion must be NoOp && can only call when creating
-    pushint 1 // 1
     return
 
 
@@ -42,7 +40,7 @@ withdraw:
     txna ApplicationArgs 1
     dup
     len
-    pushint 8 // 8
+    pushint 8
     ==
     assert // invalid number of bytes for arc4.uint64
     btoi
@@ -53,11 +51,11 @@ withdraw:
     // assert(app.balance - Uint64(100_000) >= amount, "Insufficient contract balance");
     acct_params_get AcctBalance
     assert // account funded
-    pushint 100000 // 100000
+    pushint 100000
     -
     <=
     assert // Insufficient contract balance
     // smart_contracts/8-state-management/min-balance-check.algo.ts:12
     // public withdraw(amount: uint64): void {
-    pushint 1 // 1
+    pushint 1
     return

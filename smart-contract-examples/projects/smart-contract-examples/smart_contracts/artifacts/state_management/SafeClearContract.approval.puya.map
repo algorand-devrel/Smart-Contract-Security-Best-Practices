@@ -61,8 +61,7 @@
       ]
     },
     "42": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+      "op": "assert",
       "stack_out": []
     },
     "43": {
@@ -233,8 +232,7 @@
       ]
     },
     "103": {
-      "error": "OnCompletion must be OptIn && can only call when not creating",
-      "op": "assert // OnCompletion must be OptIn && can only call when not creating",
+      "op": "assert",
       "stack_out": []
     },
     "104": {
@@ -330,7 +328,7 @@
       ]
     },
     "119": {
-      "op": "pushint 8 // 8",
+      "op": "pushint 8",
       "defined_out": [
         "8",
         "len%0#0",

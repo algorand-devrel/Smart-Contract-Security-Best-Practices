@@ -9,7 +9,7 @@ main:
     // export class SafeLifecycleContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@8
     pushbytess 0x45cdbb64 0x9992e296 0x46ee50ff 0x7c3c2b0c // method "openTrading()void", method "openSettlement()void", method "buy(uint64)void", method "settle()void"
@@ -93,7 +93,7 @@ buy:
     txna ApplicationArgs 1
     dup
     len
-    pushint 8 // 8
+    pushint 8
     ==
     assert // invalid number of bytes for arc4.uint64
     btoi
@@ -136,7 +136,7 @@ settle:
     bytec_0 // "phase"
     // smart_contracts/8-state-management/state-machine.algo.ts:73
     // this.phase.value = PHASE_CLOSED
-    pushint 3 // 3
+    pushint 3
     app_global_put
     // smart_contracts/8-state-management/state-machine.algo.ts:71
     // public settle(): void {

@@ -35,8 +35,7 @@
       ]
     },
     "17": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+      "op": "assert",
       "stack_out": []
     },
     "18": {
@@ -247,7 +246,7 @@
       ]
     },
     "86": {
-      "op": "pushint 3 // 3",
+      "op": "pushint 3",
       "defined_out": [
         "2",
         "3"

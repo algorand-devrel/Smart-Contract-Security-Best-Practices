@@ -9,7 +9,7 @@ main:
     // export class VulnerableRewardsConfigContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@6
     pushbytess 0x352d0f12 0x4f1e7ad3 // method "configure(uint64,uint64,uint64)void", method "calculatePayout(uint64)uint64"

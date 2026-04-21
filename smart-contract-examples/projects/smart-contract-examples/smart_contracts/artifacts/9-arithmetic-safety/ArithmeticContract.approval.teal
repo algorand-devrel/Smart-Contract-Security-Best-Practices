@@ -9,7 +9,7 @@ main:
     // export class ArithmeticContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@11
     pushbytess 0x8b5869d2 0xdbbc51f3 0x7a89c3cb 0xb43b9dcf 0xb1cd78a8 0x2b69a417 0x3e530654 // method "unsafeAdd(uint64,uint64)uint64", method "safeAdd(uint64,uint64)uint64", method "unsafeWithdraw(uint64)void", method "safeWithdraw(uint64)void", method "setBalance(uint64)void", method "getBalance()uint64", method "safeMultiplyDivide(uint64,uint64,uint64)uint64"
@@ -91,7 +91,7 @@ safeAdd:
     btoi
     // smart_contracts/9-arithmetic-safety/contract.algo.ts:20
     // assert(a <= MAX_UINT64 - b, 'Overflow')
-    pushint 18446744073709551615 // 18446744073709551615
+    pushint 18446744073709551615
     dig 1
     -
     dig 2

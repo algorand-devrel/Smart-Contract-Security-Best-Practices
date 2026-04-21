@@ -20,7 +20,7 @@
       ]
     },
     "3": {
-      "op": "pushint 1 // 1",
+      "op": "pushint 1",
       "defined_out": [
         "1",
         "tmp%0#0"
@@ -53,7 +53,7 @@
       ]
     },
     "11": {
-      "op": "pushint 500000 // 500000",
+      "op": "pushint 500000",
       "defined_out": [
         "500000",
         "tmp%2#0"
@@ -176,7 +176,7 @@
       "stack_out": []
     },
     "43": {
-      "op": "pushint 1 // 1",
+      "op": "pushint 1",
       "defined_out": [
         "and_result%0#0"
       ],
@@ -191,7 +191,7 @@
     "46": {
       "block": "main_bool_false@6",
       "stack_in": [],
-      "op": "pushint 0 // 0",
+      "op": "pushint 0",
       "defined_out": [
         "and_result%0#0"
       ],

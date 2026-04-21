@@ -65,8 +65,7 @@
       ]
     },
     "44": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+      "op": "assert",
       "stack_out": []
     },
     "45": {
@@ -213,8 +212,7 @@
       ]
     },
     "103": {
-      "error": "OnCompletion must be DeleteApplication && can only call when not creating",
-      "op": "assert // OnCompletion must be DeleteApplication && can only call when not creating",
+      "op": "assert",
       "stack_out": []
     },
     "104": {
@@ -272,8 +270,7 @@
       ]
     },
     "115": {
-      "error": "OnCompletion must be UpdateApplication && can only call when not creating",
-      "op": "assert // OnCompletion must be UpdateApplication && can only call when not creating",
+      "op": "assert",
       "stack_out": []
     },
     "116": {
@@ -524,31 +521,31 @@
     "150": {
       "op": "concat",
       "defined_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
     "151": {
       "op": "intc_0 // 1",
       "defined_out": [
         "1",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "1"
       ]
     },
     "152": {
       "op": "itob",
       "defined_out": [
-        "box_prefixed_key%0#0",
-        "encoded_value%0#0"
+        "encoded_value%0#0",
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "encoded_value%0#0"
       ]
     },
@@ -811,31 +808,31 @@
     "187": {
       "op": "concat",
       "defined_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
     "188": {
       "op": "dup",
       "defined_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0",
+        "map_prefixed_key%0#0"
       ]
     },
     "189": {
       "op": "box_len",
       "defined_out": [
         "_%0#0",
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "maybe_exists%0#0"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "_%0#0",
         "maybe_exists%0#0"
       ]
@@ -843,58 +840,58 @@
     "190": {
       "op": "bury 1",
       "stack_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "maybe_exists%0#0"
       ]
     },
     "192": {
       "op": "bz revokeRole_after_if_else@3",
       "stack_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
     "195": {
       "op": "dup",
       "stack_out": [
-        "box_prefixed_key%0#0",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0",
+        "map_prefixed_key%0#0"
       ]
     },
     "196": {
       "op": "box_del",
       "defined_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "{box_del}"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "{box_del}"
       ]
     },
     "197": {
       "op": "pop",
       "stack_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
     "198": {
       "block": "revokeRole_after_if_else@3",
       "stack_in": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ],
       "op": "intc_0 // 1",
       "defined_out": [
         "1"
       ],
       "stack_out": [
-        "box_prefixed_key%0#0",
+        "map_prefixed_key%0#0",
         "1"
       ]
     },
     "199": {
       "op": "return",
       "stack_out": [
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
     "200": {
@@ -1161,11 +1158,11 @@
       "op": "concat",
       "defined_out": [
         "account#0",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ],
       "stack_out": [
         "account#0",
-        "box_prefixed_key%0#0"
+        "map_prefixed_key%0#0"
       ]
     },
     "258": {

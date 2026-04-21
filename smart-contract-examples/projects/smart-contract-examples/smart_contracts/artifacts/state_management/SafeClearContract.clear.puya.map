@@ -23,7 +23,7 @@
       ]
     },
     "15": {
-      "op": "pushint 0 // 0",
+      "op": "pushint 0",
       "defined_out": [
         "0",
         "tmp%0#0"
@@ -65,7 +65,7 @@
       ]
     },
     "24": {
-      "op": "pushint 0 // 0",
+      "op": "pushint 0",
       "stack_out": [
         "balance#0",
         "0"
@@ -133,7 +133,7 @@
       "stack_out": []
     },
     "33": {
-      "op": "pushint 1 // 1",
+      "op": "pushint 1",
       "defined_out": [
         "1"
       ],

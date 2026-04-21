@@ -9,7 +9,7 @@ main:
     // export class VulnerableGroupContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@5
     pushbytes 0x57e5456f // method "buyCredit()void"

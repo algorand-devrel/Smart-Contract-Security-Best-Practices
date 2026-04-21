@@ -11,7 +11,7 @@ main:
     bz main___algots__.defaultCreate@10
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     assert
     pushbytess 0x3d726f86 0x6fe9af85 0x93353186 // method "setAsset(uint64)void", method "optInToAsset(uint64)void", method "deposit(axfer)void"
@@ -27,8 +27,6 @@ main___algots__.defaultCreate@10:
     txn ApplicationID
     !
     &&
-    assert // OnCompletion must be NoOp && can only call when creating
-    intc_0 // 1
     return
 
 

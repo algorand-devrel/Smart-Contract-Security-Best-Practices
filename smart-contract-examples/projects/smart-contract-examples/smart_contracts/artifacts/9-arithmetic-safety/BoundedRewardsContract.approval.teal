@@ -9,7 +9,7 @@ main:
     // export class BoundedRewardsContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@7
     pushbytess 0x352d0f12 0x48b06bb6 0x2d4d0624 // method "configure(uint64,uint64,uint64)void", method "recordEligibleDeposits(uint64)void", method "calculatePayout()uint64"
@@ -104,7 +104,7 @@ configure:
     bz configure_after_if_else@3
     // smart_contracts/9-arithmetic-safety/config-validation.algo.ts:81
     // assert(maxEligibleDeposits <= MAX_UINT64 / rewardRate, 'Configuration can overflow')
-    pushint 18446744073709551615 // 18446744073709551615
+    pushint 18446744073709551615
     dig 2
     /
     dig 3

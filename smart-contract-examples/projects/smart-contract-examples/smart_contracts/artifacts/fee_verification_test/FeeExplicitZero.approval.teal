@@ -19,7 +19,7 @@ main_ping_route@3:
     !
     txn ApplicationID
     &&
-    assert // OnCompletion must be NoOp && can only call when not creating
+    assert
     b ping
 
 main___algots__.defaultCreate@5:
@@ -30,8 +30,6 @@ main___algots__.defaultCreate@5:
     txn ApplicationID
     !
     &&
-    assert // OnCompletion must be NoOp && can only call when creating
-    pushint 1 // 1
     return
 
 
@@ -42,7 +40,7 @@ ping:
     txna ApplicationArgs 1
     dup
     len
-    pushint 8 // 8
+    pushint 8
     ==
     assert // invalid number of bytes for arc4.uint64
     btoi
@@ -67,11 +65,11 @@ ping:
     //     amount: amount,
     //     fee: Uint64(0),
     //   })
-    pushint 1 // 1
+    pushint 1
     itxn_field TypeEnum
     // smart_contracts/fee_verification_test/contract.algo.ts:11
     // fee: Uint64(0),
-    pushint 0 // 0
+    pushint 0
     itxn_field Fee
     // smart_contracts/fee_verification_test/contract.algo.ts:7-13
     // itxn
@@ -84,5 +82,5 @@ ping:
     itxn_submit
     // smart_contracts/fee_verification_test/contract.algo.ts:6
     // public ping(amount: uint64): void {
-    pushint 1 // 1
+    pushint 1
     return

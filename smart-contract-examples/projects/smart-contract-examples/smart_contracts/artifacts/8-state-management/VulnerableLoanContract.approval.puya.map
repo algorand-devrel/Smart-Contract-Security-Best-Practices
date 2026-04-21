@@ -3,7 +3,7 @@
   "sources": [
     "../../8-state-management/local-state-loan.algo.ts"
   ],
-  "mappings": ";;;;;;;;;;;;;;;;AAWA;;AAAA;;;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;AAIE;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAJF;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAKc;;AAJE;AAIyB;AAArC;AACgB;;AAJE;AAIyB;AAA3C;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAE0C;;AAAV;AAVlB;AAUkB;AAAA;AAAA;AAApB;;AAVE;AAUZ;;AAAA;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAES;AAAA;AAfK;AAeL;AAAA;AAAwB;AAAA;AAdb;AAca;AAAA;AAAxB;AAAP;AAFF;AAAA",
+  "mappings": ";;;;;;;;;;;;;;;;AAWA;;AAAA;;;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;AAIE;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAJF;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAKc;;AAJE;AAIyB;AAArC;AACgB;;AAJE;AAIyB;AAA3C;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AAE0C;;AAAV;AAVlB;AAUkB;AAAA;AAAA;AAApB;;AAVE;AAUZ;;AAAA;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAES;AAAA;AAfK;AAeL;AAAA;AAAwB;AAAA;AAdb;AAca;AAAA;AAAxB;AAAP;AAFF;AAAA",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -11,7 +11,7 @@
       "params": {},
       "block": "main",
       "stack_in": [],
-      "op": "intcblock 1 0"
+      "op": "intcblock 0 1"
     },
     "5": {
       "op": "bytecblock \"debt\" \"col\""
@@ -74,8 +74,7 @@
       ]
     },
     "37": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+      "op": "assert",
       "stack_out": []
     },
     "38": {
@@ -134,7 +133,7 @@
       ]
     },
     "65": {
-      "op": "intc_0 // OptIn",
+      "op": "intc_1 // OptIn",
       "defined_out": [
         "OptIn",
         "tmp%3#0"
@@ -174,8 +173,7 @@
       ]
     },
     "70": {
-      "error": "OnCompletion must be OptIn && can only call when not creating",
-      "op": "assert // OnCompletion must be OptIn && can only call when not creating",
+      "op": "assert",
       "stack_out": []
     },
     "71": {
@@ -233,24 +231,11 @@
       ]
     },
     "81": {
-      "error": "OnCompletion must be NoOp && can only call when creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when creating",
+      "op": "return",
+      "defined_out": [],
       "stack_out": []
     },
     "82": {
-      "op": "intc_0 // 1",
-      "defined_out": [
-        "1"
-      ],
-      "stack_out": [
-        "1"
-      ]
-    },
-    "83": {
-      "op": "return",
-      "stack_out": []
-    },
-    "84": {
       "subroutine": "smart_contracts/8-state-management/local-state-loan.algo.ts::VulnerableLoanContract.optInToApplication[routing]",
       "params": {},
       "block": "optInToApplication",
@@ -263,7 +248,7 @@
         "tmp%0#0"
       ]
     },
-    "86": {
+    "84": {
       "op": "bytec_0 // \"debt\"",
       "defined_out": [
         "\"debt\"",
@@ -274,8 +259,8 @@
         "\"debt\""
       ]
     },
-    "87": {
-      "op": "intc_1 // 0",
+    "85": {
+      "op": "intc_0 // 0",
       "defined_out": [
         "\"debt\"",
         "0",
@@ -287,11 +272,11 @@
         "0"
       ]
     },
-    "88": {
+    "86": {
       "op": "app_local_put",
       "stack_out": []
     },
-    "89": {
+    "87": {
       "op": "txn Sender",
       "defined_out": [
         "tmp%1#0"
@@ -300,7 +285,7 @@
         "tmp%1#0"
       ]
     },
-    "91": {
+    "89": {
       "op": "bytec_1 // \"col\"",
       "defined_out": [
         "\"col\"",
@@ -311,20 +296,20 @@
         "\"col\""
       ]
     },
-    "92": {
-      "op": "intc_1 // 0",
+    "90": {
+      "op": "intc_0 // 0",
       "stack_out": [
         "tmp%1#0",
         "\"col\"",
         "0"
       ]
     },
-    "93": {
+    "91": {
       "op": "app_local_put",
       "stack_out": []
     },
-    "94": {
-      "op": "intc_0 // 1",
+    "92": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -332,11 +317,11 @@
         "1"
       ]
     },
-    "95": {
+    "93": {
       "op": "return",
       "stack_out": []
     },
-    "96": {
+    "94": {
       "subroutine": "smart_contracts/8-state-management/local-state-loan.algo.ts::VulnerableLoanContract.borrow[routing]",
       "params": {},
       "block": "borrow",
@@ -349,7 +334,7 @@
         "tmp%0#0"
       ]
     },
-    "99": {
+    "97": {
       "op": "dup",
       "defined_out": [
         "tmp%0#0",
@@ -360,7 +345,7 @@
         "tmp%0#0 (copy)"
       ]
     },
-    "100": {
+    "98": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -371,8 +356,8 @@
         "len%0#0"
       ]
     },
-    "101": {
-      "op": "pushint 8 // 8",
+    "99": {
+      "op": "pushint 8",
       "defined_out": [
         "8",
         "len%0#0",
@@ -384,7 +369,7 @@
         "8"
       ]
     },
-    "103": {
+    "101": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -395,14 +380,14 @@
         "eq%0#0"
       ]
     },
-    "104": {
+    "102": {
       "error": "invalid number of bytes for arc4.uint64",
       "op": "assert // invalid number of bytes for arc4.uint64",
       "stack_out": [
         "tmp%0#0"
       ]
     },
-    "105": {
+    "103": {
       "op": "btoi",
       "defined_out": [
         "amount#0"
@@ -411,7 +396,7 @@
         "amount#0"
       ]
     },
-    "106": {
+    "104": {
       "op": "txn Sender",
       "defined_out": [
         "amount#0",
@@ -422,8 +407,8 @@
         "tmp%0#1"
       ]
     },
-    "108": {
-      "op": "intc_1 // 0",
+    "106": {
+      "op": "intc_0 // 0",
       "defined_out": [
         "0",
         "amount#0",
@@ -435,7 +420,7 @@
         "0"
       ]
     },
-    "109": {
+    "107": {
       "op": "bytec_0 // \"debt\"",
       "defined_out": [
         "\"debt\"",
@@ -450,7 +435,7 @@
         "\"debt\""
       ]
     },
-    "110": {
+    "108": {
       "op": "app_local_get_ex",
       "defined_out": [
         "amount#0",
@@ -463,7 +448,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "111": {
+    "109": {
       "error": "check LocalState exists",
       "op": "assert // check LocalState exists",
       "stack_out": [
@@ -471,7 +456,7 @@
         "maybe_value%0#0"
       ]
     },
-    "112": {
+    "110": {
       "op": "+",
       "defined_out": [
         "tmp%1#1"
@@ -480,7 +465,7 @@
         "tmp%1#1"
       ]
     },
-    "113": {
+    "111": {
       "op": "txn Sender",
       "defined_out": [
         "tmp%1#1",
@@ -491,7 +476,7 @@
         "tmp%2#0"
       ]
     },
-    "115": {
+    "113": {
       "op": "bytec_0 // \"debt\"",
       "stack_out": [
         "tmp%1#1",
@@ -499,7 +484,7 @@
         "\"debt\""
       ]
     },
-    "116": {
+    "114": {
       "op": "uncover 2",
       "stack_out": [
         "tmp%2#0",
@@ -507,12 +492,12 @@
         "tmp%1#1"
       ]
     },
-    "118": {
+    "116": {
       "op": "app_local_put",
       "stack_out": []
     },
-    "119": {
-      "op": "intc_0 // 1",
+    "117": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -520,11 +505,11 @@
         "1"
       ]
     },
-    "120": {
+    "118": {
       "op": "return",
       "stack_out": []
     },
-    "121": {
+    "119": {
       "subroutine": "smart_contracts/8-state-management/local-state-loan.algo.ts::VulnerableLoanContract.liquidate[routing]",
       "params": {},
       "block": "liquidate",
@@ -537,7 +522,7 @@
         "user#0"
       ]
     },
-    "124": {
+    "122": {
       "op": "dup",
       "defined_out": [
         "user#0",
@@ -548,7 +533,7 @@
         "user#0 (copy)"
       ]
     },
-    "125": {
+    "123": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -559,8 +544,8 @@
         "len%0#0"
       ]
     },
-    "126": {
-      "op": "pushint 32 // 32",
+    "124": {
+      "op": "pushint 32",
       "defined_out": [
         "32",
         "len%0#0",
@@ -572,7 +557,7 @@
         "32"
       ]
     },
-    "128": {
+    "126": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -583,22 +568,22 @@
         "eq%0#0"
       ]
     },
-    "129": {
+    "127": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
         "user#0"
       ]
     },
-    "130": {
+    "128": {
       "op": "dup",
       "stack_out": [
         "user#0",
         "user#0 (copy)"
       ]
     },
-    "131": {
-      "op": "intc_1 // 0",
+    "129": {
+      "op": "intc_0 // 0",
       "defined_out": [
         "0",
         "user#0",
@@ -610,7 +595,7 @@
         "0"
       ]
     },
-    "132": {
+    "130": {
       "op": "bytec_0 // \"debt\"",
       "defined_out": [
         "\"debt\"",
@@ -625,7 +610,7 @@
         "\"debt\""
       ]
     },
-    "133": {
+    "131": {
       "op": "app_local_get_ex",
       "defined_out": [
         "maybe_exists%0#0",
@@ -638,7 +623,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "134": {
+    "132": {
       "error": "check LocalState exists",
       "op": "assert // check LocalState exists",
       "stack_out": [
@@ -646,22 +631,22 @@
         "maybe_value%0#0"
       ]
     },
-    "135": {
+    "133": {
       "op": "swap",
       "stack_out": [
         "maybe_value%0#0",
         "user#0"
       ]
     },
-    "136": {
-      "op": "intc_1 // 0",
+    "134": {
+      "op": "intc_0 // 0",
       "stack_out": [
         "maybe_value%0#0",
         "user#0",
         "0"
       ]
     },
-    "137": {
+    "135": {
       "op": "bytec_1 // \"col\"",
       "defined_out": [
         "\"col\"",
@@ -676,7 +661,7 @@
         "\"col\""
       ]
     },
-    "138": {
+    "136": {
       "op": "app_local_get_ex",
       "defined_out": [
         "maybe_exists%1#0",
@@ -689,7 +674,7 @@
         "maybe_exists%1#0"
       ]
     },
-    "139": {
+    "137": {
       "error": "check LocalState exists",
       "op": "assert // check LocalState exists",
       "stack_out": [
@@ -697,7 +682,7 @@
         "maybe_value%1#0"
       ]
     },
-    "140": {
+    "138": {
       "op": ">",
       "defined_out": [
         "tmp%0#1"
@@ -706,13 +691,13 @@
         "tmp%0#1"
       ]
     },
-    "141": {
+    "139": {
       "error": "Not undercollateralized",
       "op": "assert // Not undercollateralized",
       "stack_out": []
     },
-    "142": {
-      "op": "intc_0 // 1",
+    "140": {
+      "op": "intc_1 // 1",
       "defined_out": [
         "1"
       ],
@@ -720,7 +705,7 @@
         "1"
       ]
     },
-    "143": {
+    "141": {
       "op": "return",
       "stack_out": []
     }

@@ -7,7 +7,7 @@ main:
     // smart_contracts/8-state-management/safe-clear-state.algo.ts:25
     // const balance = this.userBalance(Txn.sender).value;
     txn Sender
-    pushint 0 // 0
+    pushint 0
     // smart_contracts/8-state-management/safe-clear-state.algo.ts:11
     // public userBalance = LocalState<uint64>({ key: "bal" });
     pushbytes "bal"
@@ -17,7 +17,7 @@ main:
     assert // check LocalState exists
     // smart_contracts/8-state-management/safe-clear-state.algo.ts:26
     // this.unclaimedFunds.value = this.unclaimedFunds.value + balance;
-    pushint 0 // 0
+    pushint 0
     // smart_contracts/8-state-management/safe-clear-state.algo.ts:12
     // public unclaimedFunds = GlobalState<uint64>({ key: "unclaimed" });
     bytec_0 // "unclaimed"
@@ -35,5 +35,5 @@ main:
     app_global_put
     // smart_contracts/8-state-management/safe-clear-state.algo.ts:27
     // return true; // Always approve
-    pushint 1 // 1
+    pushint 1
     return

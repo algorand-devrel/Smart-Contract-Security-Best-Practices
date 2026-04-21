@@ -16,7 +16,7 @@ main_switch_case_next@3:
     // export class SafeClearContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@9
     pushbytess 0xb1cd78a8 0x2b69a417 0x96ac564c // method "setBalance(uint64)void", method "getBalance()uint64", method "getForfeited()uint64"
@@ -53,7 +53,7 @@ main_optInToApplication_route@2:
     ==
     txn ApplicationID
     &&
-    assert // OnCompletion must be OptIn && can only call when not creating
+    assert
     b optInToApplication
 
 
@@ -82,7 +82,7 @@ setBalance:
     txna ApplicationArgs 1
     dup
     len
-    pushint 8 // 8
+    pushint 8
     ==
     assert // invalid number of bytes for arc4.uint64
     btoi

@@ -3,7 +3,7 @@
   "sources": [
     "../../1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts"
   ],
-  "mappings": ";AAGA;;AAAA;;;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AACE;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AADF;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AACE;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AACO;AAAiB;;;;AAAjB;AAAP;AAEA;;;;;AAAA;;;;AAIgB;;;;AAJhB;AAJF;;AAAA",
+  "mappings": ";AAGA;;AAAA;;;AAAA;;;;;;AAAA;;;AAAA;;;;AAAA;AACE;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AADF;;AAAA;AAAA;;AAAA;AAAA;AAAA;AACE;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AACO;AAAiB;;;;AAAjB;AAAP;AAEA;;;;;AAAA;;;;AAIgB;;;;AAJhB;AAJF;;AAAA",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -91,8 +91,7 @@
       ]
     },
     "26": {
-      "error": "OnCompletion must be NoOp && can only call when not creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when not creating",
+      "op": "assert",
       "stack_out": []
     },
     "27": {
@@ -150,24 +149,11 @@
       ]
     },
     "37": {
-      "error": "OnCompletion must be NoOp && can only call when creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when creating",
+      "op": "return",
+      "defined_out": [],
       "stack_out": []
     },
     "38": {
-      "op": "pushint 1 // 1",
-      "defined_out": [
-        "1"
-      ],
-      "stack_out": [
-        "1"
-      ]
-    },
-    "40": {
-      "op": "return",
-      "stack_out": []
-    },
-    "41": {
       "subroutine": "smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts::SafePaymentManager.authorizePayment[routing]",
       "params": {},
       "block": "authorizePayment",
@@ -180,7 +166,7 @@
         "receiver#0"
       ]
     },
-    "44": {
+    "41": {
       "op": "dup",
       "defined_out": [
         "receiver#0",
@@ -191,7 +177,7 @@
         "receiver#0 (copy)"
       ]
     },
-    "45": {
+    "42": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -202,8 +188,8 @@
         "len%0#0"
       ]
     },
-    "46": {
-      "op": "pushint 32 // 32",
+    "43": {
+      "op": "pushint 32",
       "defined_out": [
         "32",
         "len%0#0",
@@ -215,7 +201,7 @@
         "32"
       ]
     },
-    "48": {
+    "45": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -226,14 +212,14 @@
         "eq%0#0"
       ]
     },
-    "49": {
+    "46": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
         "receiver#0"
       ]
     },
-    "50": {
+    "47": {
       "op": "txna ApplicationArgs 2",
       "defined_out": [
         "receiver#0",
@@ -244,7 +230,7 @@
         "tmp%2#0"
       ]
     },
-    "53": {
+    "50": {
       "op": "dup",
       "defined_out": [
         "receiver#0",
@@ -257,7 +243,7 @@
         "tmp%2#0 (copy)"
       ]
     },
-    "54": {
+    "51": {
       "op": "len",
       "defined_out": [
         "len%1#0",
@@ -270,8 +256,8 @@
         "len%1#0"
       ]
     },
-    "55": {
-      "op": "pushint 8 // 8",
+    "52": {
+      "op": "pushint 8",
       "defined_out": [
         "8",
         "len%1#0",
@@ -285,7 +271,7 @@
         "8"
       ]
     },
-    "57": {
+    "54": {
       "op": "==",
       "defined_out": [
         "eq%1#0",
@@ -298,7 +284,7 @@
         "eq%1#0"
       ]
     },
-    "58": {
+    "55": {
       "error": "invalid number of bytes for arc4.uint64",
       "op": "assert // invalid number of bytes for arc4.uint64",
       "stack_out": [
@@ -306,7 +292,7 @@
         "tmp%2#0"
       ]
     },
-    "59": {
+    "56": {
       "op": "btoi",
       "defined_out": [
         "amount#0",
@@ -317,7 +303,7 @@
         "amount#0"
       ]
     },
-    "60": {
+    "57": {
       "op": "txn Sender",
       "defined_out": [
         "amount#0",
@@ -330,7 +316,7 @@
         "tmp%0#1"
       ]
     },
-    "62": {
+    "59": {
       "op": "global CreatorAddress",
       "defined_out": [
         "amount#0",
@@ -345,7 +331,7 @@
         "tmp%1#1"
       ]
     },
-    "64": {
+    "61": {
       "op": "==",
       "defined_out": [
         "amount#0",
@@ -358,7 +344,7 @@
         "tmp%2#1"
       ]
     },
-    "65": {
+    "62": {
       "error": "Only creator can authorize",
       "op": "assert // Only creator can authorize",
       "stack_out": [
@@ -366,7 +352,7 @@
         "amount#0"
       ]
     },
-    "66": {
+    "63": {
       "op": "dup",
       "defined_out": [
         "amount#0",
@@ -379,8 +365,8 @@
         "amount#0 (copy)"
       ]
     },
-    "67": {
-      "op": "pushint 1000000 // 1000000",
+    "64": {
+      "op": "pushint 1000000",
       "defined_out": [
         "1000000",
         "amount#0",
@@ -394,7 +380,7 @@
         "1000000"
       ]
     },
-    "71": {
+    "68": {
       "op": "<=",
       "defined_out": [
         "amount#0",
@@ -407,7 +393,7 @@
         "tmp%3#1"
       ]
     },
-    "72": {
+    "69": {
       "error": "Amount exceeds limit",
       "op": "assert // Amount exceeds limit",
       "stack_out": [
@@ -415,21 +401,21 @@
         "amount#0"
       ]
     },
-    "73": {
+    "70": {
       "op": "itxn_begin"
     },
-    "74": {
+    "71": {
       "op": "itxn_field Amount",
       "stack_out": [
         "receiver#0"
       ]
     },
-    "76": {
+    "73": {
       "op": "itxn_field Receiver",
       "stack_out": []
     },
-    "78": {
-      "op": "pushint 1 // 1",
+    "75": {
+      "op": "pushint 1",
       "defined_out": [
         "1"
       ],
@@ -437,12 +423,12 @@
         "1"
       ]
     },
-    "80": {
+    "77": {
       "op": "itxn_field TypeEnum",
       "stack_out": []
     },
-    "82": {
-      "op": "pushint 0 // 0",
+    "79": {
+      "op": "pushint 0",
       "defined_out": [
         "0"
       ],
@@ -450,20 +436,20 @@
         "0"
       ]
     },
-    "84": {
+    "81": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "86": {
+    "83": {
       "op": "itxn_submit"
     },
-    "87": {
-      "op": "pushint 1 // 1",
+    "84": {
+      "op": "pushint 1",
       "stack_out": [
         "1"
       ]
     },
-    "89": {
+    "86": {
       "op": "return",
       "stack_out": []
     }

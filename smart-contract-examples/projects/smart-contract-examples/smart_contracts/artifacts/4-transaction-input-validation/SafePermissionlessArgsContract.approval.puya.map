@@ -32,8 +32,7 @@
       ]
     },
     "9": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+      "op": "assert",
       "stack_out": []
     },
     "10": {
@@ -178,7 +177,7 @@
       ]
     },
     "66": {
-      "op": "pushint 2 // 2",
+      "op": "pushint 2",
       "defined_out": [
         "2",
         "aggregate%array_length%0#0",
@@ -259,7 +258,7 @@
       ]
     },
     "78": {
-      "op": "pushint 32 // 32",
+      "op": "pushint 32",
       "defined_out": [
         "32",
         "tmp%0#1"
@@ -372,7 +371,7 @@
       ]
     },
     "93": {
-      "op": "pushint 10000 // 10000",
+      "op": "pushint 10000",
       "defined_out": [
         "10000",
         "slippageBps#0"

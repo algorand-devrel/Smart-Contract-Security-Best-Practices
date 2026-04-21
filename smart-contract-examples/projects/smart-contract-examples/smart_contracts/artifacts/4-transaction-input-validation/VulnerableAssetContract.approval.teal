@@ -3,14 +3,14 @@
 
 // @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
 main:
-    intcblock 0 1 4
+    intcblock 0 4 1
     // smart_contracts/4-transaction-input-validation/contract.algo.ts:6
     // export class VulnerableAssetContract extends Contract {
     txn NumAppArgs
     bz main___algots__.defaultCreate@9
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     assert
     pushbytess 0x6fe9af85 0x92e03b1c // method "optInToAsset(uint64)void", method "deposit()void"
@@ -26,8 +26,6 @@ main___algots__.defaultCreate@9:
     txn ApplicationID
     !
     &&
-    assert // OnCompletion must be NoOp && can only call when creating
-    intc_1 // 1
     return
 
 
@@ -38,7 +36,7 @@ optInToAsset:
     txna ApplicationArgs 1
     dup
     len
-    pushint 8 // 8
+    pushint 8
     ==
     assert // invalid number of bytes for arc4.uint64
     btoi
@@ -56,14 +54,14 @@ optInToAsset:
     itxn_field AssetAmount
     itxn_field AssetReceiver
     itxn_field XferAsset
-    intc_2 // 4
+    intc_1 // 4
     itxn_field TypeEnum
     intc_0 // 0
     itxn_field Fee
     itxn_submit
     // smart_contracts/4-transaction-input-validation/contract.algo.ts:7
     // public optInToAsset(asset: Asset): void {
-    intc_1 // 1
+    intc_2 // 1
     return
 
 
@@ -72,14 +70,14 @@ deposit:
     // smart_contracts/4-transaction-input-validation/contract.algo.ts:13
     // assert(Global.groupSize === Uint64(2))
     global GroupSize
-    pushint 2 // 2
+    pushint 2
     ==
     assert
     // smart_contracts/4-transaction-input-validation/contract.algo.ts:14
     // const assetXfer = gtxnFn.AssetTransferTxn(Uint64(0))
     intc_0 // 0
     gtxns TypeEnum
-    intc_2 // axfer
+    intc_1 // axfer
     ==
     assert // transaction type is axfer
     intc_0 // 0
@@ -91,5 +89,5 @@ deposit:
     assert // Must send to app
     // smart_contracts/4-transaction-input-validation/contract.algo.ts:12
     // public deposit(): void {
-    intc_1 // 1
+    intc_2 // 1
     return

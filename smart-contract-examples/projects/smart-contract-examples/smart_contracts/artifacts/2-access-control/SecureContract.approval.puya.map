@@ -3,7 +3,7 @@
   "sources": [
     "../../2-access-control/access-control.algo.ts"
   ],
-  "mappings": ";;;;AAiBA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AASE;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAJA;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAJA;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AADF;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEW;;AAAe;;AAAf;AAAP;AADF;AAAA;AAKS;;AAAe;;AAAf;AAAP;AADF;AAAA",
+  "mappings": ";AAiBA;;AAAA;;;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AASE;;AAAA;AAAA;;AAAA;AAAA;AAJA;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AAJA;;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;;;AADF;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAEW;;AAAe;;AAAf;AAAP;AADF;;AAAA;AAKS;;AAAe;;AAAf;AAAP;AADF;;AAAA",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -11,9 +11,6 @@
       "params": {},
       "block": "main",
       "stack_in": [],
-      "op": "intcblock 1"
-    },
-    "4": {
       "op": "txn NumAppArgs",
       "defined_out": [
         "tmp%0#1"
@@ -22,11 +19,11 @@
         "tmp%0#1"
       ]
     },
-    "6": {
+    "3": {
       "op": "bz main___algots__.defaultCreate@7",
       "stack_out": []
     },
-    "9": {
+    "6": {
       "op": "pushbytess 0x46f76533 0x2487c32c 0x79a9fd50 // method \"updateApplication()void\", method \"deleteApplication()void\", method \"doSomething()void\"",
       "defined_out": [
         "Method(deleteApplication()void)",
@@ -39,7 +36,7 @@
         "Method(doSomething()void)"
       ]
     },
-    "26": {
+    "23": {
       "op": "txna ApplicationArgs 0",
       "defined_out": [
         "Method(deleteApplication()void)",
@@ -54,14 +51,14 @@
         "tmp%2#0"
       ]
     },
-    "29": {
+    "26": {
       "op": "match main_updateApplication_route@3 main_deleteApplication_route@4 main_doSomething_route@5",
       "stack_out": []
     },
-    "37": {
+    "34": {
       "op": "err"
     },
-    "38": {
+    "35": {
       "block": "main_doSomething_route@5",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -72,7 +69,7 @@
         "tmp%13#0"
       ]
     },
-    "40": {
+    "37": {
       "op": "!",
       "defined_out": [
         "tmp%14#0"
@@ -81,7 +78,7 @@
         "tmp%14#0"
       ]
     },
-    "41": {
+    "38": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%14#0",
@@ -92,7 +89,7 @@
         "tmp%15#0"
       ]
     },
-    "43": {
+    "40": {
       "op": "&&",
       "defined_out": [
         "tmp%17#0"
@@ -101,25 +98,12 @@
         "tmp%17#0"
       ]
     },
-    "44": {
-      "error": "OnCompletion must be NoOp && can only call when not creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when not creating",
-      "stack_out": []
-    },
-    "45": {
-      "op": "intc_0 // 1",
-      "defined_out": [
-        "1"
-      ],
-      "stack_out": [
-        "1"
-      ]
-    },
-    "46": {
+    "41": {
       "op": "return",
+      "defined_out": [],
       "stack_out": []
     },
-    "47": {
+    "42": {
       "block": "main_deleteApplication_route@4",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -130,7 +114,7 @@
         "tmp%8#0"
       ]
     },
-    "49": {
+    "44": {
       "op": "pushint 5 // DeleteApplication",
       "defined_out": [
         "DeleteApplication",
@@ -141,7 +125,7 @@
         "DeleteApplication"
       ]
     },
-    "51": {
+    "46": {
       "op": "==",
       "defined_out": [
         "tmp%9#0"
@@ -150,7 +134,7 @@
         "tmp%9#0"
       ]
     },
-    "52": {
+    "47": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%10#0",
@@ -161,7 +145,7 @@
         "tmp%10#0"
       ]
     },
-    "54": {
+    "49": {
       "op": "&&",
       "defined_out": [
         "tmp%12#0"
@@ -170,15 +154,14 @@
         "tmp%12#0"
       ]
     },
-    "55": {
-      "error": "OnCompletion must be DeleteApplication && can only call when not creating",
-      "op": "assert // OnCompletion must be DeleteApplication && can only call when not creating",
+    "50": {
+      "op": "assert",
       "stack_out": []
     },
-    "56": {
+    "51": {
       "op": "b deleteApplication"
     },
-    "59": {
+    "54": {
       "block": "main_updateApplication_route@3",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -189,7 +172,7 @@
         "tmp%3#0"
       ]
     },
-    "61": {
+    "56": {
       "op": "pushint 4 // UpdateApplication",
       "defined_out": [
         "UpdateApplication",
@@ -200,7 +183,7 @@
         "UpdateApplication"
       ]
     },
-    "63": {
+    "58": {
       "op": "==",
       "defined_out": [
         "tmp%4#0"
@@ -209,7 +192,7 @@
         "tmp%4#0"
       ]
     },
-    "64": {
+    "59": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%4#0",
@@ -220,7 +203,7 @@
         "tmp%5#0"
       ]
     },
-    "66": {
+    "61": {
       "op": "&&",
       "defined_out": [
         "tmp%7#0"
@@ -229,15 +212,14 @@
         "tmp%7#0"
       ]
     },
-    "67": {
-      "error": "OnCompletion must be UpdateApplication && can only call when not creating",
-      "op": "assert // OnCompletion must be UpdateApplication && can only call when not creating",
+    "62": {
+      "op": "assert",
       "stack_out": []
     },
-    "68": {
+    "63": {
       "op": "b updateApplication"
     },
-    "71": {
+    "66": {
       "block": "main___algots__.defaultCreate@7",
       "stack_in": [],
       "op": "txn OnCompletion",
@@ -248,7 +230,7 @@
         "tmp%18#0"
       ]
     },
-    "73": {
+    "68": {
       "op": "!",
       "defined_out": [
         "tmp%19#0"
@@ -257,7 +239,7 @@
         "tmp%19#0"
       ]
     },
-    "74": {
+    "69": {
       "op": "txn ApplicationID",
       "defined_out": [
         "tmp%19#0",
@@ -268,7 +250,7 @@
         "tmp%20#0"
       ]
     },
-    "76": {
+    "71": {
       "op": "!",
       "defined_out": [
         "tmp%19#0",
@@ -279,7 +261,7 @@
         "tmp%21#0"
       ]
     },
-    "77": {
+    "72": {
       "op": "&&",
       "defined_out": [
         "tmp%22#0"
@@ -288,25 +270,12 @@
         "tmp%22#0"
       ]
     },
-    "78": {
-      "error": "OnCompletion must be NoOp && can only call when creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when creating",
-      "stack_out": []
-    },
-    "79": {
-      "op": "intc_0 // 1",
-      "defined_out": [
-        "1"
-      ],
-      "stack_out": [
-        "1"
-      ]
-    },
-    "80": {
+    "73": {
       "op": "return",
+      "defined_out": [],
       "stack_out": []
     },
-    "81": {
+    "74": {
       "subroutine": "smart_contracts/2-access-control/access-control.algo.ts::SecureContract.updateApplication[routing]",
       "params": {},
       "block": "updateApplication",
@@ -319,7 +288,7 @@
         "tmp%0#0"
       ]
     },
-    "83": {
+    "76": {
       "op": "global CreatorAddress",
       "defined_out": [
         "tmp%0#0",
@@ -330,7 +299,7 @@
         "tmp%1#0"
       ]
     },
-    "85": {
+    "78": {
       "op": "==",
       "defined_out": [
         "tmp%2#0"
@@ -339,13 +308,13 @@
         "tmp%2#0"
       ]
     },
-    "86": {
+    "79": {
       "error": "Only creator can update",
       "op": "assert // Only creator can update",
       "stack_out": []
     },
-    "87": {
-      "op": "intc_0 // 1",
+    "80": {
+      "op": "pushint 1",
       "defined_out": [
         "1"
       ],
@@ -353,11 +322,11 @@
         "1"
       ]
     },
-    "88": {
+    "82": {
       "op": "return",
       "stack_out": []
     },
-    "89": {
+    "83": {
       "subroutine": "smart_contracts/2-access-control/access-control.algo.ts::SecureContract.deleteApplication[routing]",
       "params": {},
       "block": "deleteApplication",
@@ -370,7 +339,7 @@
         "tmp%0#0"
       ]
     },
-    "91": {
+    "85": {
       "op": "global CreatorAddress",
       "defined_out": [
         "tmp%0#0",
@@ -381,7 +350,7 @@
         "tmp%1#0"
       ]
     },
-    "93": {
+    "87": {
       "op": "==",
       "defined_out": [
         "tmp%2#0"
@@ -390,13 +359,13 @@
         "tmp%2#0"
       ]
     },
-    "94": {
+    "88": {
       "error": "Only creator can delete",
       "op": "assert // Only creator can delete",
       "stack_out": []
     },
-    "95": {
-      "op": "intc_0 // 1",
+    "89": {
+      "op": "pushint 1",
       "defined_out": [
         "1"
       ],
@@ -404,7 +373,7 @@
         "1"
       ]
     },
-    "96": {
+    "91": {
       "op": "return",
       "stack_out": []
     }

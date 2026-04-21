@@ -3,7 +3,7 @@
   "sources": [
     "../../4-transaction-input-validation/contract.algo.ts"
   ],
-  "mappings": ";;;;;;;;;;;;;;;AAqBA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAGE;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AAHqB;AAIrB;AAAA;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AACA;AAAoC;;AAAiE;;;;;;;AAArG;;;AAA6G;;;AAA7G;AAFF;AAAA;AAMA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACS;AAAA;;AAA0B;;AAA1B;AAAP;AACO;AAAA;;AAAyB;AAfX;AAeW;AAAA;AAAzB;AAAP;AACO;;AAAP;AAHF;AAAA",
+  "mappings": ";;;;;;;;;;;;;;;AAqBA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;;;;;;AAAA;;;AAAA;;;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAGE;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AAHqB;AAIrB;AAAA;AAFF;AAAA;AAKA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AACA;AAAoC;;AAAiE;;;;;;;AAArG;;;AAA6G;;;AAA7G;AAFF;AAAA;AAMA;;AAAA;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACS;AAAA;;AAA0B;;AAA1B;AAAP;AACO;AAAA;;AAAyB;AAfX;AAeW;AAAA;AAAzB;AAAP;AACO;;AAAP;AAHF;AAAA",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -48,8 +48,7 @@
       ]
     },
     "23": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+      "op": "assert",
       "stack_out": []
     },
     "24": {
@@ -152,24 +151,11 @@
       ]
     },
     "63": {
-      "error": "OnCompletion must be NoOp && can only call when creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when creating",
+      "op": "return",
+      "defined_out": [],
       "stack_out": []
     },
     "64": {
-      "op": "intc_0 // 1",
-      "defined_out": [
-        "1"
-      ],
-      "stack_out": [
-        "1"
-      ]
-    },
-    "65": {
-      "op": "return",
-      "stack_out": []
-    },
-    "66": {
       "subroutine": "smart_contracts/4-transaction-input-validation/contract.algo.ts::SecureDepositContract.setAsset[routing]",
       "params": {},
       "block": "setAsset",
@@ -182,7 +168,7 @@
         "tmp%0#0"
       ]
     },
-    "69": {
+    "67": {
       "op": "dup",
       "defined_out": [
         "tmp%0#0",
@@ -193,7 +179,7 @@
         "tmp%0#0 (copy)"
       ]
     },
-    "70": {
+    "68": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -204,7 +190,7 @@
         "len%0#0"
       ]
     },
-    "71": {
+    "69": {
       "op": "intc_2 // 8",
       "defined_out": [
         "8",
@@ -217,7 +203,7 @@
         "8"
       ]
     },
-    "72": {
+    "70": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -228,14 +214,14 @@
         "eq%0#0"
       ]
     },
-    "73": {
+    "71": {
       "error": "invalid number of bytes for arc4.uint64",
       "op": "assert // invalid number of bytes for arc4.uint64",
       "stack_out": [
         "tmp%0#0"
       ]
     },
-    "74": {
+    "72": {
       "op": "btoi",
       "defined_out": [
         "asset#0"
@@ -244,7 +230,7 @@
         "asset#0"
       ]
     },
-    "75": {
+    "73": {
       "op": "txn Sender",
       "defined_out": [
         "asset#0",
@@ -255,7 +241,7 @@
         "tmp%0#1"
       ]
     },
-    "77": {
+    "75": {
       "op": "global CreatorAddress",
       "defined_out": [
         "asset#0",
@@ -268,7 +254,7 @@
         "tmp%1#1"
       ]
     },
-    "79": {
+    "77": {
       "op": "==",
       "defined_out": [
         "asset#0",
@@ -279,14 +265,14 @@
         "tmp%2#0"
       ]
     },
-    "80": {
+    "78": {
       "error": "Only creator can set asset",
       "op": "assert // Only creator can set asset",
       "stack_out": [
         "asset#0"
       ]
     },
-    "81": {
+    "79": {
       "op": "bytec_0 // \"asset\"",
       "defined_out": [
         "\"asset\"",
@@ -297,18 +283,18 @@
         "\"asset\""
       ]
     },
-    "82": {
+    "80": {
       "op": "swap",
       "stack_out": [
         "\"asset\"",
         "asset#0"
       ]
     },
-    "83": {
+    "81": {
       "op": "app_global_put",
       "stack_out": []
     },
-    "84": {
+    "82": {
       "op": "intc_0 // 1",
       "defined_out": [
         "1"
@@ -317,11 +303,11 @@
         "1"
       ]
     },
-    "85": {
+    "83": {
       "op": "return",
       "stack_out": []
     },
-    "86": {
+    "84": {
       "subroutine": "smart_contracts/4-transaction-input-validation/contract.algo.ts::SecureDepositContract.optInToAsset[routing]",
       "params": {},
       "block": "optInToAsset",
@@ -334,7 +320,7 @@
         "tmp%0#0"
       ]
     },
-    "89": {
+    "87": {
       "op": "dup",
       "defined_out": [
         "tmp%0#0",
@@ -345,7 +331,7 @@
         "tmp%0#0 (copy)"
       ]
     },
-    "90": {
+    "88": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -356,7 +342,7 @@
         "len%0#0"
       ]
     },
-    "91": {
+    "89": {
       "op": "intc_2 // 8",
       "defined_out": [
         "8",
@@ -369,7 +355,7 @@
         "8"
       ]
     },
-    "92": {
+    "90": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -380,14 +366,14 @@
         "eq%0#0"
       ]
     },
-    "93": {
+    "91": {
       "error": "invalid number of bytes for arc4.uint64",
       "op": "assert // invalid number of bytes for arc4.uint64",
       "stack_out": [
         "tmp%0#0"
       ]
     },
-    "94": {
+    "92": {
       "op": "btoi",
       "defined_out": [
         "asset#0"
@@ -396,7 +382,7 @@
         "asset#0"
       ]
     },
-    "95": {
+    "93": {
       "op": "txn Sender",
       "defined_out": [
         "asset#0",
@@ -407,7 +393,7 @@
         "tmp%0#1"
       ]
     },
-    "97": {
+    "95": {
       "op": "global CreatorAddress",
       "defined_out": [
         "asset#0",
@@ -420,7 +406,7 @@
         "tmp%1#1"
       ]
     },
-    "99": {
+    "97": {
       "op": "==",
       "defined_out": [
         "asset#0",
@@ -431,17 +417,17 @@
         "tmp%2#0"
       ]
     },
-    "100": {
+    "98": {
       "error": "Only creator",
       "op": "assert // Only creator",
       "stack_out": [
         "asset#0"
       ]
     },
-    "101": {
+    "99": {
       "op": "itxn_begin"
     },
-    "102": {
+    "100": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "asset#0",
@@ -452,7 +438,7 @@
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
       ]
     },
-    "104": {
+    "102": {
       "op": "intc_1 // 0",
       "defined_out": [
         "0",
@@ -465,21 +451,21 @@
         "0"
       ]
     },
-    "105": {
+    "103": {
       "op": "itxn_field AssetAmount",
       "stack_out": [
         "asset#0",
         "inner_txn_params%0%%param_AssetReceiver_idx_0#0"
       ]
     },
-    "107": {
+    "105": {
       "op": "itxn_field AssetReceiver"
     },
-    "109": {
+    "107": {
       "op": "itxn_field XferAsset",
       "stack_out": []
     },
-    "111": {
+    "109": {
       "op": "intc_3 // 4",
       "defined_out": [
         "4"
@@ -488,24 +474,24 @@
         "4"
       ]
     },
-    "112": {
+    "110": {
       "op": "itxn_field TypeEnum",
       "stack_out": []
     },
-    "114": {
+    "112": {
       "op": "intc_1 // 0",
       "stack_out": [
         "0"
       ]
     },
-    "115": {
+    "113": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "117": {
+    "115": {
       "op": "itxn_submit"
     },
-    "118": {
+    "116": {
       "op": "intc_0 // 1",
       "defined_out": [
         "1"
@@ -514,11 +500,11 @@
         "1"
       ]
     },
-    "119": {
+    "117": {
       "op": "return",
       "stack_out": []
     },
-    "120": {
+    "118": {
       "subroutine": "smart_contracts/4-transaction-input-validation/contract.algo.ts::SecureDepositContract.deposit[routing]",
       "params": {},
       "block": "deposit",
@@ -531,7 +517,7 @@
         "tmp%0#0"
       ]
     },
-    "122": {
+    "120": {
       "op": "intc_0 // 1",
       "defined_out": [
         "1",
@@ -542,7 +528,7 @@
         "1"
       ]
     },
-    "123": {
+    "121": {
       "op": "-",
       "defined_out": [
         "payment#0"
@@ -551,7 +537,7 @@
         "payment#0"
       ]
     },
-    "124": {
+    "122": {
       "op": "dup",
       "defined_out": [
         "payment#0",
@@ -562,7 +548,7 @@
         "payment#0 (copy)"
       ]
     },
-    "125": {
+    "123": {
       "op": "gtxns TypeEnum",
       "defined_out": [
         "gtxn_type%0#0",
@@ -573,7 +559,7 @@
         "gtxn_type%0#0"
       ]
     },
-    "127": {
+    "125": {
       "op": "intc_3 // axfer",
       "defined_out": [
         "axfer",
@@ -586,7 +572,7 @@
         "axfer"
       ]
     },
-    "128": {
+    "126": {
       "op": "==",
       "defined_out": [
         "gtxn_type_matches%0#0",
@@ -597,21 +583,21 @@
         "gtxn_type_matches%0#0"
       ]
     },
-    "129": {
+    "127": {
       "error": "transaction type is axfer",
       "op": "assert // transaction type is axfer",
       "stack_out": [
         "payment#0"
       ]
     },
-    "130": {
+    "128": {
       "op": "dup",
       "stack_out": [
         "payment#0",
         "payment#0 (copy)"
       ]
     },
-    "131": {
+    "129": {
       "op": "gtxns AssetReceiver",
       "defined_out": [
         "payment#0",
@@ -622,7 +608,7 @@
         "tmp%0#1"
       ]
     },
-    "133": {
+    "131": {
       "op": "global CurrentApplicationAddress",
       "defined_out": [
         "payment#0",
@@ -635,7 +621,7 @@
         "tmp%1#0"
       ]
     },
-    "135": {
+    "133": {
       "op": "==",
       "defined_out": [
         "payment#0",
@@ -646,21 +632,21 @@
         "tmp%2#0"
       ]
     },
-    "136": {
+    "134": {
       "error": "Must send to app",
       "op": "assert // Must send to app",
       "stack_out": [
         "payment#0"
       ]
     },
-    "137": {
+    "135": {
       "op": "dup",
       "stack_out": [
         "payment#0",
         "payment#0 (copy)"
       ]
     },
-    "138": {
+    "136": {
       "op": "gtxns XferAsset",
       "defined_out": [
         "payment#0",
@@ -671,7 +657,7 @@
         "tmp%3#0"
       ]
     },
-    "140": {
+    "138": {
       "op": "intc_1 // 0",
       "defined_out": [
         "0",
@@ -684,7 +670,7 @@
         "0"
       ]
     },
-    "141": {
+    "139": {
       "op": "bytec_0 // \"asset\"",
       "defined_out": [
         "\"asset\"",
@@ -699,7 +685,7 @@
         "\"asset\""
       ]
     },
-    "142": {
+    "140": {
       "op": "app_global_get_ex",
       "defined_out": [
         "maybe_exists%0#0",
@@ -714,7 +700,7 @@
         "maybe_exists%0#0"
       ]
     },
-    "143": {
+    "141": {
       "error": "check GlobalState exists",
       "op": "assert // check GlobalState exists",
       "stack_out": [
@@ -723,7 +709,7 @@
         "maybe_value%0#0"
       ]
     },
-    "144": {
+    "142": {
       "op": "==",
       "defined_out": [
         "payment#0",
@@ -734,14 +720,14 @@
         "tmp%4#0"
       ]
     },
-    "145": {
+    "143": {
       "error": "Wrong asset",
       "op": "assert // Wrong asset",
       "stack_out": [
         "payment#0"
       ]
     },
-    "146": {
+    "144": {
       "op": "gtxns AssetAmount",
       "defined_out": [
         "tmp%5#0"
@@ -750,18 +736,18 @@
         "tmp%5#0"
       ]
     },
-    "148": {
+    "146": {
       "error": "Must send nonzero amount",
       "op": "assert // Must send nonzero amount",
       "stack_out": []
     },
-    "149": {
+    "147": {
       "op": "intc_0 // 1",
       "stack_out": [
         "1"
       ]
     },
-    "150": {
+    "148": {
       "op": "return",
       "stack_out": []
     }

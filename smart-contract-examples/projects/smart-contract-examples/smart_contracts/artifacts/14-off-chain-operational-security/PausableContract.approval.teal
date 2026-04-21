@@ -9,7 +9,7 @@ main:
     // export class PausableContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@9
     pushbytess 0x0178f94b 0x1b529de8 0x6e2ebc9b 0x2871b87c 0xae859f3b // method "pause()void", method "unpause()void", method "deposit(uint64)void", method "isPaused()uint64", method "getTotalDeposits()uint64"
@@ -97,7 +97,7 @@ deposit:
     txna ApplicationArgs 1
     dup
     len
-    pushint 8 // 8
+    pushint 8
     ==
     assert // invalid number of bytes for arc4.uint64
     btoi

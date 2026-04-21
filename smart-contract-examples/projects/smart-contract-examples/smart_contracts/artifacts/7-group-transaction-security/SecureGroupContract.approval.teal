@@ -9,7 +9,7 @@ main:
     // export class SecureGroupContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@5
     pushbytes 0xee7551d7 // method "buyCredit(pay)void"
@@ -66,7 +66,7 @@ buyCredit:
     // smart_contracts/7-group-transaction-security/group-validation.algo.ts:46
     // assert(payment.amount >= Uint64(1_000_000), "Insufficient payment");
     gtxns Amount
-    pushint 1000000 // 1000000
+    pushint 1000000
     >=
     assert // Insufficient payment
     // smart_contracts/7-group-transaction-security/group-validation.algo.ts:48

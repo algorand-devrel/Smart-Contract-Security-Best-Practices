@@ -35,8 +35,7 @@
       ]
     },
     "26": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+      "op": "assert",
       "stack_out": []
     },
     "27": {
@@ -564,7 +563,7 @@
       ]
     },
     "120": {
-      "op": "pushint 18446744073709551615 // 18446744073709551615",
+      "op": "pushint 18446744073709551615",
       "defined_out": [
         "18446744073709551615",
         "maxEligibleDeposits#0",

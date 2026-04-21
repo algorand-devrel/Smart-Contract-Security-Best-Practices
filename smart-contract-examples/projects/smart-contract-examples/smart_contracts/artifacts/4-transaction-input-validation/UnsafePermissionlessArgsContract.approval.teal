@@ -8,7 +8,7 @@ main:
     // export class UnsafePermissionlessArgsContract extends Contract {
     txn OnCompletion
     !
-    assert // OnCompletion must be NoOp
+    assert
     txn ApplicationID
     bz main_create_NoOp@7
     pushbytess 0x3252546d 0x2bb9a23b 0xcd94a30f // method "submitCommitment(byte[])void", method "setSlippage(uint64)void", method "chooseMode(uint64)void"
@@ -37,9 +37,9 @@ submitCommitment:
     // public submitCommitment(commitment: bytes): void {
     txna ApplicationArgs 1
     dup
-    pushint 0 // 0
+    pushint 0
     extract_uint16 // on error: invalid array length header
-    pushint 2 // 2
+    pushint 2
     +
     swap
     len

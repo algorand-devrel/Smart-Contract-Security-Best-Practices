@@ -19,7 +19,7 @@ main_authorizePayment_route@3:
     !
     txn ApplicationID
     &&
-    assert // OnCompletion must be NoOp && can only call when not creating
+    assert
     b authorizePayment
 
 main___algots__.defaultCreate@5:
@@ -30,8 +30,6 @@ main___algots__.defaultCreate@5:
     txn ApplicationID
     !
     &&
-    assert // OnCompletion must be NoOp && can only call when creating
-    pushint 1 // 1
     return
 
 
@@ -42,13 +40,13 @@ authorizePayment:
     txna ApplicationArgs 1
     dup
     len
-    pushint 32 // 32
+    pushint 32
     ==
     assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>
     txna ApplicationArgs 2
     dup
     len
-    pushint 8 // 8
+    pushint 8
     ==
     assert // invalid number of bytes for arc4.uint64
     btoi
@@ -61,7 +59,7 @@ authorizePayment:
     // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:7
     // assert(amount <= Uint64(1_000_000), "Amount exceeds limit");
     dup
-    pushint 1000000 // 1000000
+    pushint 1000000
     <=
     assert // Amount exceeds limit
     // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:9-15
@@ -82,11 +80,11 @@ authorizePayment:
     //     amount: amount,
     //     fee: Uint64(0),
     //   })
-    pushint 1 // 1
+    pushint 1
     itxn_field TypeEnum
     // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:13
     // fee: Uint64(0),
-    pushint 0 // 0
+    pushint 0
     itxn_field Fee
     // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:9-15
     // itxn
@@ -99,5 +97,5 @@ authorizePayment:
     itxn_submit
     // smart_contracts/1-smart-contracts-vs-logic-signatures/safe-payment-manager.algo.ts:5
     // public authorizePayment(receiver: Account, amount: uint64): void {
-    pushint 1 // 1
+    pushint 1
     return

@@ -7,7 +7,7 @@ main:
     // smart_contracts/3-fee-management/fee-bounding.algo.ts:9
     // Txn.typeEnum === TransactionType.Payment &&
     txn TypeEnum
-    pushint 1 // 1
+    pushint 1
     ==
     // smart_contracts/3-fee-management/fee-bounding.algo.ts:9-10
     // Txn.typeEnum === TransactionType.Payment &&
@@ -16,7 +16,7 @@ main:
     // smart_contracts/3-fee-management/fee-bounding.algo.ts:10
     // Txn.amount <= Uint64(1_000_000) &&
     txn Amount
-    pushint 1000000 // 1000000
+    pushint 1000000
     <=
     // smart_contracts/3-fee-management/fee-bounding.algo.ts:9-10
     // Txn.typeEnum === TransactionType.Payment &&
@@ -68,7 +68,7 @@ main:
     // Txn.closeRemainderTo === Global.zeroAddress &&
     // Txn.lease === TemplateVar<bytes>("LEASE")
     bz main_bool_false@7
-    pushint 1 // 1
+    pushint 1
     // smart_contracts/3-fee-management/fee-bounding.algo.ts:8-15
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&
@@ -81,7 +81,7 @@ main:
     return
 
 main_bool_false@7:
-    pushint 0 // 0
+    pushint 0
     // smart_contracts/3-fee-management/fee-bounding.algo.ts:8-15
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&

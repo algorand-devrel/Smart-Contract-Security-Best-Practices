@@ -6,7 +6,7 @@ main:
     // smart_contracts/6-rekeying-draining/rekey-logicsig.algo.ts:24
     // Txn.typeEnum === TransactionType.Payment &&
     txn TypeEnum
-    pushint 1 // 1
+    pushint 1
     ==
     // smart_contracts/6-rekeying-draining/rekey-logicsig.algo.ts:24-25
     // Txn.typeEnum === TransactionType.Payment &&
@@ -15,7 +15,7 @@ main:
     // smart_contracts/6-rekeying-draining/rekey-logicsig.algo.ts:25
     // Txn.amount <= Uint64(500_000) &&
     txn Amount
-    pushint 500000 // 500000
+    pushint 500000
     <=
     // smart_contracts/6-rekeying-draining/rekey-logicsig.algo.ts:24-25
     // Txn.typeEnum === TransactionType.Payment &&
@@ -54,7 +54,7 @@ main:
     // Txn.rekeyTo === Global.zeroAddress && // Prevent rekeying
     // Txn.closeRemainderTo === Global.zeroAddress // Prevent draining
     bz main_bool_false@6
-    pushint 1 // 1
+    pushint 1
     // smart_contracts/6-rekeying-draining/rekey-logicsig.algo.ts:23-29
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&
@@ -66,7 +66,7 @@ main:
     return
 
 main_bool_false@6:
-    pushint 0 // 0
+    pushint 0
     // smart_contracts/6-rekeying-draining/rekey-logicsig.algo.ts:23-29
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&

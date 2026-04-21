@@ -134,7 +134,7 @@ main:
     return
 
 main_bool_false@10:
-    pushint 0 // 0
+    pushint 0
     // smart_contracts/1-smart-contracts-vs-logic-signatures/escrow-logic-sig.algo.ts:15-26
     // return (
     //   Txn.typeEnum === TransactionType.Payment &&

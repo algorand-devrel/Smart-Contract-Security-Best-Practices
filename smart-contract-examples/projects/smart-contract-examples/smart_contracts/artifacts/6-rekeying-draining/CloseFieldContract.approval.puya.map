@@ -3,7 +3,7 @@
   "sources": [
     "../../6-rekeying-draining/close-field.algo.ts"
   ],
-  "mappings": ";;;;;;AAGA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAEE;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AACA;;;AAGmB;;;;;AAHnB;;;AAKgB;;;AALhB;AAFF;AAAA;AAaA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AACA;;;;;AAAA;;;AAIgB;;;AAJhB;AAFF;AAAA",
+  "mappings": ";;;;;;AAGA;;AAAA;;;AAAA;;AAAA;AAAA;AAAA;;AAAA;AAAA;;;;;;;;;;;;AAAA;;;AAAA;;;;;;AAAA;AAAA;;AAAA;AAAA;;AAAA;AAAA;AAAA;AAEE;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AACA;;;AAGmB;;;;;AAHnB;;;AAKgB;;;AALhB;AAFF;AAAA;AAaA;;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;;AAAA;AAAA;AAAA;;AAAA;AAAA;AAAA;AACS;;AAAe;;AAAf;AAAP;AACA;;;;;AAAA;;;AAIgB;;;AAJhB;AAFF;AAAA",
   "op_pc_offset": 0,
   "pc_events": {
     "1": {
@@ -45,8 +45,7 @@
       ]
     },
     "14": {
-      "error": "OnCompletion must be NoOp",
-      "op": "assert // OnCompletion must be NoOp",
+      "op": "assert",
       "stack_out": []
     },
     "15": {
@@ -145,24 +144,11 @@
       ]
     },
     "47": {
-      "error": "OnCompletion must be NoOp && can only call when creating",
-      "op": "assert // OnCompletion must be NoOp && can only call when creating",
+      "op": "return",
+      "defined_out": [],
       "stack_out": []
     },
     "48": {
-      "op": "intc_0 // 1",
-      "defined_out": [
-        "1"
-      ],
-      "stack_out": [
-        "1"
-      ]
-    },
-    "49": {
-      "op": "return",
-      "stack_out": []
-    },
-    "50": {
       "subroutine": "smart_contracts/6-rekeying-draining/close-field.algo.ts::CloseFieldContract.unsafeTransfer[routing]",
       "params": {},
       "block": "unsafeTransfer",
@@ -175,7 +161,7 @@
         "receiver#0"
       ]
     },
-    "53": {
+    "51": {
       "op": "dup",
       "defined_out": [
         "receiver#0",
@@ -186,7 +172,7 @@
         "receiver#0 (copy)"
       ]
     },
-    "54": {
+    "52": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -197,7 +183,7 @@
         "len%0#0"
       ]
     },
-    "55": {
+    "53": {
       "op": "intc_1 // 32",
       "defined_out": [
         "32",
@@ -210,7 +196,7 @@
         "32"
       ]
     },
-    "56": {
+    "54": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -221,14 +207,14 @@
         "eq%0#0"
       ]
     },
-    "57": {
+    "55": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
         "receiver#0"
       ]
     },
-    "58": {
+    "56": {
       "op": "txna ApplicationArgs 2",
       "defined_out": [
         "closeTo#0",
@@ -239,7 +225,7 @@
         "closeTo#0"
       ]
     },
-    "61": {
+    "59": {
       "op": "dup",
       "defined_out": [
         "closeTo#0",
@@ -252,7 +238,7 @@
         "closeTo#0 (copy)"
       ]
     },
-    "62": {
+    "60": {
       "op": "len",
       "defined_out": [
         "closeTo#0",
@@ -265,7 +251,7 @@
         "len%1#0"
       ]
     },
-    "63": {
+    "61": {
       "op": "intc_1 // 32",
       "stack_out": [
         "receiver#0",
@@ -274,7 +260,7 @@
         "32"
       ]
     },
-    "64": {
+    "62": {
       "op": "==",
       "defined_out": [
         "closeTo#0",
@@ -287,7 +273,7 @@
         "eq%1#0"
       ]
     },
-    "65": {
+    "63": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
@@ -295,7 +281,7 @@
         "closeTo#0"
       ]
     },
-    "66": {
+    "64": {
       "op": "txn Sender",
       "defined_out": [
         "closeTo#0",
@@ -308,7 +294,7 @@
         "tmp%0#1"
       ]
     },
-    "68": {
+    "66": {
       "op": "global CreatorAddress",
       "defined_out": [
         "closeTo#0",
@@ -323,7 +309,7 @@
         "tmp%1#1"
       ]
     },
-    "70": {
+    "68": {
       "op": "==",
       "defined_out": [
         "closeTo#0",
@@ -336,7 +322,7 @@
         "tmp%2#1"
       ]
     },
-    "71": {
+    "69": {
       "error": "Creator only",
       "op": "assert // Creator only",
       "stack_out": [
@@ -344,16 +330,16 @@
         "closeTo#0"
       ]
     },
-    "72": {
+    "70": {
       "op": "itxn_begin"
     },
-    "73": {
+    "71": {
       "op": "itxn_field CloseRemainderTo",
       "stack_out": [
         "receiver#0"
       ]
     },
-    "75": {
+    "73": {
       "op": "intc_2 // 0",
       "defined_out": [
         "0",
@@ -364,17 +350,17 @@
         "0"
       ]
     },
-    "76": {
+    "74": {
       "op": "itxn_field Amount",
       "stack_out": [
         "receiver#0"
       ]
     },
-    "78": {
+    "76": {
       "op": "itxn_field Receiver",
       "stack_out": []
     },
-    "80": {
+    "78": {
       "op": "intc_0 // 1",
       "defined_out": [
         "1"
@@ -383,34 +369,34 @@
         "1"
       ]
     },
-    "81": {
+    "79": {
       "op": "itxn_field TypeEnum",
       "stack_out": []
     },
-    "83": {
+    "81": {
       "op": "intc_2 // 0",
       "stack_out": [
         "0"
       ]
     },
-    "84": {
+    "82": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "86": {
+    "84": {
       "op": "itxn_submit"
     },
-    "87": {
+    "85": {
       "op": "intc_0 // 1",
       "stack_out": [
         "1"
       ]
     },
-    "88": {
+    "86": {
       "op": "return",
       "stack_out": []
     },
-    "89": {
+    "87": {
       "subroutine": "smart_contracts/6-rekeying-draining/close-field.algo.ts::CloseFieldContract.safeTransfer[routing]",
       "params": {},
       "block": "safeTransfer",
@@ -423,7 +409,7 @@
         "receiver#0"
       ]
     },
-    "92": {
+    "90": {
       "op": "dup",
       "defined_out": [
         "receiver#0",
@@ -434,7 +420,7 @@
         "receiver#0 (copy)"
       ]
     },
-    "93": {
+    "91": {
       "op": "len",
       "defined_out": [
         "len%0#0",
@@ -445,7 +431,7 @@
         "len%0#0"
       ]
     },
-    "94": {
+    "92": {
       "op": "intc_1 // 32",
       "defined_out": [
         "32",
@@ -458,7 +444,7 @@
         "32"
       ]
     },
-    "95": {
+    "93": {
       "op": "==",
       "defined_out": [
         "eq%0#0",
@@ -469,14 +455,14 @@
         "eq%0#0"
       ]
     },
-    "96": {
+    "94": {
       "error": "invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "op": "assert // invalid number of bytes for arc4.static_array<arc4.uint8, 32>",
       "stack_out": [
         "receiver#0"
       ]
     },
-    "97": {
+    "95": {
       "op": "txna ApplicationArgs 2",
       "defined_out": [
         "receiver#0",
@@ -487,7 +473,7 @@
         "tmp%2#0"
       ]
     },
-    "100": {
+    "98": {
       "op": "dup",
       "defined_out": [
         "receiver#0",
@@ -500,7 +486,7 @@
         "tmp%2#0 (copy)"
       ]
     },
-    "101": {
+    "99": {
       "op": "len",
       "defined_out": [
         "len%1#0",
@@ -513,8 +499,8 @@
         "len%1#0"
       ]
     },
-    "102": {
-      "op": "pushint 8 // 8",
+    "100": {
+      "op": "pushint 8",
       "defined_out": [
         "8",
         "len%1#0",
@@ -528,7 +514,7 @@
         "8"
       ]
     },
-    "104": {
+    "102": {
       "op": "==",
       "defined_out": [
         "eq%1#0",
@@ -541,7 +527,7 @@
         "eq%1#0"
       ]
     },
-    "105": {
+    "103": {
       "error": "invalid number of bytes for arc4.uint64",
       "op": "assert // invalid number of bytes for arc4.uint64",
       "stack_out": [
@@ -549,7 +535,7 @@
         "tmp%2#0"
       ]
     },
-    "106": {
+    "104": {
       "op": "btoi",
       "defined_out": [
         "amount#0",
@@ -560,7 +546,7 @@
         "amount#0"
       ]
     },
-    "107": {
+    "105": {
       "op": "txn Sender",
       "defined_out": [
         "amount#0",
@@ -573,7 +559,7 @@
         "tmp%0#1"
       ]
     },
-    "109": {
+    "107": {
       "op": "global CreatorAddress",
       "defined_out": [
         "amount#0",
@@ -588,7 +574,7 @@
         "tmp%1#1"
       ]
     },
-    "111": {
+    "109": {
       "op": "==",
       "defined_out": [
         "amount#0",
@@ -601,7 +587,7 @@
         "tmp%2#1"
       ]
     },
-    "112": {
+    "110": {
       "error": "Creator only",
       "op": "assert // Creator only",
       "stack_out": [
@@ -609,20 +595,20 @@
         "amount#0"
       ]
     },
-    "113": {
+    "111": {
       "op": "itxn_begin"
     },
-    "114": {
+    "112": {
       "op": "itxn_field Amount",
       "stack_out": [
         "receiver#0"
       ]
     },
-    "116": {
+    "114": {
       "op": "itxn_field Receiver",
       "stack_out": []
     },
-    "118": {
+    "116": {
       "op": "intc_0 // 1",
       "defined_out": [
         "1"
@@ -631,11 +617,11 @@
         "1"
       ]
     },
-    "119": {
+    "117": {
       "op": "itxn_field TypeEnum",
       "stack_out": []
     },
-    "121": {
+    "119": {
       "op": "intc_2 // 0",
       "defined_out": [
         "0"
@@ -644,20 +630,20 @@
         "0"
       ]
     },
-    "122": {
+    "120": {
       "op": "itxn_field Fee",
       "stack_out": []
     },
-    "124": {
+    "122": {
       "op": "itxn_submit"
     },
-    "125": {
+    "123": {
       "op": "intc_0 // 1",
       "stack_out": [
         "1"
       ]
     },
-    "126": {
+    "124": {
       "op": "return",
       "stack_out": []
     }
